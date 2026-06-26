@@ -1,0 +1,25 @@
+# Variables d'environnement
+.env
+
+# Données locales
+data/
+
+# Volumes Docker
+postgres_data/
+qdrant_data/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# VS Code
+.vscode/
+
+# JetBrains
+.idea/

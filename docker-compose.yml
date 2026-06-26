@@ -1,0 +1,11 @@
+cd C:\Users\User\insouwiki
+git init
+git branch -M main
+git remote add origin https://github.com/lyyubatirone/insouwiki.git
+git status
+
+
+ git config --global user.email "contact@regard-citoyen.fr"
+  git config --global user.name "lyyubatirone"
+
+git remote set-url origin https://github.com/lyyubatirone/insouwiki.git
