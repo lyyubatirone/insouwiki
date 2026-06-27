@@ -1,5 +1,5 @@
-from insouwiki.core.source_endpoint import Platform
-from insouwiki.core.source_endpoint import SourceEndpoint
+from insouwiki.domain.source_endpoint import Platform
+from insouwiki.domain.source_endpoint import SourceEndpoint
 
 
 def test_create_source_endpoint():
