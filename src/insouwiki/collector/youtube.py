@@ -4,13 +4,10 @@ from googleapiclient.discovery import build
 
 from insouwiki.common.settings import settings
 from insouwiki.domain.discovery import DiscoveryReport
-from insouwiki.domain.models import (
-    Document,
-    DocumentKind,
-    DocumentSource,
-    ProcessingStatus,
-    SourceKind,
-)
+from insouwiki.domain.enums import DocumentKind
+from insouwiki.domain.enums import ProcessingStatus
+from insouwiki.domain.models import DiscoveryRequest
+from insouwiki.domain.document import Document
 
 
 class YouTubeCollector:
@@ -21,10 +18,10 @@ class YouTubeCollector:
             developerKey=settings.youtube_api_key,
         )
 
-    def discover_channel(self, source: DocumentSource) -> DiscoveryReport:
+    def discover_channel(self, request: DiscoveryRequest) -> DiscoveryReport:
         started_at = datetime.now()
 
-        handle = str(source.url).rstrip("/").split("/")[-1]
+        handle = str(request.url).rstrip("/").split("/")[-1]
         if handle.startswith("@"):
             handle = handle[1:]
 
@@ -41,7 +38,7 @@ class YouTubeCollector:
         if not items:
             finished_at = datetime.now()
             return DiscoveryReport(
-                source=source,
+                request=request,
                 errors=[f"Chaîne introuvable : @{handle}"],
                 started_at=started_at,
                 finished_at=finished_at,
@@ -79,8 +76,8 @@ class YouTubeCollector:
 
                 documents.append(
                     Document(
-   permanent_id=None,
-    origin_key=f"youtube:{video_id}",
+                        permanent_id=None,
+                        origin_key=f"youtube:{video_id}",
                         document_kind=DocumentKind.VIDEO,
                         title=snippet["title"],
                         original_url=f"https://www.youtube.com/watch?v={video_id}",
@@ -98,7 +95,7 @@ class YouTubeCollector:
                 break
 
         return DiscoveryReport(
-            source=source,
+            request=request,
             discovered_documents=documents,
             started_at=started_at,
             finished_at=datetime.now(),

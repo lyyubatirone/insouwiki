@@ -3,7 +3,7 @@ from time import perf_counter
 import re
 
 from insouwiki.collector.youtube import YouTubeCollector
-from insouwiki.domain.models import DocumentSource
+from insouwiki.domain.models import DiscoveryRequest
 from insouwiki.domain.source import Source
 from insouwiki.domain.source import SourceKind
 from insouwiki.domain.source_endpoint import Platform
@@ -35,10 +35,10 @@ class DiscoveryService:
         self.endpoint_repository = endpoint_repository or SourceEndpointRepository()
         self.youtube_collector = YouTubeCollector()
 
-    def discover(self, source: DocumentSource) -> DiscoveryServiceResult:
+    def discover(self, request: DiscoveryRequest) -> DiscoveryServiceResult:
         start = perf_counter()
 
-        report = self.youtube_collector.discover_channel(source)
+        report = self.youtube_collector.discover_channel(request)
 
         if report.errors:
             raise ValueError("\n".join(report.errors))
@@ -48,7 +48,7 @@ class DiscoveryService:
 
         endpoint = self._get_or_create_endpoint(
             source=registered_source,
-            url=str(source.url),
+            url=str(request.url),
         )
 
         for document in report.discovered_documents:

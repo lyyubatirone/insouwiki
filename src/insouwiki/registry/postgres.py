@@ -1,4 +1,4 @@
-from insouwiki.domain.models import Document
+from insouwiki.domain.document import Document
 from insouwiki.registry.postgres_connection import get_connection
 from insouwiki.registry.repository import DocumentRepository
 from insouwiki.registry.result import RegistrationResult

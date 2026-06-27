@@ -1,7 +1,8 @@
 import typer
 from rich import print
 
-from insouwiki.domain.models import DocumentSource, SourceKind
+from insouwiki.domain.enums import DiscoveryTargetKind
+from insouwiki.domain.models import DiscoveryRequest
 from insouwiki.registry.postgres import PostgresDocumentRepository
 from insouwiki.registry.schema import initialize_database
 from insouwiki.services.discovery_service import DiscoveryService
@@ -27,8 +28,8 @@ def discover(url: str):
 
     initialize_database()
 
-    source = DocumentSource(
-        source_kind=SourceKind.YOUTUBE_CHANNEL,
+    request = DiscoveryRequest(
+        source_kind=DiscoveryTargetKind.YOUTUBE_CHANNEL,
         url=url,
     )
 
@@ -36,7 +37,7 @@ def discover(url: str):
     service = DiscoveryService(repository)
 
     try:
-        result = service.discover(source)
+        result = service.discover(request)
     except ValueError as error:
         print("[red]Erreur[/red]")
         print(str(error))

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from insouwiki.domain.models import Document
+from insouwiki.domain.document import Document
 from insouwiki.registry.result import RegistrationResult
 
 
