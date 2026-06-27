@@ -3,7 +3,8 @@ from rich import print
 
 from insouwiki.collector.youtube import YouTubeCollector
 from insouwiki.domain.models import DocumentSource, SourceKind
-from insouwiki.registry.memory import MemoryDocumentRepository
+from insouwiki.registry.postgres import PostgresDocumentRepository
+from insouwiki.registry.schema import initialize_database
 
 app = typer.Typer(
     help="Moteur documentaire d'InsouWiki",
@@ -24,6 +25,8 @@ def discover(url: str):
 
     print("[bold]Découverte documentaire...[/bold]")
 
+    initialize_database()
+
     source = DocumentSource(
         source_kind=SourceKind.YOUTUBE_CHANNEL,
         url=url,
@@ -38,7 +41,7 @@ def discover(url: str):
             print(f"- {error}")
         raise typer.Exit(code=1)
 
-    repository = MemoryDocumentRepository()
+    repository = PostgresDocumentRepository()
 
     created = 0
     existing = 0
@@ -57,11 +60,8 @@ def discover(url: str):
     print(f"Documents déjà connus : {existing}")
     print(f"Documents enregistrés : {repository.count()}")
 
-    if report.discovered_documents:
-        print(f"Premier identifiant : {report.discovered_documents[0].permanent_id}")
-
     for document in report.discovered_documents[:10]:
-        print(f"- {document.permanent_id} — {document.title}")
+        print(f"- {document.title}")
 
 
 @app.command()
