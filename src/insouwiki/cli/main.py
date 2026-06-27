@@ -1,10 +1,10 @@
 import typer
 from rich import print
 
-from insouwiki.collector.youtube import YouTubeCollector
 from insouwiki.domain.models import DocumentSource, SourceKind
 from insouwiki.registry.postgres import PostgresDocumentRepository
 from insouwiki.registry.schema import initialize_database
+from insouwiki.services.discovery_service import DiscoveryService
 
 app = typer.Typer(
     help="Moteur documentaire d'InsouWiki",
@@ -32,36 +32,24 @@ def discover(url: str):
         url=url,
     )
 
-    collector = YouTubeCollector()
-    report = collector.discover_channel(source)
+    repository = PostgresDocumentRepository()
+    service = DiscoveryService(repository)
 
-    if report.errors:
+    try:
+        result = service.discover(source)
+    except ValueError as error:
         print("[red]Erreur[/red]")
-        for error in report.errors:
-            print(f"- {error}")
+        print(str(error))
         raise typer.Exit(code=1)
 
-    repository = PostgresDocumentRepository()
-
-    created = 0
-    existing = 0
-
-    for document in report.discovered_documents:
-        result = repository.register(document)
-
-        if result.created:
-            created += 1
-        else:
-            existing += 1
-
     print("[green]✓ Découverte terminée[/green]")
-    print(f"Documents découverts : {len(report.discovered_documents)}")
-    print(f"Nouveaux documents : {created}")
-    print(f"Documents déjà connus : {existing}")
-    print(f"Documents enregistrés : {repository.count()}")
+    print(f"Documents découverts : {result.documents_discovered}")
+    print(f"Nouveaux documents : {result.documents_created}")
+    print(f"Documents déjà connus : {result.documents_existing}")
+    print(f"Documents enregistrés : {result.documents_total_registered}")
 
-    for document in report.discovered_documents[:10]:
-        print(f"- {document.title}")
+    for title in result.first_titles:
+        print(f"- {title}")
 
 
 @app.command()
