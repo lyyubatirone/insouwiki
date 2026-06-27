@@ -1,34 +1,27 @@
-from datetime import datetime
-from enum import Enum
+from __future__ import annotations
 
-from pydantic import BaseModel, HttpUrl
-
-
-class SourceStatus(str, Enum):
-    ACTIVE = "active"
-    DISABLED = "disabled"
+from dataclasses import dataclass, field
+from enum import StrEnum
+from typing import Any
 
 
-class DocumentSourceRecord(BaseModel):
-    """
-    Source documentaire enregistrée dans le patrimoine documentaire.
-    Exemple : une chaîne YouTube, un blog, un site web...
-    """
+class SourceKind(StrEnum):
+    """Nature documentaire d'une source."""
 
-    permanent_id: str | None = None
+    PERSON = "person"
+    ORGANIZATION = "organization"
+    INSTITUTION = "institution"
+    PARTY = "party"
+    THINK_TANK = "think_tank"
+    ASSOCIATION = "association"
 
-    source_kind: str
 
+@dataclass(slots=True)
+class Source:
+    """Source documentaire."""
+
+    permanent_id: str
     name: str
-
-    url: HttpUrl
-
-    external_id: str
-
-    status: SourceStatus = SourceStatus.ACTIVE
-
-    first_discovered_at: datetime | None = None
-
-    last_synchronized_at: datetime | None = None
-
-    document_count: int = 0
+    kind: SourceKind
+    status: str = "active"
+    metadata: dict[str, Any] = field(default_factory=dict)

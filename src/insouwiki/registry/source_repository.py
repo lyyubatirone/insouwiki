@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import json
 
-from insouwiki.core.source import Source
-from insouwiki.core.source import SourceKind
+from insouwiki.domain.source import Source
+from insouwiki.domain.source import SourceKind
 from insouwiki.registry.postgres_connection import get_connection
 
 

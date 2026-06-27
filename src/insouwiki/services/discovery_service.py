@@ -3,11 +3,11 @@ from time import perf_counter
 import re
 
 from insouwiki.collector.youtube import YouTubeCollector
-from insouwiki.core.source import Source
-from insouwiki.core.source import SourceKind
 from insouwiki.core.source_endpoint import Platform
 from insouwiki.core.source_endpoint import SourceEndpoint
 from insouwiki.domain.models import DocumentSource
+from insouwiki.domain.source import Source
+from insouwiki.domain.source import SourceKind
 from insouwiki.registry.repository import DocumentRepository
 from insouwiki.registry.source_endpoint_repository import SourceEndpointRepository
 from insouwiki.registry.source_repository import SourceRepository
