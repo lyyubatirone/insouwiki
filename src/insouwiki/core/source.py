@@ -3,7 +3,6 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from enum import StrEnum
 from typing import Any
-from uuid import UUID
 
 
 class SourceKind(StrEnum):
@@ -21,8 +20,8 @@ class SourceKind(StrEnum):
 class Source:
     """Source documentaire."""
 
-    id: UUID | None
+    permanent_id: str
     name: str
     kind: SourceKind
-    enabled: bool = True
+    status: str = "active"
     metadata: dict[str, Any] = field(default_factory=dict)

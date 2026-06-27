@@ -1,58 +1,100 @@
-from insouwiki.domain.source import DocumentSourceRecord
+from __future__ import annotations
+
+import json
+
+from insouwiki.core.source import Source
+from insouwiki.core.source import SourceKind
 from insouwiki.registry.postgres_connection import get_connection
 
 
 class SourceRepository:
+    """Repository PostgreSQL des sources documentaires."""
 
-    def count(self) -> int:
+    def create(self, source: Source) -> Source:
         with get_connection() as conn:
             with conn.cursor() as cur:
-                cur.execute("SELECT COUNT(*) FROM sources")
-                return cur.fetchone()[0]
-
-    def register(self, source: DocumentSourceRecord) -> DocumentSourceRecord:
-
-        with get_connection() as conn:
-            with conn.cursor() as cur:
-                cur.execute(
-                    """
-                    SELECT permanent_id
-                    FROM sources
-                    WHERE url = %s
-                    """,
-                    (str(source.url),),
-                )
-
-                existing = cur.fetchone()
-
-                if existing:
-                    source.permanent_id = existing[0]
-                    return source
-
-                source.permanent_id = f"SRC-SOURCE-{self.count() + 1:06d}"
-
                 cur.execute(
                     """
                     INSERT INTO sources (
                         permanent_id,
                         source_kind,
                         name,
-                        url,
-                        external_id,
-                        status
+                        status,
+                        metadata
                     )
-                    VALUES (%s, %s, %s, %s, %s, %s)
+                    VALUES (%s, %s, %s, %s, %s)
                     """,
                     (
                         source.permanent_id,
-                        source.source_kind,
+                        source.kind.value,
                         source.name,
-                        str(source.url),
-                        source.external_id,
-                        source.status.value,
+                        source.status,
+                        json.dumps(source.metadata),
                     ),
                 )
 
             conn.commit()
 
         return source
+
+    def get(self, permanent_id: str) -> Source | None:
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT permanent_id, source_kind, name, status, metadata
+                    FROM sources
+                    WHERE permanent_id = %s
+                    """,
+                    (permanent_id,),
+                )
+
+                row = cur.fetchone()
+
+        if row is None:
+            return None
+
+        return self._row_to_source(row)
+
+    def get_by_name(self, name: str) -> Source | None:
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT permanent_id, source_kind, name, status, metadata
+                    FROM sources
+                    WHERE name = %s
+                    """,
+                    (name,),
+                )
+
+                row = cur.fetchone()
+
+        if row is None:
+            return None
+
+        return self._row_to_source(row)
+
+    def list_all(self) -> list[Source]:
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT permanent_id, source_kind, name, status, metadata
+                    FROM sources
+                    ORDER BY name
+                    """
+                )
+
+                rows = cur.fetchall()
+
+        return [self._row_to_source(row) for row in rows]
+
+    def _row_to_source(self, row) -> Source:
+        return Source(
+            permanent_id=row[0],
+            kind=SourceKind(row[1]),
+            name=row[2],
+            status=row[3],
+            metadata=row[4] or {},
+        )
