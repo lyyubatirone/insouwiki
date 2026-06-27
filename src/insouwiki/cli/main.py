@@ -44,6 +44,7 @@ def discover(url: str):
 
     print("[green]✓ Découverte terminée[/green]")
     print(f"Documents découverts : {result.documents_discovered}")
+    print(f"Temps total : {result.duration_seconds:.2f} s")
     print(f"Nouveaux documents : {result.documents_created}")
     print(f"Documents déjà connus : {result.documents_existing}")
     print(f"Documents enregistrés : {result.documents_total_registered}")

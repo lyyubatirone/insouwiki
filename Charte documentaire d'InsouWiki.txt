@@ -1,0 +1,98 @@
+# Charte documentaire d'InsouWiki
+
+## Préambule
+
+InsouWiki est une encyclopédie documentaire dont l'objectif est de constituer un corpus structuré, vérifiable et pérenne de sources primaires.
+
+L'architecture du projet repose sur un principe simple : chaque document doit pouvoir être relié à son auteur ou à son organisme de publication d'origine.
+
+Cette charte définit les principes qui guident la sélection, l'organisation et l'indexation des documents.
+
+---
+
+# 1. Principe de neutralité des sources
+
+InsouWiki applique une neutralité dans la qualification des sources.
+
+Cette neutralité ne concerne pas les idées exprimées par les acteurs, mais la manière dont les documents sont classés et référencés.
+
+Chaque document est rattaché à sa source réelle selon sa nature.
+
+---
+
+# 2. Primauté des sources originales
+
+InsouWiki privilégie les publications originales.
+
+Lorsqu'un document est disponible directement auprès de son auteur ou de son organisme de publication, cette version constitue la référence documentaire.
+
+Les republications ou copies diffusées par d'autres acteurs ne sont pas retenues lorsqu'une version officielle existe.
+
+---
+
+# 3. La parole des acteurs
+
+Le corpus documentaire est constitué de la parole des acteurs eux-mêmes.
+
+**InsouWiki documente la parole des acteurs, pas le traitement médiatique de cette parole.**
+
+Cette distinction constitue un principe fondateur du projet.
+
+---
+
+# 4. Les médias
+
+Les médias de presse, les médias éditoriaux, les chaînes d'information ou les producteurs de commentaires ne sont pas considérés comme des sources documentaires de référence.
+
+Leur rôle est d'analyser, commenter ou diffuser l'information.
+
+Leur production éditoriale n'entre donc pas dans le périmètre documentaire d'InsouWiki.
+
+---
+
+# 5. Les plateformes
+
+Une plateforme de diffusion n'est pas une source.
+
+YouTube, un site web, un flux RSS, un podcast ou un réseau social constituent des moyens de diffusion.
+
+La source est toujours l'entité qui publie le contenu.
+
+Une même source peut utiliser plusieurs plateformes de diffusion.
+
+---
+
+# 6. Traçabilité
+
+Chaque document enregistré doit pouvoir être relié à :
+
+* une source identifiée ;
+* une plateforme de diffusion ;
+* une URL d'origine ;
+* une date de publication.
+
+Cette traçabilité garantit la vérifiabilité du corpus.
+
+---
+
+# 7. Déduplication
+
+Lorsqu'un même contenu est diffusé sur plusieurs plateformes ou repris par plusieurs acteurs, InsouWiki conserve la version de référence publiée par la source originale.
+
+Les duplications sont évitées autant que possible.
+
+---
+
+# 8. Évolutivité
+
+La présente charte définit des principes documentaires.
+
+Elle n'interdit pas l'intégration future de nouvelles catégories de sources, à condition que leur nature soit clairement identifiée et qu'elles respectent les exigences de traçabilité et de qualification définies par cette charte.
+
+---
+
+# Conclusion
+
+InsouWiki est conçu comme une base documentaire de sources primaires.
+
+Sa vocation n'est pas d'archiver le traitement médiatique de l'actualité, mais de permettre l'accès direct aux documents originaux, organisés de manière cohérente, vérifiable et durable.
