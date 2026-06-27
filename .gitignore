@@ -11,9 +11,9 @@ qdrant_data/
 # Python
 __pycache__/
 *.pyc
+*.egg-info/
 .venv/
 venv/
-
 # Windows
 Thumbs.db
 Desktop.ini
