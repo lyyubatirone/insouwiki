@@ -34,11 +34,6 @@ class ProcessingStatus(str, Enum):
 
 
 class DocumentSource(BaseModel):
-    """
-    Point d'entrée fourni par l'utilisateur.
-    Exemple : une chaîne YouTube, une vidéo, un PDF, une page officielle.
-    """
-
     source_kind: SourceKind
     url: HttpUrl
     documentary_nature: DocumentaryNature = DocumentaryNature.PRIMARY
@@ -46,17 +41,11 @@ class DocumentSource(BaseModel):
 
 
 class Document(BaseModel):
-    """
-    Document primaire découvert à partir d'une source.
-    Exemple : une vidéo YouTube précise.
-    """
+    permanent_id: str | None = Field(default=None)
+    source_permanent_id: str | None = None
+    discovered_from_endpoint_permanent_id: str | None = None
 
-    permanent_id: str | None = Field(
-        default=None,
-        description="Identifiant documentaire permanent, ex: SRC-00000001",
-    )
     origin_key: str
-
     document_kind: DocumentKind
     title: str
     original_url: HttpUrl

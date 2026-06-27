@@ -81,8 +81,8 @@ class PostgresDocumentRepository(DocumentRepository):
                         """,
                         (
                             document.permanent_id,
-                            None,
-                            None,
+                            document.source_permanent_id,
+                            document.discovered_from_endpoint_permanent_id,
                             document.origin_key,
                             document.document_kind.value,
                             document.title,
