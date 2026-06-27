@@ -2,6 +2,8 @@ import typer
 from rich import print
 
 from insouwiki.collector.youtube import YouTubeCollector
+from insouwiki.domain.models import DocumentSource, SourceKind
+from insouwiki.registry.memory import MemoryDocumentRepository
 
 app = typer.Typer(
     help="Moteur documentaire d'InsouWiki",
@@ -17,21 +19,55 @@ def version():
 
 
 @app.command()
-def scan(channel: str):
-    """Analyse une chaîne YouTube."""
+def discover(url: str):
+    """Découvre les documents d'une source."""
 
-    handle = channel.rstrip("/").split("/")[-1]
+    print("[bold]Découverte documentaire...[/bold]")
 
-    print("[bold]Connexion à YouTube...[/bold]")
+    source = DocumentSource(
+        source_kind=SourceKind.YOUTUBE_CHANNEL,
+        url=url,
+    )
 
     collector = YouTubeCollector()
-    result = collector.get_channel_from_handle(handle)
+    report = collector.discover_channel(source)
 
-    print("[green]✓ Chaîne trouvée[/green]")
-    print(f"Nom : {result.title}")
-    print(f"Identifiant : {result.channel_id}")
-    print(f"Nombre de vidéos : {result.video_count}")
-    print(f"Playlist des vidéos : {result.uploads_playlist_id}")
+    if report.errors:
+        print("[red]Erreur[/red]")
+        for error in report.errors:
+            print(f"- {error}")
+        raise typer.Exit(code=1)
+
+    repository = MemoryDocumentRepository()
+
+    created = 0
+    existing = 0
+
+    for document in report.discovered_documents:
+        result = repository.register(document)
+
+        if result.created:
+            created += 1
+        else:
+            existing += 1
+
+    print("[green]✓ Découverte terminée[/green]")
+    print(f"Documents découverts : {len(report.discovered_documents)}")
+    print(f"Nouveaux documents : {created}")
+    print(f"Documents déjà connus : {existing}")
+    print(f"Documents enregistrés : {repository.count()}")
+
+    if report.discovered_documents:
+        print(f"Premier identifiant : {report.discovered_documents[0].permanent_id}")
+
+    for document in report.discovered_documents[:10]:
+        print(f"- {document.permanent_id} — {document.title}")
+
+
+@app.command()
+def scan(url: str):
+    """Alias temporaire de discover."""
+    discover(url)
 
 
 if __name__ == "__main__":

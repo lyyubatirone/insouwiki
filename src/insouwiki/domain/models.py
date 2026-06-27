@@ -55,6 +55,8 @@ class Document(BaseModel):
         default=None,
         description="Identifiant documentaire permanent, ex: SRC-00000001",
     )
+    origin_key: str
+
     document_kind: DocumentKind
     title: str
     original_url: HttpUrl
