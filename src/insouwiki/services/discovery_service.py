@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from time import perf_counter
 
 from insouwiki.collector.youtube import YouTubeCollector
 from insouwiki.domain.models import DocumentSource
@@ -12,6 +13,7 @@ class DiscoveryServiceResult:
     documents_existing: int
     documents_total_registered: int
     first_titles: list[str]
+    duration_seconds: float
 
 
 class DiscoveryService:
@@ -20,31 +22,29 @@ class DiscoveryService:
         self.youtube_collector = YouTubeCollector()
 
     def discover(self, source: DocumentSource) -> DiscoveryServiceResult:
+
+        start = perf_counter()
+
         report = self.youtube_collector.discover_channel(source)
 
         if report.errors:
             raise ValueError("\n".join(report.errors))
 
-        created = 0
-        existing = 0
+        registration_results = self.repository.register_many(report.discovered_documents)
 
-        for document in report.discovered_documents:
-            result = self.repository.register(document)
+        created = sum(1 for result in registration_results if result.created)
+        existing = sum(1 for result in registration_results if not result.created)
 
-            if result.created:
-                created += 1
-            else:
-                existing += 1
-
-        first_titles = [
-            document.title
-            for document in report.discovered_documents[:10]
-        ]
+        duration = perf_counter() - start
 
         return DiscoveryServiceResult(
             documents_discovered=len(report.discovered_documents),
             documents_created=created,
             documents_existing=existing,
             documents_total_registered=self.repository.count(),
-            first_titles=first_titles,
+            first_titles=[
+                document.title
+                for document in report.discovered_documents[:10]
+            ],
+            duration_seconds=duration,
         )
