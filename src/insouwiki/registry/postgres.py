@@ -29,7 +29,6 @@ class PostgresDocumentRepository(DocumentRepository):
             return []
 
         results: list[RegistrationResult] = []
-
         origin_keys = [document.origin_key for document in documents]
 
         with get_connection() as conn:
@@ -69,21 +68,27 @@ class PostgresDocumentRepository(DocumentRepository):
                         """
                         INSERT INTO documents (
                             permanent_id,
+                            source_permanent_id,
+                            discovered_from_endpoint_permanent_id,
                             origin_key,
                             document_kind,
                             title,
                             author,
-                            original_url
+                            original_url,
+                            metadata
                         )
-                        VALUES (%s, %s, %s, %s, %s, %s)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                         """,
                         (
                             document.permanent_id,
+                            None,
+                            None,
                             document.origin_key,
                             document.document_kind.value,
                             document.title,
                             document.author,
                             str(document.original_url),
+                            "{}",
                         ),
                     )
 
