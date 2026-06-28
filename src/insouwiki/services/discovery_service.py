@@ -3,7 +3,7 @@ from time import perf_counter
 import re
 
 from insouwiki.collector.youtube import YouTubeCollector
-from insouwiki.domain.models import DiscoveryRequest
+from insouwiki.domain.discovery_request import DiscoveryRequest
 from insouwiki.domain.source import Source
 from insouwiki.domain.source import SourceKind
 from insouwiki.domain.source_endpoint import Platform

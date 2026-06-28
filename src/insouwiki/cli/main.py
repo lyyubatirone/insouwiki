@@ -2,7 +2,7 @@ import typer
 from rich import print
 
 from insouwiki.domain.enums import DiscoveryTargetKind
-from insouwiki.domain.models import DiscoveryRequest
+from insouwiki.domain.discovery_request import DiscoveryRequest
 from insouwiki.registry.postgres import PostgresDocumentRepository
 from insouwiki.registry.schema import initialize_database
 from insouwiki.services.discovery_service import DiscoveryService

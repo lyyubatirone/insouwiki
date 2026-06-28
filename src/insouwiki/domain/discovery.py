@@ -2,7 +2,7 @@ from datetime import datetime
 from pydantic import BaseModel, Field
 
 from insouwiki.domain.document import Document
-from insouwiki.domain.models import DiscoveryRequest
+from insouwiki.domain.discovery_request import DiscoveryRequest
 
 class DiscoveryReport(BaseModel):
     request: DiscoveryRequest

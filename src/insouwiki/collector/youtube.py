@@ -6,7 +6,7 @@ from insouwiki.common.settings import settings
 from insouwiki.domain.discovery import DiscoveryReport
 from insouwiki.domain.enums import DocumentKind
 from insouwiki.domain.enums import ProcessingStatus
-from insouwiki.domain.models import DiscoveryRequest
+from insouwiki.domain.discovery_request import DiscoveryRequest
 from insouwiki.domain.document import Document
 
 
