@@ -1,11 +1,10 @@
 import typer
 from rich import print
 
-from insouwiki.domain.enums import DiscoveryTargetKind
+from insouwiki.application import Application
 from insouwiki.domain.discovery_request import DiscoveryRequest
-from insouwiki.registry.postgres import PostgresDocumentRepository
+from insouwiki.domain.enums import DiscoveryTargetKind
 from insouwiki.registry.schema import initialize_database
-from insouwiki.services.discovery_service import DiscoveryService
 
 app = typer.Typer(
     help="Moteur documentaire d'InsouWiki",
@@ -33,11 +32,10 @@ def discover(url: str):
         url=url,
     )
 
-    repository = PostgresDocumentRepository()
-    service = DiscoveryService(repository)
+    application = Application()
 
     try:
-        result = service.discover(request)
+        result = application.discovery_service.discover(request)
     except ValueError as error:
         print("[red]Erreur[/red]")
         print(str(error))

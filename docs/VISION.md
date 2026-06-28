@@ -1,0 +1,1 @@
+InsouWiki n'a pas vocation à documenter une campagne électorale. Il a vocation à constituer, année après année, une mémoire documentaire durable de la vie politique à partir de sources primaires, afin que chaque fait puisse être retrouvé, vérifié et replacé dans son contexte.

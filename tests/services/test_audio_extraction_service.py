@@ -16,10 +16,11 @@ def test_audio_extraction_service_uses_extractor(tmp_path):
     extractor = DummyAudioExtractor()
     service = AudioExtractionService(extractor)
 
-    audio_path = service.extract(
+    result = service.extract(
         document=document,
         output_directory=tmp_path,
     )
 
-    assert audio_path.exists()
-    assert audio_path.read_text(encoding="utf-8") == "Audio factice pour SRC-00000001"
+    assert result.document_id == "SRC-00000001"
+    assert result.audio_path.exists()
+    assert result.audio_path.read_text(encoding="utf-8") == "Audio factice pour SRC-00000001"
