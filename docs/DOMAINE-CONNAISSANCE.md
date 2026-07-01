@@ -38,7 +38,10 @@ Séquences documentaires
 Faits documentaires
         │
         ▼
-Connaissances reliées
+Relations documentaires
+        │
+        ▼
+Connaissances documentaires
 ```
 
 Chaque niveau conserve un lien explicite avec le précédent.
@@ -102,6 +105,24 @@ Elle constitue le niveau le plus élaboré du patrimoine documentaire.
 
 Toute connaissance demeure traçable jusqu'aux séquences documentaires qui la fondent.
 
+---
+# Les relations documentaires
+
+Les relations documentaires organisent les faits documentaires.
+
+Elles rendent explicites les liens observables entre plusieurs faits sans en modifier le contenu.
+
+Les relations peuvent notamment exprimer :
+
+- une continuité ;
+- une chronologie ;
+- une complémentarité ;
+- une précision ;
+- une cohérence ;
+- une contradiction ;
+- une évolution.
+
+Les relations documentaires constituent le niveau d'organisation qui permet la construction des connaissances documentaires.
 ---
 
 # Principe de vérifiabilité
