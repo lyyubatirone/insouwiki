@@ -96,12 +96,28 @@ Cette règle constitue une première implémentation volontairement prudente.
 
 ### Question documentaire
 
-> Quels auteurs expriment des positions opposées ?
+> Quels auteurs expriment des affirmations différentes concernant un même sujet documentaire ?
+
+### Produit
+
+Une observation documentaire de divergence.
+
+### Preuves utilisées
+
+- faits documentaires ;
+- plusieurs auteurs ;
+- sujet documentaire ;
+- affirmations différentes.
 
 ### État
 
-🟡 À concevoir.
+✅ Première implémentation disponible.
 
+### Première règle documentaire
+
+Une divergence documentaire est observée lorsque plusieurs auteurs formulent des affirmations textuellement différentes concernant un même sujet documentaire.
+
+Cette règle constitue une première implémentation volontairement prudente.
 ---
 
 ## ChronologyBuilder

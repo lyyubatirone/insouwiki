@@ -158,3 +158,40 @@ Construire progressivement les raisonnements documentaires permettant au lecteur
 À l'issue du Sprint 9.5, InsouWiki possède des fondations documentaires, architecturales et méthodologiques solides.
 
 Les prochaines évolutions ne consisteront plus principalement à créer de nouveaux concepts, mais à développer les raisonnements documentaires et les expériences lecteur qui permettront d'exploiter pleinement le patrimoine documentaire constitué.
+
+# Fin de la phase de fondation
+
+Les sprints 1 à 11 constituent la phase de fondation d'InsouWiki.
+
+Cette première étape a permis de construire les fondements durables du projet.
+
+Elle comprend notamment :
+
+* la vision du projet ;
+* la charte documentaire ;
+* la constitution d'InsouWiki ;
+* les principes de gouvernance ;
+* l'architecture générale ;
+* l'architecture des données ;
+* l'architecture de l'exploration documentaire ;
+* les principaux concepts du domaine documentaire ;
+* la première bibliothèque des raisonneurs documentaires ;
+* les premières expériences documentaires ;
+* la carte conceptuelle du projet.
+
+Cette phase établit un principe essentiel :
+
+Les développements futurs devront enrichir cette architecture sans remettre en cause ses fondements, sauf évolution majeure du domaine documentaire.
+
+InsouWiki dispose désormais :
+
+* d'une identité clairement définie ;
+* d'une architecture cohérente ;
+* d'un domaine documentaire explicite ;
+* d'une méthode de conception éprouvée ;
+* d'un cœur documentaire opérationnel.
+
+Les développements suivants seront principalement consacrés à l'expérience d'exploration documentaire proposée au lecteur.
+
+Le projet entre ainsi dans une nouvelle étape de son évolution : transformer cette architecture en un environnement documentaire concret, permettant d'explorer un patrimoine documentaire riche, traçable et vérifiable.
+
