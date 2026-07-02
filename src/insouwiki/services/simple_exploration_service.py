@@ -2,6 +2,7 @@ from insouwiki.domain.documentary_exploration import DocumentaryExploration
 from insouwiki.domain.documentary_fact import DocumentaryFact
 from insouwiki.domain.exploration_intent import ExplorationIntent
 from insouwiki.services.continuity_finder import ContinuityFinder
+from insouwiki.services.evolution_finder import EvolutionFinder
 from insouwiki.services.exploration_builder import ExplorationBuilder
 from insouwiki.services.exploration_service import ExplorationService
 
@@ -11,16 +12,18 @@ class SimpleExplorationService(ExplorationService):
     Première implémentation du service d'exploration.
 
     Cette version orchestre la construction d'une exploration
-    documentaire en utilisant un raisonneur de continuité.
+    documentaire en utilisant les premiers raisonneurs documentaires.
     """
 
     def __init__(
         self,
         builder: ExplorationBuilder,
         continuity_finder: ContinuityFinder,
+        evolution_finder: EvolutionFinder,
     ) -> None:
         self._builder = builder
         self._continuity_finder = continuity_finder
+        self._evolution_finder = evolution_finder
 
     def explore(
         self,
@@ -28,7 +31,18 @@ class SimpleExplorationService(ExplorationService):
         entry_point: str,
         facts: list[DocumentaryFact],
     ) -> DocumentaryExploration:
-        observations = self._continuity_finder.find(facts)
+        observations = []
+
+        observations.extend(
+            self._continuity_finder.find(facts)
+        )
+
+        evolutions = self._evolution_finder.find(facts)
+
+        observations.extend(
+            evolution.summary
+            for evolution in evolutions
+        )
 
         return self._builder.build(
             intent=intent,
