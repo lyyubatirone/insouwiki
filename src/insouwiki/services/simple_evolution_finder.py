@@ -7,9 +7,6 @@ class SimpleEvolutionFinder(EvolutionFinder):
     """
     Première implémentation de la recherche
     d'évolutions documentaires.
-
-    Cette version applique uniquement les règles
-    minimales de prudence documentaire.
     """
 
     def find(
@@ -19,4 +16,28 @@ class SimpleEvolutionFinder(EvolutionFinder):
         if len(facts) < 2:
             return []
 
-        return []
+        first_fact = facts[0]
+        second_fact = facts[1]
+
+        first_statement = first_fact.statement.strip().rstrip(".")
+        second_statement = second_fact.statement.strip().rstrip(".")
+
+        if first_statement == second_statement:
+            return []
+
+        if (
+            second_statement.startswith(first_statement)
+            or first_statement.startswith(second_statement)
+        ):
+            return []
+
+        return [
+            DocumentaryEvolution(
+                permanent_id="EVOL-00000001",
+                supporting_fact_ids=[
+                    first_fact.permanent_id,
+                    second_fact.permanent_id,
+                ],
+                summary="Une évolution documentaire est observable entre ces faits.",
+            )
+        ]

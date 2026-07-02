@@ -1,3 +1,4 @@
+from insouwiki.domain.documentary_evolution import DocumentaryEvolution
 from insouwiki.domain.documentary_fact import DocumentaryFact
 from insouwiki.services.simple_evolution_finder import (
     SimpleEvolutionFinder,
@@ -69,3 +70,31 @@ def test_precision_is_not_yet_an_evolution():
     finder = SimpleEvolutionFinder()
 
     assert finder.find(facts) == []
+
+
+def test_detects_a_documentary_evolution():
+    facts = [
+        DocumentaryFact(
+            permanent_id="FACT-00000001",
+            author="Jean-Luc Mélenchon",
+            statement="La retraite doit être à 65 ans.",
+            supporting_sequences=["SEQ-00000001"],
+        ),
+        DocumentaryFact(
+            permanent_id="FACT-00000002",
+            author="Jean-Luc Mélenchon",
+            statement="La retraite doit être à 60 ans.",
+            supporting_sequences=["SEQ-00000002"],
+        ),
+    ]
+
+    finder = SimpleEvolutionFinder()
+
+    evolutions = finder.find(facts)
+
+    assert len(evolutions) == 1
+
+    assert isinstance(
+        evolutions[0],
+        DocumentaryEvolution,
+    )
