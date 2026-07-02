@@ -83,8 +83,13 @@ Une observation documentaire de continuité.
 
 ### État
 
-🟡 À concevoir.
+✅ Première implémentation disponible.
 
+### Première règle documentaire
+
+Une convergence documentaire est observée lorsque plusieurs auteurs formulent la même affirmation textuelle concernant un même sujet documentaire.
+
+Cette règle constitue une première implémentation volontairement prudente.
 ---
 
 ## DivergenceFinder
