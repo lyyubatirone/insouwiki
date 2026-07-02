@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+from insouwiki.domain.documentary_evolution import DocumentaryEvolution
 from insouwiki.domain.documentary_fact import DocumentaryFact
 
 
@@ -12,7 +13,7 @@ class EvolutionFinder(ABC):
     def find(
         self,
         facts: list[DocumentaryFact],
-    ):
+    ) -> list[DocumentaryEvolution]:
         """
         Recherche les évolutions observables à partir
         d'un ensemble de faits documentaires.

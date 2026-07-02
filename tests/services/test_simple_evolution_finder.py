@@ -48,3 +48,24 @@ def test_same_statement_is_not_an_evolution():
     finder = SimpleEvolutionFinder()
 
     assert finder.find(facts) == []
+
+
+def test_precision_is_not_yet_an_evolution():
+    facts = [
+        DocumentaryFact(
+            permanent_id="FACT-00000001",
+            author="Jean-Luc Mélenchon",
+            statement="La retraite doit être à 60 ans.",
+            supporting_sequences=["SEQ-00000001"],
+        ),
+        DocumentaryFact(
+            permanent_id="FACT-00000002",
+            author="Jean-Luc Mélenchon",
+            statement="La retraite doit être à 60 ans pour les carrières longues.",
+            supporting_sequences=["SEQ-00000002"],
+        ),
+    ]
+
+    finder = SimpleEvolutionFinder()
+
+    assert finder.find(facts) == []
