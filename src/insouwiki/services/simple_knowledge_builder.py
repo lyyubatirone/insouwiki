@@ -1,4 +1,4 @@
-from collections import defaultdict
+from collections import defaultdict, deque
 
 from insouwiki.domain.documentary_fact import DocumentaryFact
 from insouwiki.domain.documentary_relation import DocumentaryRelation
@@ -10,8 +10,8 @@ class SimpleKnowledgeBuilder(KnowledgeBuilder):
     """
     Première implémentation du constructeur de connaissances.
 
-    Version 2 :
-    regroupe les faits par auteur.
+    Version 3 :
+    regroupe les faits connectés par des relations documentaires.
     """
 
     def build(
@@ -22,28 +22,60 @@ class SimpleKnowledgeBuilder(KnowledgeBuilder):
         if len(facts) == 0:
             return []
 
-        facts_by_author: dict[str, list[DocumentaryFact]] = defaultdict(list)
+        facts_by_id = {
+            fact.permanent_id: fact
+            for fact in facts
+        }
+
+        graph: dict[str, set[str]] = defaultdict(set)
 
         for fact in facts:
-            facts_by_author[fact.author].append(fact)
+            graph[fact.permanent_id]
+
+        for relation in relations:
+            if (
+                relation.source_fact_id in facts_by_id
+                and relation.target_fact_id in facts_by_id
+            ):
+                graph[relation.source_fact_id].add(relation.target_fact_id)
+                graph[relation.target_fact_id].add(relation.source_fact_id)
+
+        visited: set[str] = set()
+        groups: list[list[DocumentaryFact]] = []
+
+        for fact in facts:
+            if fact.permanent_id in visited:
+                continue
+
+            group: list[DocumentaryFact] = []
+            queue: deque[str] = deque([fact.permanent_id])
+            visited.add(fact.permanent_id)
+
+            while queue:
+                current_id = queue.popleft()
+                current_fact = facts_by_id[current_id]
+                group.append(current_fact)
+
+                for neighbor_id in graph[current_id]:
+                    if neighbor_id not in visited:
+                        visited.add(neighbor_id)
+                        queue.append(neighbor_id)
+
+            groups.append(group)
 
         knowledge_items: list[Knowledge] = []
 
-        for index, (author, author_facts) in enumerate(
-            facts_by_author.items(),
-            start=1,
-        ):
+        for index, group in enumerate(groups, start=1):
             knowledge_items.append(
                 Knowledge(
                     permanent_id=f"KNOW-{index:08d}",
-                    title=f"Connaissance documentaire — {author}",
+                    title=f"Connaissance documentaire {index}",
                     summary=(
                         "Cette connaissance documentaire regroupe "
-                        f"{len(author_facts)} fait(s) documentaire(s) "
-                        f"attribué(s) à {author}."
+                        f"{len(group)} fait(s) documentaire(s) relié(s)."
                     ),
                     supporting_fact_ids=[
-                        fact.permanent_id for fact in author_facts
+                        fact.permanent_id for fact in group
                     ],
                 )
             )
