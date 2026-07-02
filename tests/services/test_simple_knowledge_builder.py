@@ -4,7 +4,7 @@ from insouwiki.domain.documentary_relation_type import DocumentaryRelationType
 from insouwiki.services.simple_knowledge_builder import SimpleKnowledgeBuilder
 
 
-def test_simple_knowledge_builder_creates_one_knowledge():
+def test_simple_knowledge_builder_groups_facts_by_author():
     fact_1 = DocumentaryFact(
         permanent_id="FACT-00000001",
         author="Jean-Luc Mélenchon",
@@ -19,6 +19,13 @@ def test_simple_knowledge_builder_creates_one_knowledge():
         supporting_sequences=["SEQ-00000002"],
     )
 
+    fact_3 = DocumentaryFact(
+        permanent_id="FACT-00000003",
+        author="Mathilde Panot",
+        statement="Troisième affirmation documentaire.",
+        supporting_sequences=["SEQ-00000003"],
+    )
+
     relation = DocumentaryRelation(
         permanent_id="REL-00000001",
         relation_type=DocumentaryRelationType.SAME_AUTHOR,
@@ -29,23 +36,22 @@ def test_simple_knowledge_builder_creates_one_knowledge():
     builder = SimpleKnowledgeBuilder()
 
     knowledge_items = builder.build(
-        facts=[fact_1, fact_2],
+        facts=[fact_1, fact_2, fact_3],
         relations=[relation],
     )
 
-    assert len(knowledge_items) == 1
+    assert len(knowledge_items) == 2
 
-    knowledge = knowledge_items[0]
+    first = knowledge_items[0]
+    second = knowledge_items[1]
 
-    assert knowledge.permanent_id == "KNOW-00000001"
-    assert knowledge.title == "Connaissance documentaire"
-    assert (
-        knowledge.summary
-        == "Cette connaissance documentaire est construite à partir de 2 fait(s) documentaire(s) et 1 relation(s) documentaire(s)."
-    )
-    assert knowledge.supporting_fact_ids == [
+    assert first.supporting_fact_ids == [
         "FACT-00000001",
         "FACT-00000002",
+    ]
+
+    assert second.supporting_fact_ids == [
+        "FACT-00000003",
     ]
 
 
