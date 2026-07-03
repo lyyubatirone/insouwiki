@@ -18,3 +18,22 @@ class DocumentaryDossier(BaseModel):
     title: str
 
     pieces: list[DocumentaryPiece]
+
+    @property
+    def piece_count(self) -> int:
+        """
+        Nombre de pièces documentaires contenues dans le dossier.
+        """
+        return len(self.pieces)
+
+    @property
+    def document_count(self) -> int:
+        """
+        Nombre de documents distincts représentés dans le dossier.
+        """
+        return len(
+            {
+                piece.document_title
+                for piece in self.pieces
+            }
+        )
