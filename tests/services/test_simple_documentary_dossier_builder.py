@@ -28,3 +28,39 @@ def test_build_documentary_dossier():
     assert dossier.title == "Retraites"
     assert len(dossier.pieces) == 1
     assert dossier.pieces[0].permanent_id == "PIECE-0001"
+
+
+def test_build_orders_pieces_by_reverse_chronology():
+    older_piece = DocumentaryPiece(
+        permanent_id="PIECE-0001",
+        author="Auteur",
+        document_title="Document ancien",
+        published_at=datetime(2022, 1, 1),
+        sequence_text="Ancienne déclaration",
+        sequence_start=timedelta(minutes=1),
+        sequence_end=timedelta(minutes=2),
+        document_url="https://example.org/old",
+    )
+
+    newer_piece = DocumentaryPiece(
+        permanent_id="PIECE-0002",
+        author="Auteur",
+        document_title="Document récent",
+        published_at=datetime(2024, 1, 1),
+        sequence_text="Déclaration récente",
+        sequence_start=timedelta(minutes=3),
+        sequence_end=timedelta(minutes=4),
+        document_url="https://example.org/new",
+    )
+
+    builder = SimpleDocumentaryDossierBuilder()
+
+    dossier = builder.build(
+        title="Chronologie",
+        pieces=[older_piece, newer_piece],
+    )
+
+    assert dossier.pieces == [
+        newer_piece,
+        older_piece,
+    ]
