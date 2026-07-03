@@ -97,3 +97,48 @@ def test_document_count_counts_distinct_documents():
     )
 
     assert dossier.document_count == 2
+
+
+def test_documented_personalities_returns_sorted_unique_names():
+    piece1 = DocumentaryPiece(
+        permanent_id="PIECE-0001",
+        author="Jean-Luc Mélenchon",
+        document_title="Discours de Marseille",
+        published_at=datetime(2022, 4, 14),
+        sequence_text="Première déclaration.",
+        sequence_start=timedelta(minutes=1),
+        sequence_end=timedelta(minutes=2),
+        document_url="https://example.org/video1",
+    )
+
+    piece2 = DocumentaryPiece(
+        permanent_id="PIECE-0002",
+        author="François Ruffin",
+        document_title="Discours d'Amiens",
+        published_at=datetime(2023, 5, 10),
+        sequence_text="Deuxième déclaration.",
+        sequence_start=timedelta(minutes=3),
+        sequence_end=timedelta(minutes=4),
+        document_url="https://example.org/video2",
+    )
+
+    piece3 = DocumentaryPiece(
+        permanent_id="PIECE-0003",
+        author="Jean-Luc Mélenchon",
+        document_title="Interview",
+        published_at=datetime(2024, 2, 20),
+        sequence_text="Troisième déclaration.",
+        sequence_start=timedelta(minutes=5),
+        sequence_end=timedelta(minutes=6),
+        document_url="https://example.org/video3",
+    )
+
+    dossier = DocumentaryDossier(
+        title="Retraites",
+        pieces=[piece1, piece2, piece3],
+    )
+
+    assert dossier.documented_personalities == [
+        "François Ruffin",
+        "Jean-Luc Mélenchon",
+    ]

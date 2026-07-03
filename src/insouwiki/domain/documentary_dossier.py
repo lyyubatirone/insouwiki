@@ -37,3 +37,15 @@ class DocumentaryDossier(BaseModel):
                 for piece in self.pieces
             }
         )
+
+    @property
+    def documented_personalities(self) -> list[str]:
+        """
+        Personnalités documentées dans le dossier.
+        """
+        return sorted(
+            {
+                piece.author
+                for piece in self.pieces
+            }
+        )
