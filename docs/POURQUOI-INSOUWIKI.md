@@ -1,0 +1,1 @@
+InsouWiki est né d'une conviction simple : dans un monde où l'information circule rapidement et où les interprétations se multiplient, chacun devrait pouvoir retrouver les sources, explorer les contextes et construire son propre jugement.
