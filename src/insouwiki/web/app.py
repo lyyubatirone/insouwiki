@@ -1,24 +1,18 @@
-from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
-
+from fastapi import FastAPI, Request
+from fastapi.templating import Jinja2Templates
 
 app = FastAPI(
     title="InsouWiki",
 )
 
+templates = Jinja2Templates(
+    directory="src/insouwiki/web/templates"
+)
 
-@app.get("/", response_class=HTMLResponse)
-def home():
-    return """
-    <!doctype html>
-    <html lang="fr">
-        <head>
-            <meta charset="utf-8">
-            <title>InsouWiki</title>
-        </head>
-        <body>
-            <h1>Bienvenue sur InsouWiki</h1>
-            <p>Le premier mur est debout.</p>
-        </body>
-    </html>
-    """
+
+@app.get("/")
+def home(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="home.html",
+    )
