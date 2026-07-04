@@ -154,3 +154,22 @@ sources primaires.
 Cette hypothèse n'est pas encore intégrée au modèle documentaire.
 Elle sera confrontée aux futurs cas documentaires avant toute décision
 d'architecture.
+
+## La pièce documentaire
+
+La pièce documentaire est la plus petite unité documentaire capable
+d'établir une information.
+
+Elle constitue l'unité de preuve du patrimoine documentaire d'InsouWiki.
+
+Une pièce documentaire est toujours issue d'un document, lui-même
+rattaché à une source primaire.
+
+Une ou plusieurs pièces documentaires peuvent justifier :
+
+- une connaissance ;
+- une relation documentaire ;
+- d'autres objets documentaires définis par le modèle.
+
+La pièce documentaire permet au lecteur de revenir précisément au passage
+du document qui établit l'information.
