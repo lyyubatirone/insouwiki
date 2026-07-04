@@ -1,18 +1,13 @@
-from fastapi import FastAPI, Request
-from fastapi.templating import Jinja2Templates
+from fastapi import FastAPI
+
+from insouwiki.web.routes.home import router as home_router
+from insouwiki.web.routes.personality import router as personality_router
+from insouwiki.web.routes.search import router as search_router
 
 app = FastAPI(
     title="InsouWiki",
 )
 
-templates = Jinja2Templates(
-    directory="src/insouwiki/web/templates"
-)
-
-
-@app.get("/")
-def home(request: Request):
-    return templates.TemplateResponse(
-        request=request,
-        name="home.html",
-    )
+app.include_router(home_router)
+app.include_router(search_router)
+app.include_router(personality_router)

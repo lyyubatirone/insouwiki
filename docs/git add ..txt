@@ -1,3 +1,9 @@
 git add .
-git commit -m "Sprint 14.5 - Complete documentary verification model"
+git commit -m "Create first InsouWiki home page"
 git push
+
+
+
+remettre le serveur
+python -m uvicorn --app-dir src insouwiki.web.app:app --reload
+
