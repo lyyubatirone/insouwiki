@@ -66,3 +66,9 @@ issu du patrimoine documentaire.
 
 Le lecteur peut cliquer sur la source originale et ouvrir la vidéo
 correspondante sur YouTube.
+
+## Mur n°12 — Premiers documents consultables
+
+La fiche personnalité affiche plusieurs documents réels issus du patrimoine documentaire.
+
+Chaque document est cliquable et mène vers sa fiche documentaire InsouWiki.

@@ -23,3 +23,5 @@ class PersonalityView(BaseModel):
     relation_count: int
 
     first_document: DocumentView | None = None
+
+    documents: list[DocumentView] = []

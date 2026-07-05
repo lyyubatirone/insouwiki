@@ -14,32 +14,29 @@
 
 <hr>
 
-<h2>Résumé documentaire</h2>
+<h2>Documents</h2>
 
-{% if personality.first_document %}
+{% if personality.documents %}
 
 <ul>
+    {% for document in personality.documents %}
     <li>
-        <strong>{{ personality.first_document.title }}</strong>
+        <a href="/documents/{{ document.permanent_id }}">
+            {{ document.title }}
+        </a>
 
-        {% if personality.first_document.author %}
-            — {{ personality.first_document.author }}
+        {% if document.author %}
+            — {{ document.author }}
         {% endif %}
-
-        <br>
-
-        <a href="/documents/{{ personality.first_document.permanent_id }}">
-    {{ personality.first_document.title }}
-</a>
     </li>
+    {% endfor %}
 </ul>
 
 {% else %}
 
 <p>Aucun document n'est encore disponible.</p>
 
-{% endif %}
-<hr>
+{% endif %}<hr>
 
 <h2>Relations</h2>
 
