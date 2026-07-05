@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ document.title }} - InsouWiki</title>
+</head>
+
+<body>
+
+<h1>{{ document.title }}</h1>
+
+{% if document.author %}
+<p>
+    <strong>Auteur :</strong>
+    {{ document.author }}
+</p>
+{% endif %}
+
+<p>
+    <strong>Identifiant :</strong>
+    {{ document.permanent_id }}
+</p>
+
+<hr>
+
+<p>
+    <a href="{{ document.original_url }}">
+        Voir la vidéo originale sur YouTube
+    </a>
+</p>
+
+<hr>
+
+<p>
+    <a href="/">
+        ← Retour à l'accueil
+    </a>
+</p>
+
+</body>
+
+</html>

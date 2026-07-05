@@ -25,9 +25,6 @@ class DocumentaryLibrary:
         slug: str,
     ) -> PersonalityView:
         if slug == "jean-luc-melenchon":
-
-        # Premier document
-
             documents = self.document_repository.find_all()
 
             first_document = None
@@ -36,6 +33,7 @@ class DocumentaryLibrary:
                 document = documents[0]
 
                 first_document = DocumentView(
+                    permanent_id=document.permanent_id,
                     title=document.title,
                     author=document.author,
                     original_url=str(document.original_url),
@@ -52,3 +50,20 @@ class DocumentaryLibrary:
             )
 
         raise ValueError(f"Unknown personality: {slug}")
+
+    def get_document(
+        self,
+        permanent_id: str,
+    ) -> DocumentView:
+        documents = self.document_repository.find_all()
+
+        for document in documents:
+            if document.permanent_id == permanent_id:
+                return DocumentView(
+                    permanent_id=document.permanent_id,
+                    title=document.title,
+                    author=document.author,
+                    original_url=str(document.original_url),
+                )
+
+        raise ValueError(f"Unknown document: {permanent_id}")

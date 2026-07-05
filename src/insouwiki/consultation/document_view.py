@@ -11,3 +11,5 @@ class DocumentView(BaseModel):
     author: str | None = None
 
     original_url: str
+
+    permanent_id: str
