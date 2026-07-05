@@ -60,9 +60,59 @@ def initialize_database() -> None:
                     title TEXT NOT NULL,
                     author TEXT,
                     original_url TEXT NOT NULL,
+
+                    source_platform TEXT,
+                    external_id TEXT,
+                    published_at TIMESTAMP,
+                    thumbnail_url TEXT,
+                    documentary_nature TEXT,
+                    status TEXT,
+
                     discovered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     metadata JSONB NOT NULL DEFAULT '{}'
                 );
+                """
+            )
+
+            cur.execute(
+                """
+                ALTER TABLE documents
+                ADD COLUMN IF NOT EXISTS source_platform TEXT;
+                """
+            )
+
+            cur.execute(
+                """
+                ALTER TABLE documents
+                ADD COLUMN IF NOT EXISTS external_id TEXT;
+                """
+            )
+
+            cur.execute(
+                """
+                ALTER TABLE documents
+                ADD COLUMN IF NOT EXISTS published_at TIMESTAMP;
+                """
+            )
+
+            cur.execute(
+                """
+                ALTER TABLE documents
+                ADD COLUMN IF NOT EXISTS thumbnail_url TEXT;
+                """
+            )
+
+            cur.execute(
+                """
+                ALTER TABLE documents
+                ADD COLUMN IF NOT EXISTS documentary_nature TEXT;
+                """
+            )
+
+            cur.execute(
+                """
+                ALTER TABLE documents
+                ADD COLUMN IF NOT EXISTS status TEXT;
                 """
             )
 

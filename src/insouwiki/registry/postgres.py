@@ -21,6 +21,50 @@ class PostgresDocumentRepository(DocumentRepository):
                 cur.execute("SELECT COUNT(*) FROM documents")
                 return cur.fetchone()[0]
 
+    def find_all(self) -> list[Document]:
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT
+                        permanent_id,
+                        source_permanent_id,
+                        discovered_from_endpoint_permanent_id,
+                        origin_key,
+                        document_kind,
+                        title,
+                        original_url,
+                        source_platform,
+                        external_id,
+                        author,
+                        published_at,
+                        thumbnail_url,
+                        documentary_nature,
+                        status
+                    FROM documents
+                    """
+                )
+
+                return [
+                    Document(
+                        permanent_id=row[0],
+                        source_permanent_id=row[1],
+                        discovered_from_endpoint_permanent_id=row[2],
+                        origin_key=row[3],
+                        document_kind=row[4],
+                        title=row[5],
+                        original_url=row[6],
+                        source_platform=row[7],
+                        external_id=row[8],
+                        author=row[9],
+                        published_at=row[10],
+                        thumbnail_url=row[11],
+                        documentary_nature=row[12],
+                        status=row[13],
+                    )
+                    for row in cur.fetchall()
+                ]
+
     def register(self, document: Document) -> RegistrationResult:
         return self.register_many([document])[0]
 
@@ -75,9 +119,15 @@ class PostgresDocumentRepository(DocumentRepository):
                             title,
                             author,
                             original_url,
+                            source_platform,
+                            external_id,
+                            published_at,
+                            thumbnail_url,
+                            documentary_nature,
+                            status,
                             metadata
                         )
-                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                         """,
                         (
                             document.permanent_id,
@@ -88,6 +138,14 @@ class PostgresDocumentRepository(DocumentRepository):
                             document.title,
                             document.author,
                             str(document.original_url),
+                            document.source_platform,
+                            document.external_id,
+                            document.published_at,
+                            str(document.thumbnail_url)
+                            if document.thumbnail_url
+                            else None,
+                            document.documentary_nature.value,
+                            document.status.value,
                             "{}",
                         ),
                     )

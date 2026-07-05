@@ -20,3 +20,8 @@ class DocumentRepository(ABC):
     def count(self) -> int:
         """Nombre de documents enregistrés."""
         ...
+
+    @abstractmethod
+    def find_all(self) -> list[Document]:
+        """Retourne tous les documents enregistrés."""
+        ...

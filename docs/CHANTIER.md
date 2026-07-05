@@ -39,3 +39,20 @@ La première personnalité apparaît dans InsouWiki.
 Jean-Luc Mélenchon devient le premier habitant de la maison.
 
 ---
+
+#Mur n°6
+
+
+---
+#Mur n°7
+
+---
+## Mur n°8 — Première lumière
+
+La fiche personnalité affiche pour la première fois une donnée
+issue du patrimoine documentaire.
+
+Le nombre de documents n'est plus simulé.
+Il reflète désormais l'état réel de la base documentaire.
+
+InsouWiki commence à vivre au rythme de son patrimoine.

@@ -1,4 +1,5 @@
 from insouwiki.consultation.personality_view import PersonalityView
+from insouwiki.registry.postgres import PostgresDocumentRepository
 
 
 class DocumentaryLibrary:
@@ -8,6 +9,16 @@ class DocumentaryLibrary:
     Point d'entrée des interfaces vers le patrimoine documentaire.
     """
 
+    def __init__(
+        self,
+        document_repository: PostgresDocumentRepository | None = None,
+    ):
+        self.document_repository = (
+            document_repository
+            if document_repository is not None
+            else PostgresDocumentRepository()
+        )
+
     def get_personality(
         self,
         slug: str,
@@ -16,7 +27,7 @@ class DocumentaryLibrary:
             return PersonalityView(
                 name="Jean-Luc Mélenchon",
                 description="Personnalité politique",
-                document_count=2134,
+                document_count=self.document_repository.count(),
                 documentary_piece_count=0,
                 knowledge_count=0,
                 relation_count=0,
