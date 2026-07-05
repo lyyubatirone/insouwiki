@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from insouwiki.consultation.document_view import DocumentView
 
 
 class PersonalityView(BaseModel):
@@ -20,3 +21,5 @@ class PersonalityView(BaseModel):
     knowledge_count: int
 
     relation_count: int
+
+    first_document: DocumentView | None = None

@@ -16,13 +16,29 @@
 
 <h2>Résumé documentaire</h2>
 
+{% if personality.first_document %}
+
 <ul>
-    <li>Documents : {{ personality.document_count }}</li>
-    <li>Pièces documentaires : {{ personality.documentary_piece_count }}</li>
-    <li>Connaissances : {{ personality.knowledge_count }}</li>
-    <li>Relations : {{ personality.relation_count }}</li>
+    <li>
+        <strong>{{ personality.first_document.title }}</strong>
+
+        {% if personality.first_document.author %}
+            — {{ personality.first_document.author }}
+        {% endif %}
+
+        <br>
+
+        <a href="{{ personality.first_document.original_url }}">
+            Voir la source originale
+        </a>
+    </li>
 </ul>
 
+{% else %}
+
+<p>Aucun document n'est encore disponible.</p>
+
+{% endif %}
 <hr>
 
 <h2>Relations</h2>

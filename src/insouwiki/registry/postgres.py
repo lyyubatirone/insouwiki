@@ -2,6 +2,7 @@ from insouwiki.domain.document import Document
 from insouwiki.registry.postgres_connection import get_connection
 from insouwiki.registry.repository import DocumentRepository
 from insouwiki.registry.result import RegistrationResult
+from insouwiki.domain.enums import DocumentaryNature, ProcessingStatus
 
 
 class PostgresDocumentRepository(DocumentRepository):
@@ -59,9 +60,8 @@ class PostgresDocumentRepository(DocumentRepository):
                         author=row[9],
                         published_at=row[10],
                         thumbnail_url=row[11],
-                        documentary_nature=row[12],
-                        status=row[13],
-                    )
+                        documentary_nature=row[12] or DocumentaryNature.PRIMARY,
+                        status=row[13] or ProcessingStatus.DISCOVERED,                    )
                     for row in cur.fetchall()
                 ]
 

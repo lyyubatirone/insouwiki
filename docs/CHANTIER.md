@@ -46,6 +46,8 @@ Jean-Luc Mélenchon devient le premier habitant de la maison.
 ---
 #Mur n°7
 
+Création de la couche de consultation.
+
 ---
 ## Mur n°8 — Première lumière
 
@@ -56,3 +58,11 @@ Le nombre de documents n'est plus simulé.
 Il reflète désormais l'état réel de la base documentaire.
 
 InsouWiki commence à vivre au rythme de son patrimoine.
+
+## Mur n°10 — Premier document réel affiché
+
+La fiche personnalité affiche pour la première fois un document réel
+issu du patrimoine documentaire.
+
+Le lecteur peut cliquer sur la source originale et ouvrir la vidéo
+correspondante sur YouTube.
