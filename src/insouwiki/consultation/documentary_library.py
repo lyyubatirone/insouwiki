@@ -1,4 +1,5 @@
 from insouwiki.consultation.document_view import DocumentView
+from insouwiki.consultation.documentary_piece_view import DocumentaryPieceView
 from insouwiki.consultation.personality_view import PersonalityView
 from insouwiki.registry.postgres import PostgresDocumentRepository
 
@@ -26,27 +27,18 @@ class DocumentaryLibrary:
     ) -> PersonalityView:
         if slug == "jean-luc-melenchon":
             documents = self.document_repository.find_all()
+
             document_views = [
-    DocumentView(
-        permanent_id=document.permanent_id,
-        title=document.title,
-        author=document.author,
-        original_url=str(document.original_url),
-    )
-    for document in documents[:10]
-]
-
-            first_document = None
-
-            if documents:
-                document = documents[0]
-
-                first_document = DocumentView(
+                DocumentView(
                     permanent_id=document.permanent_id,
                     title=document.title,
                     author=document.author,
                     original_url=str(document.original_url),
                 )
+                for document in documents[:10]
+            ]
+
+            first_document = document_views[0] if document_views else None
 
             return PersonalityView(
                 name="Jean-Luc Mélenchon",
@@ -74,6 +66,32 @@ class DocumentaryLibrary:
                     title=document.title,
                     author=document.author,
                     original_url=str(document.original_url),
+                    documentary_pieces=self.get_documentary_pieces(
+                        document.permanent_id
+                    ),
                 )
 
         raise ValueError(f"Unknown document: {permanent_id}")
+
+       def get_documentary_pieces(
+        self,
+        document_permanent_id: str,
+    ) -> list[DocumentaryPieceView]:
+        """
+        Retourne les pièces documentaires associées à un document.
+
+        Implémentation provisoire : les pièces réelles seront raccordées
+        lorsque le stockage des transcriptions et des séquences sera prêt.
+        """
+        return [
+            DocumentaryPieceView(
+                author="Jean-Luc Mélenchon",
+                document_title="La nouvelle géopolitique de la France",
+                sequence_text=(
+                    "La retraite doit être à 60 ans pour tous."
+                ),
+                sequence_start="00:12:43",
+                sequence_end="00:12:58",
+                document_url="https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            )
+        ]

@@ -24,6 +24,38 @@
 
 <hr>
 
+<h2>Pièces documentaires</h2>
+
+{% if document.documentary_pieces %}
+
+<ul>
+
+{% for piece in document.documentary_pieces %}
+
+<li>
+
+<p>
+<strong>{{ piece.sequence_start }} → {{ piece.sequence_end }}</strong>
+</p>
+
+<p>
+{{ piece.sequence_text }}
+</p>
+
+</li>
+
+{% endfor %}
+
+</ul>
+
+{% else %}
+
+<p>Aucune pièce documentaire disponible.</p>
+
+{% endif %}
+
+<hr>
+
 <p>
     <a href="{{ document.original_url }}">
         Voir la vidéo originale sur YouTube
@@ -31,6 +63,7 @@
 </p>
 
 <hr>
+
 
 <p>
     <a href="/">
