@@ -53,3 +53,18 @@ Qu'est-ce qu'une observation documentaire ?
 ## Prochaine étape
 
 ENQUETE-0001 — Observation documentaire.
+
+## Observation du Sprint 17.8
+
+Les services de type `Finder` ne produisent pas encore de `DocumentaryAnalysis`.
+
+Ils retournent aujourd'hui des observations textuelles.
+
+Hypothèse à vérifier :
+un `Finder` repère des éléments documentaires, tandis qu'un `Analyzer` produit une analyse documentaire explicable.
+
+conserver non seulement ce que nous faisons, mais aussi pourquoi nous le faisons... et parfois pourquoi nous choisissons de ne pas le faire.
+
+Question ouverte : le tri des pièces documentaires appartient-il au Builder ou à une stratégie d'ordonnancement documentaire ?
+
+Hypothèse V1 : une séquence documentaire produit un fait documentaire. Cette hypothèse devra être réévaluée lorsque plusieurs faits pourront être extraits d'une même séquence.
