@@ -11,10 +11,10 @@ from insouwiki.services.exploration_service import ExplorationService
 
 class SimpleExplorationService(ExplorationService):
     """
-    Première implémentation du service d'exploration.
+    Orchestre la construction d'une exploration documentaire.
 
-    Cette version orchestre la construction d'une exploration
-    documentaire en utilisant les premiers raisonneurs documentaires.
+    Ce service coordonne plusieurs finders documentaires,
+    puis délègue la construction finale à un builder.
     """
 
     def __init__(
