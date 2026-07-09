@@ -8,10 +8,8 @@ from insouwiki.services.knowledge_builder import KnowledgeBuilder
 
 class SimpleKnowledgeBuilder(KnowledgeBuilder):
     """
-    Première implémentation du constructeur de connaissances.
-
-    Version 3 :
-    regroupe les faits connectés par des relations documentaires.
+    Construit des connaissances documentaires
+    à partir de faits reliés par des relations documentaires.
     """
 
     def build(

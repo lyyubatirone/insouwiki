@@ -6,7 +6,8 @@ from insouwiki.services.documentary_piece_builder import DocumentaryPieceBuilder
 
 class SimpleDocumentaryPieceBuilder(DocumentaryPieceBuilder):
     """
-    Première implémentation du constructeur de pièces documentaires.
+    Construit une pièce documentaire à partir
+    d'un document et d'une séquence documentaire.
     """
 
     def build(
