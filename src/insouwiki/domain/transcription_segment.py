@@ -5,16 +5,19 @@ from pydantic import BaseModel, model_validator
 
 class TranscriptionSegment(BaseModel):
     """
-    Segment horodaté produit par un moteur de transcription.
+    Segment documentaire élémentaire d'une transcription.
 
-    Il représente une portion continue de la transcription telle
-    qu'elle est fournie par le moteur.
+    Il représente une portion continue de la transcription
+    produite par un moteur de transcription.
 
-    Ce segment n'est pas encore une séquence documentaire.
+    Ce segment constitue l'unité élémentaire d'une transcription.
+
+    Il ne constitue pas encore une séquence documentaire.
     """
 
     start: timedelta
     end: timedelta
+    speaker: str | None = None
     text: str
 
     @model_validator(mode="after")

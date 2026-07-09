@@ -116,4 +116,22 @@ def initialize_database() -> None:
                 """
             )
 
+            #
+            # Séquences documentaires
+            #
+            cur.execute(
+                """
+                CREATE TABLE IF NOT EXISTS documentary_sequences (
+                    permanent_id TEXT PRIMARY KEY,
+
+                    document_id TEXT NOT NULL REFERENCES documents(permanent_id),
+
+                    start_seconds INTEGER NOT NULL,
+                    end_seconds INTEGER NOT NULL,
+
+                    text TEXT NOT NULL
+                );
+                """
+            )
+
         conn.commit()

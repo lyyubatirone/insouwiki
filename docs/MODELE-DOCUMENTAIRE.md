@@ -173,3 +173,9 @@ Une ou plusieurs pièces documentaires peuvent justifier :
 
 La pièce documentaire permet au lecteur de revenir précisément au passage
 du document qui établit l'information.
+
+Une observation documentaire décrit ce que le document montre.
+
+Un indice documentaire exprime ce que le métier permet d'en déduire.
+
+Une décision documentaire résulte de la combinaison de plusieurs indices documentaires.
