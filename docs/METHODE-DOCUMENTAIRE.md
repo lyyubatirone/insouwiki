@@ -215,3 +215,16 @@ Elle doit être :
 Une observation ne qualifie pas le document, n'explique pas le raisonnement et ne propose aucune conclusion.
 
 Elle constitue la traduction documentaire des vérifications réellement effectuées par l'analyseur.
+
+## Construction d'une enquête documentaire
+
+Toute enquête documentaire progresse selon les étapes suivantes :
+
+1. Formuler une question documentaire.
+2. Constituer des cas canoniques.
+3. Identifier des cas frontières.
+4. Rechercher des contre-exemples.
+5. Formuler des hypothèses.
+6. Stabiliser les découvertes.
+7. Traduire les découvertes en tests.
+8. Implémenter le code.

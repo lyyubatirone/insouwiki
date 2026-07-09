@@ -1,5 +1,5 @@
 git add .
-git commit -m "Create documentary consultation layer"
+git commit -m "Clarify documentary fact extraction responsibility"
 git push
 
 

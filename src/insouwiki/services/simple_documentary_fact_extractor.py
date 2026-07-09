@@ -7,10 +7,11 @@ from insouwiki.services.documentary_fact_extractor import (
 
 class SimpleDocumentaryFactExtractor(DocumentaryFactExtractor):
     """
-    Première implémentation du générateur de faits documentaires.
+    Extrait des faits documentaires
+    à partir de séquences documentaires.
 
-    Version 1 :
-    une séquence documentaire produit un fait documentaire.
+    Cette première implémentation considère
+    qu'une séquence produit un fait documentaire.
     """
 
     def extract(

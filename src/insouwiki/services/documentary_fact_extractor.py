@@ -6,10 +6,10 @@ from insouwiki.domain.documentary_sequence import DocumentarySequence
 
 class DocumentaryFactExtractor(ABC):
     """
-    Transforme des séquences documentaires
-    en faits documentaires.
+    Extrait des faits documentaires
+    à partir de séquences documentaires.
     """
-
+    
     @abstractmethod
     def extract(
         self,
