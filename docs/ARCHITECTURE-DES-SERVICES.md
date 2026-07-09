@@ -1,66 +1,57 @@
 # Architecture des services
 
-Ce document décrit les différentes familles de services utilisées dans InsouWiki.
+## Objectif
 
-Son objectif est de faciliter la compréhension du domaine et de guider les futures évolutions de l'architecture.
+Décrire les différentes responsabilités des services utilisés dans InsouWiki.
 
----
-
-## Builders
-
-Construisent un objet documentaire à partir d'informations existantes.
-
-Exemples :
-
-- SimpleKnowledgeBuilder
-- SimpleDocumentaryPieceBuilder
-- SimpleDocumentaryDossierBuilder
-- SimpleExplorationBuilder
+Ce document évoluera au fur et à mesure des découvertes du domaine.
 
 ---
 
-## Finders
+## Builder
 
-Recherchent ou détectent des éléments documentaires.
+### Responsabilité
 
-Exemples :
+Construire un objet documentaire à partir d'informations existantes.
 
-- SimpleContinuityFinder
-- SimpleConvergenceFinder
-- SimpleDivergenceFinder
-- SimpleEvolutionFinder
-- SimpleDocumentaryRelationFinder
+### Produit
+
+Un objet du domaine.
 
 ---
 
-## Analyzers
+## Finder
 
-Produisent une analyse documentaire explicable.
+### Responsabilité
 
-Exemples :
+Rechercher ou détecter des éléments documentaires.
 
-- DocumentaryReasoningAnalyzer
+### Produit
 
----
-
-## Services d'orchestration
-
-Coordonnent plusieurs services documentaires.
-
-Exemples :
-
-- SimpleExplorationService
-- SimpleDocumentarySequencer
+Des informations documentaires permettant d'alimenter d'autres traitements.
 
 ---
 
-## Services d'infrastructure
+## Analyzer
 
-Interagissent avec des systèmes externes.
+### Responsabilité
 
-Exemples :
+Produire une analyse documentaire explicable à partir d'observations et d'indicateurs.
 
-- DiscoveryService
-- AudioExtractionService
-- OpenAITranscriptionProvider
-- YouTubeAudioExtractor
+### Produit
+
+Une `DocumentaryAnalysis`.
+
+---
+
+## Service d'orchestration
+
+### Responsabilité
+
+Coordonner plusieurs services documentaires afin de réaliser une opération métier.
+
+### Produit
+
+Dépend du cas d'usage.
+
+Un Builder construit un objet du domaine à partir d'informations existantes. Il n'effectue ni recherche documentaire, ni analyse documentaire, ni prise de décision.

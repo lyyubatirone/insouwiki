@@ -8,11 +8,9 @@ from insouwiki.services.documentary_relation_finder import (
 
 class SimpleDocumentaryRelationFinder(DocumentaryRelationFinder):
     """
-    Première implémentation du chercheur de relations documentaires.
+    Recherche des relations documentaires entre faits documentaires.
 
-    Version 1 :
-    si plusieurs faits ont le même auteur, une relation SAME_AUTHOR
-    est créée entre eux.
+    Cette première règle relie les faits attribués au même auteur.
     """
 
     def find(
