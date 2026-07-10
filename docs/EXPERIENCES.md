@@ -46,12 +46,26 @@ Vidéo :
 
 ## Résultats
 
-À compléter.
+GPT produit une excellente transcription textuelle mais ne fournit pas de segmentation exploitable.
+
+Whisper fournit une transcription correcte accompagnée de 118 segments horodatés.
+
+Ces segments permettent de construire directement les séquences documentaires.
+
+La recherche sur le terme « autonomie » retourne six passages distincts correctement horodatés.
 
 ## Conclusion
 
-À compléter.
+La segmentation fournie par Whisper constitue une excellente unité documentaire.
+
+Le domaine a été enrichi avec l'objet TranscriptionSegment.
+
+Les DocumentarySequence sont désormais construites à partir de ces segments.
+
+Le DocumentaryReasoningAnalyzer conserve son rôle de regroupement documentaire, mais n'est plus responsable de la segmentation.
 
 ## Décision
 
-À compléter.
+Conserver Whisper comme base d'indexation documentaire pour la V1.
+
+Poursuivre l'évaluation de GPT-4o Mini Transcribe pour la qualité linguistique.

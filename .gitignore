@@ -1,6 +1,3 @@
-# Variables d'environnement
-.env
-
 # Données locales
 data/
 
@@ -8,18 +5,33 @@ data/
 postgres_data/
 qdrant_data/
 
-# Python
-__pycache__/
-*.pyc
-*.egg-info/
+# Environnements Python
 .venv/
 venv/
-# Windows
-Thumbs.db
-Desktop.ini
+
+# Cache Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Cache des outils
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Fichiers temporaires générés
+tmp/audio/
+tmp/experiments/
+
+# Variables d'environnement
+.env
 
 # VS Code
 .vscode/
 
 # JetBrains
 .idea/
+
+# Windows
+Thumbs.db
+Desktop.ini
