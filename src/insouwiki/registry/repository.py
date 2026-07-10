@@ -33,3 +33,11 @@ class DocumentRepository(ABC):
     ) -> Document | None:
         """Retourne un document à partir de son identifiant permanent."""
         ...
+
+    @abstractmethod
+    def get_by_original_url(
+        self,
+        original_url: str,
+    ) -> Document | None:
+        """Retourne un document à partir de son URL d'origine."""
+        ...

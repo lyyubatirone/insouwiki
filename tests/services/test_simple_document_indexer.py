@@ -67,12 +67,19 @@ class FakeDocumentarySequencer:
 class FakeDocumentarySequenceRepository:
     def __init__(self) -> None:
         self.registered_sequences = []
+        self.deleted_document_id = None
 
     def register_many(
         self,
         sequences: list[DocumentarySequence],
     ) -> None:
         self.registered_sequences.extend(sequences)
+
+    def delete_by_document(
+        self,
+        document_id: str,
+    ) -> None:
+        self.deleted_document_id = document_id
 
 
 def test_indexes_document_and_registers_sequences():
@@ -133,3 +140,5 @@ def test_indexes_document_and_registers_sequences():
     assert sequence_repository.registered_sequences == (
         expected_sequences
     )
+
+    assert sequence_repository.deleted_document_id == "DOC-00000001"

@@ -6,6 +6,22 @@
 
 ---
 
+### H1
+
+Un fait documentaire peut correspondre à une affirmation identifiable dans une séquence, mais il ne doit jamais être détaché de la séquence complète qui permet d'en vérifier le contexte.
+
+Statut : À vérifier.
+
+---
+
+## Principe de contexte
+
+L'identification d'un fait documentaire ne doit jamais conduire à isoler artificiellement une phrase au détriment du contexte documentaire.
+
+Le fait peut être décrit de manière ciblée, mais sa preuve reste toujours la séquence complète dont il provient.
+
+---
+
 ## Cas documentaires
 
 ## Cas documentaire 0001

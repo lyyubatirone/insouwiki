@@ -56,4 +56,11 @@ class SimpleDocumentIndexer(DocumentIndexer):
             transcription=transcription,
         )
 
-        self._sequence_repository.register_many(sequences)
+        self._sequence_repository.delete_by_document(
+            document.permanent_id
+            or transcription.document_id
+        )
+
+        self._sequence_repository.register_many(
+            sequences,
+        )

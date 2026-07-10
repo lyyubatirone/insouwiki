@@ -68,3 +68,13 @@ conserver non seulement ce que nous faisons, mais aussi pourquoi nous le faisons
 Question ouverte : le tri des pièces documentaires appartient-il au Builder ou à une stratégie d'ordonnancement documentaire ?
 
 Hypothèse V1 : une séquence documentaire produit un fait documentaire. Cette hypothèse devra être réévaluée lorsque plusieurs faits pourront être extraits d'une même séquence.
+
+## Clarification V1
+
+La priorité de la V1 est de permettre à l'utilisateur de retrouver des passages pertinents à partir d'une question ou d'une affirmation.
+
+InsouWiki fonctionne d'abord comme un moteur documentaire appliqué à des sources audiovisuelles transcrites.
+
+Les faits documentaires, relations, connaissances et dossiers enrichissent progressivement cette recherche, mais ne sont pas nécessaires pour produire une première valeur utilisateur.
+
+Le 10 juillet 2026, InsouWiki a effectué sa première recherche documentaire complète sur une source réelle.

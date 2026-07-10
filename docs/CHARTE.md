@@ -1,0 +1,1 @@
+InsouWiki ne produit pas une vérité. Il produit un chemin fiable vers les sources qui permettent au lecteur de se faire sa propre opinion.

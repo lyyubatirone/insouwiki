@@ -32,3 +32,13 @@ class DocumentarySequenceRepository(ABC):
         contenant la requête.
         """
         ...
+    
+    @abstractmethod
+    def delete_by_document(
+        self,
+        document_id: str,
+    ) -> None:
+        """
+        Supprime toutes les séquences d'un document.
+        """
+        ...

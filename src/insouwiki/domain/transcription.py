@@ -2,6 +2,10 @@ from datetime import UTC, datetime
 
 from pydantic import BaseModel, Field
 
+from insouwiki.domain.transcription_segment import (
+    TranscriptionSegment,
+)
+
 
 class Transcription(BaseModel):
     """
@@ -27,6 +31,11 @@ class Transcription(BaseModel):
 
     text: str = Field(
         description="Texte intégral de la transcription.",
+    )
+
+    segments: list[TranscriptionSegment] = Field(
+        default_factory=list,
+        description="Segments horodatés de la transcription.",
     )
 
     engine: str = Field(

@@ -211,6 +211,61 @@ class PostgresDocumentRepository(DocumentRepository):
                         )
                     )
 
+    def get_by_original_url(
+        self,
+        original_url: str,
+    ) -> Document | None:
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT
+                        permanent_id,
+                        source_permanent_id,
+                        discovered_from_endpoint_permanent_id,
+                        origin_key,
+                        document_kind,
+                        title,
+                        original_url,
+                        source_platform,
+                        external_id,
+                        author,
+                        published_at,
+                        thumbnail_url,
+                        documentary_nature,
+                        status
+                    FROM documents
+                    WHERE original_url = %s
+                    """,
+                    (original_url,),
+                )
+
+                row = cur.fetchone()
+
+                if row is None:
+                    return None
+
+                return Document(
+                    permanent_id=row[0],
+                    source_permanent_id=row[1],
+                    discovered_from_endpoint_permanent_id=row[2],
+                    origin_key=row[3],
+                    document_kind=row[4],
+                    title=row[5],
+                    original_url=row[6],
+                    source_platform=row[7],
+                    external_id=row[8],
+                    author=row[9],
+                    published_at=row[10],
+                    thumbnail_url=row[11],
+                    documentary_nature=(
+                        row[12] or DocumentaryNature.PRIMARY
+                    ),
+                    status=(
+                        row[13] or ProcessingStatus.DISCOVERED
+                    ),
+                )
             conn.commit()
 
         return results
+    

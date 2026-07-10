@@ -14,11 +14,15 @@ class SimpleDocumentarySequencer(DocumentarySequencer):
     Construit des séquences documentaires horodatées
     à partir des segments d'une transcription.
 
-    Ces séquences constituent l'unité de recherche
-    de la V1 d'InsouWiki.
+    Pour la V1, chaque segment de transcription devient
+    une séquence documentaire directement recherchable.
+
+    La méthode build_sequences conserve la possibilité
+    expérimentale de regrouper plusieurs segments selon
+    la continuité d'un raisonnement documentaire.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._reasoning_analyzer = DocumentaryReasoningAnalyzer()
 
     def sequence(
@@ -26,13 +30,34 @@ class SimpleDocumentarySequencer(DocumentarySequencer):
         document: Document,
         transcription: Transcription,
     ) -> list[DocumentarySequence]:
+        document_id = (
+            document.permanent_id
+            or transcription.document_id
+            or "document:unknown"
+        )
+
+        if not transcription.segments:
+            return [
+                DocumentarySequence(
+                    permanent_id="SEQ-00000001",
+                    document_id=document_id,
+                    start=timedelta(0),
+                    end=timedelta(0),
+                    text=transcription.text,
+                )
+            ]
+
         return [
             DocumentarySequence(
-                permanent_id="SEQ-00000001",
-                document_id=document.permanent_id or "document:unknown",
-                start=timedelta(seconds=0),
-                end=timedelta(seconds=0),
-                text=transcription.text,
+                permanent_id=f"SEQ-{index:08d}",
+                document_id=document_id,
+                start=segment.start,
+                end=segment.end,
+                text=segment.text,
+            )
+            for index, segment in enumerate(
+                transcription.segments,
+                start=1,
             )
         ]
 
@@ -45,7 +70,7 @@ class SimpleDocumentarySequencer(DocumentarySequencer):
         if not segments:
             return []
 
-        sequences = []
+        sequences: list[DocumentarySequence] = []
         current_segments = [segments[0]]
 
         for segment in segments[1:]:
@@ -57,18 +82,18 @@ class SimpleDocumentarySequencer(DocumentarySequencer):
             else:
                 sequences.append(
                     self._build_sequence(
-                        transcription.document_id,
-                        current_segments,
-                        len(sequences) + 1,
+                        document_id=transcription.document_id,
+                        segments=current_segments,
+                        number=len(sequences) + 1,
                     )
                 )
                 current_segments = [segment]
 
         sequences.append(
             self._build_sequence(
-                transcription.document_id,
-                current_segments,
-                len(sequences) + 1,
+                document_id=transcription.document_id,
+                segments=current_segments,
+                number=len(sequences) + 1,
             )
         )
 

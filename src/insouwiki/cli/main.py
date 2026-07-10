@@ -143,6 +143,37 @@ def search(query: str):
         print()
         print(f"Source : {result.source_url}")
 
+@app.command()
+def index(url: str):
+    """Indexe un document déjà enregistré."""
+
+    print("[bold]Indexation documentaire...[/bold]")
+
+    initialize_database()
+
+    application = Application()
+
+    document = application.document_repository.get_by_original_url(
+        url,
+    )
+
+    if document is None:
+        print("[red]Document inconnu.[/red]")
+        print(
+            "Commencez par exécuter "
+            "'insouwiki discover <url-de-chaîne>'."
+        )
+        raise typer.Exit(code=1)
+
+    try:
+        application.document_indexer.index(document)
+    except Exception as error:
+        print("[red]Erreur pendant l'indexation[/red]")
+        print(str(error))
+        raise typer.Exit(code=1)
+
+    print("[green]✓ Document indexé[/green]")
+
 
 if __name__ == "__main__":
     app()

@@ -76,6 +76,7 @@ class PostgresDocumentarySequenceRepository(
                     )
                     for row in rows
                 ]
+
     def search(
         self,
         query: str,
@@ -108,3 +109,19 @@ class PostgresDocumentarySequenceRepository(
                     )
                     for row in rows
                 ]
+
+    def delete_by_document(
+        self,
+        document_id: str,
+    ) -> None:
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    DELETE FROM documentary_sequences
+                    WHERE document_id = %s
+                    """,
+                    (document_id,),
+                )
+
+            conn.commit()

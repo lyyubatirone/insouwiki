@@ -1,5 +1,5 @@
 git add .
-git commit -m "Clarify documentary fact extraction responsibility"
+git commit -m "Add document indexing workflow"
 git push
 
 
