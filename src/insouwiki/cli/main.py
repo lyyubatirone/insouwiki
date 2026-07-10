@@ -95,5 +95,54 @@ def scan(url: str):
     discover(url)
 
 
+@app.command()
+def search(query: str):
+    """Recherche des séquences documentaires."""
+
+    print(f"[bold]Recherche documentaire :[/bold] {query}")
+
+    initialize_database()
+
+    application = Application()
+
+    try:
+        results = application.documentary_search_service.search(query)
+    except Exception as error:
+        print("[red]Erreur pendant la recherche[/red]")
+        print(str(error))
+        raise typer.Exit(code=1)
+
+    result_count = len(results)
+
+    if result_count == 0:
+        print("0 séquence trouvée.")
+        return
+
+    print(f"{result_count} séquence(s) trouvée(s)")
+
+    for result in results:
+        print()
+        print("[bold]────────────────────────────────────────[/bold]")
+        print(f"[bold]{result.title}[/bold]")
+
+        if result.author:
+            print(f"Auteur : {result.author}")
+
+        if result.published_at:
+            print(
+                "Publié le : "
+                f"{result.published_at.strftime('%d/%m/%Y')}"
+            )
+
+        start_seconds = int(result.sequence_start.total_seconds())
+        minutes, seconds = divmod(start_seconds, 60)
+
+        print(f"Horodatage : {minutes:02d}:{seconds:02d}")
+        print()
+        print(result.sequence_text)
+        print()
+        print(f"Source : {result.source_url}")
+
+
 if __name__ == "__main__":
     app()

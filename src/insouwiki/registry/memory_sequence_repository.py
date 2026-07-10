@@ -22,3 +22,15 @@ class MemoryDocumentarySequenceRepository(DocumentarySequenceRepository):
             for sequence in self._sequences
             if sequence.document_id == document_id
         ]
+    
+    def search(
+        self,
+        query: str,
+    ) -> list[DocumentarySequence]:
+        normalized_query = query.lower()
+
+        return [
+            sequence
+            for sequence in self._sequences
+            if normalized_query in sequence.text.lower()
+        ]

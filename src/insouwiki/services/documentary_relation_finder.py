@@ -6,7 +6,8 @@ from insouwiki.domain.documentary_relation import DocumentaryRelation
 
 class DocumentaryRelationFinder(ABC):
     """
-    Trouve des relations documentaires entre faits documentaires.
+    Identifie les relations documentaires
+    entre les faits fournis.
     """
 
     @abstractmethod

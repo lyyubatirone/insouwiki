@@ -76,3 +76,35 @@ class PostgresDocumentarySequenceRepository(
                     )
                     for row in rows
                 ]
+    def search(
+        self,
+        query: str,
+    ) -> list[DocumentarySequence]:
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT
+                        permanent_id,
+                        document_id,
+                        start_seconds,
+                        end_seconds,
+                        text
+                    FROM documentary_sequences
+                    WHERE LOWER(text) LIKE LOWER(%s)
+                    """,
+                    (f"%{query}%",),
+                )
+
+                rows = cur.fetchall()
+
+                return [
+                    DocumentarySequence(
+                        permanent_id=row[0],
+                        document_id=row[1],
+                        start=timedelta(seconds=row[2]),
+                        end=timedelta(seconds=row[3]),
+                        text=row[4],
+                    )
+                    for row in rows
+                ]

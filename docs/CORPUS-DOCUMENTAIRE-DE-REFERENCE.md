@@ -83,3 +83,31 @@ Ce document est destiné à évoluer avec InsouWiki.
 À mesure que de nouveaux raisonneurs documentaires apparaîtront, le corpus sera enrichi afin de représenter les nouvelles situations documentaires rencontrées.
 
 Le corpus de référence devient ainsi un patrimoine documentaire au service du développement lui-même.
+
+---
+
+# Observation documentaire 0001
+
+## Source
+
+...
+
+## Extrait
+
+...
+
+## Première lecture
+
+Que dit objectivement cet extrait ?
+
+## Question documentaire
+
+Combien de faits documentaires distincts contient-il ?
+
+## Décision
+
+...
+
+## Justification
+
+…

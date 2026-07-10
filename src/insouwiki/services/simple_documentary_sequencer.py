@@ -11,7 +11,11 @@ from insouwiki.services.documentary_sequencer import DocumentarySequencer
 
 class SimpleDocumentarySequencer(DocumentarySequencer):
     """
-    Séquenceur documentaire simple.
+    Construit des séquences documentaires horodatées
+    à partir des segments d'une transcription.
+
+    Ces séquences constituent l'unité de recherche
+    de la V1 d'InsouWiki.
     """
 
     def __init__(self):

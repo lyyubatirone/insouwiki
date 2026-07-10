@@ -21,3 +21,14 @@ class DocumentarySequenceRepository(ABC):
         document_id: str,
     ) -> list[DocumentarySequence]:
         ...
+
+    @abstractmethod
+    def search(
+        self,
+        query: str,
+    ) -> list[DocumentarySequence]:
+        """
+        Recherche les séquences documentaires
+        contenant la requête.
+        """
+        ...

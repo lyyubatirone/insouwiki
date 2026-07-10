@@ -25,3 +25,11 @@ class DocumentRepository(ABC):
     def find_all(self) -> list[Document]:
         """Retourne tous les documents enregistrés."""
         ...
+
+    @abstractmethod
+    def get_by_permanent_id(
+        self,
+        permanent_id: str,
+    ) -> Document | None:
+        """Retourne un document à partir de son identifiant permanent."""
+        ...
