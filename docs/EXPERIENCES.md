@@ -54,6 +54,18 @@ Ces segments permettent de construire directement les séquences documentaires.
 
 La recherche sur le terme « autonomie » retourne six passages distincts correctement horodatés.
 
+## Enseignement
+
+Au début de cette réflexion, l'idée était d'ajouter de nouvelles méthodes au DocumentRepository.
+
+L'observation du domaine a conduit à renoncer à cette solution.
+
+Il est apparu que le besoin ne concerne pas le stockage des documents mais leur observation globale.
+
+Cette décision confirme une nouvelle fois le principe fondateur du projet :
+
+Le domaine guide toujours le code.
+
 ## Conclusion
 
 La segmentation fournie par Whisper constitue une excellente unité documentaire.
@@ -69,3 +81,4 @@ Le DocumentaryReasoningAnalyzer conserve son rôle de regroupement documentaire,
 Conserver Whisper comme base d'indexation documentaire pour la V1.
 
 Poursuivre l'évaluation de GPT-4o Mini Transcribe pour la qualité linguistique.
+

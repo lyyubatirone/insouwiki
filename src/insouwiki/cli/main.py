@@ -1,7 +1,9 @@
+import re
 from pathlib import Path
 
 import typer
 from rich import print
+from rich.markup import escape
 
 from insouwiki.application import Application
 from insouwiki.domain.discovery_request import DiscoveryRequest
@@ -9,10 +11,50 @@ from insouwiki.domain.document import Document
 from insouwiki.domain.enums import DiscoveryTargetKind, DocumentKind
 from insouwiki.registry.schema import initialize_database
 
+
 app = typer.Typer(
     help="Moteur documentaire d'InsouWiki",
     no_args_is_help=True,
 )
+
+
+def highlight_query(
+    text: str,
+    query: str,
+) -> str:
+    """
+    Met en évidence la requête sans modifier le texte documentaire.
+
+    Le texte est échappé afin que les éventuels caractères
+    interprétés par Rich restent affichés tels quels.
+    """
+    if not query.strip():
+        return escape(text)
+
+    pattern = re.compile(
+        re.escape(query),
+        re.IGNORECASE,
+    )
+
+    highlighted_parts: list[str] = []
+    previous_end = 0
+
+    for match in pattern.finditer(text):
+        highlighted_parts.append(
+            escape(text[previous_end:match.start()])
+        )
+        highlighted_parts.append(
+            "[bold yellow]"
+            f"{escape(match.group(0))}"
+            "[/bold yellow]"
+        )
+        previous_end = match.end()
+
+    highlighted_parts.append(
+        escape(text[previous_end:])
+    )
+
+    return "".join(highlighted_parts)
 
 
 @app.command()
@@ -52,7 +94,39 @@ def discover(url: str):
     print(f"Documents enregistrés : {result.documents_total_registered}")
 
     for title in result.first_titles:
-        print(f"- {title}")
+        print(f"- {escape(title)}")
+
+@app.command()
+def sync(url: str):
+    """Synchronise une source documentaire déjà connue."""
+
+    print("[bold]Synchronisation documentaire...[/bold]")
+
+    initialize_database()
+
+    request = DiscoveryRequest(
+        source_kind=DiscoveryTargetKind.YOUTUBE_CHANNEL,
+        url=url,
+    )
+
+    application = Application()
+
+    try:
+        result = application.discovery_service.discover(request)
+    except ValueError as error:
+        print("[red]Erreur[/red]")
+        print(str(error))
+        raise typer.Exit(code=1)
+
+    print("[green]✓ Synchronisation terminée[/green]")
+    print(f"Documents observés : {result.documents_discovered}")
+    print(f"Nouveaux documents : {result.documents_created}")
+    print(f"Documents déjà connus : {result.documents_existing}")
+    print(
+        "Documents enregistrés : "
+        f"{result.documents_total_registered}"
+    )
+    print(f"Temps total : {result.duration_seconds:.2f} s")
 
 
 @app.command()
@@ -99,7 +173,10 @@ def scan(url: str):
 def search(query: str):
     """Recherche des séquences documentaires."""
 
-    print(f"[bold]Recherche documentaire :[/bold] {query}")
+    print(
+        "[bold]Recherche documentaire :[/bold] "
+        f"{escape(query)}"
+    )
 
     initialize_database()
 
@@ -123,10 +200,15 @@ def search(query: str):
     for result in results:
         print()
         print("[bold]────────────────────────────────────────[/bold]")
-        print(f"[bold]{result.title}[/bold]")
+
+        highlighted_title = highlight_query(
+            result.title,
+            result.query,
+        )
+        print(f"[bold]{highlighted_title}[/bold]")
 
         if result.author:
-            print(f"Auteur : {result.author}")
+            print(f"Auteur : {escape(result.author)}")
 
         if result.published_at:
             print(
@@ -134,14 +216,26 @@ def search(query: str):
                 f"{result.published_at.strftime('%d/%m/%Y')}"
             )
 
-        start_seconds = int(result.sequence_start.total_seconds())
-        minutes, seconds = divmod(start_seconds, 60)
+        start_seconds = int(
+            result.sequence_start.total_seconds()
+        )
+        minutes, seconds = divmod(
+            start_seconds,
+            60,
+        )
 
         print(f"Horodatage : {minutes:02d}:{seconds:02d}")
         print()
-        print(result.sequence_text)
+
+        highlighted_sequence = highlight_query(
+            result.sequence_text,
+            result.query,
+        )
+        print(highlighted_sequence)
+
         print()
-        print(f"Source : {result.source_url}")
+        print(f"Source : {escape(result.source_url)}")
+
 
 @app.command()
 def index(url: str):

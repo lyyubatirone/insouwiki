@@ -18,6 +18,7 @@ class DocumentarySearchResult:
     sequence_start: timedelta
     sequence_end: timedelta
     source_url: str
+    query: str
 
 
 class DocumentarySearchService:
@@ -56,6 +57,7 @@ class DocumentarySearchService:
 
             results.append(
                 DocumentarySearchResult(
+                    query=query,
                     title=document.title,
                     author=document.author,
                     published_at=document.published_at,
@@ -65,7 +67,7 @@ class DocumentarySearchService:
                     source_url=self._timestamp_link_builder.build(
                         document=document,
                         sequence=sequence,
-                    ),
+                    ),  
                 )
             )
 

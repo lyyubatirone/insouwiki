@@ -1,5 +1,5 @@
 git add .
-git commit -m "Add document indexing workflow"
+git commit -m "feat: implement segmented documentary indexing"
 git push
 
 
