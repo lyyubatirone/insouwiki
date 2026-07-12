@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 from insouwiki.domain.document import Document
 from insouwiki.registry.result import RegistrationResult
+from insouwiki.domain.enums import ProcessingStatus
 
 
 class DocumentRepository(ABC):
@@ -40,4 +41,16 @@ class DocumentRepository(ABC):
         original_url: str,
     ) -> Document | None:
         """Retourne un document à partir de son URL d'origine."""
+        ...
+
+    @abstractmethod
+    def update_status(
+        self,
+        origin_key: str,
+        status: ProcessingStatus,
+    ) -> None:
+        """
+        Met à jour le statut documentaire d'un document
+        identifié par sa clé d'origine.
+        """
         ...

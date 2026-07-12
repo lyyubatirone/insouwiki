@@ -1,5 +1,5 @@
 git add .
-git commit -m "feat: implement segmented documentary indexing"
+git commit -m "feat: add documentary source synchronization command"
 git push
 
 

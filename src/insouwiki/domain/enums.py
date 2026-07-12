@@ -29,3 +29,4 @@ class ProcessingStatus(str, Enum):
     ANALYZED = "analyzed"
     PUBLISHED = "published"
     FAILED = "failed"
+    UNAVAILABLE = "unavailable"

@@ -6,6 +6,7 @@ from insouwiki.domain.document import Document
 from insouwiki.domain.enums import (
     DiscoveryTargetKind,
     DocumentKind,
+    ProcessingStatus,
 )
 from insouwiki.domain.source import Source
 from insouwiki.domain.source_endpoint import SourceEndpoint
@@ -72,6 +73,19 @@ class FakeDocumentRepository:
 
     def count(self) -> int:
         return len(self._documents_by_origin_key)
+
+    def find_all(self) -> list[Document]:
+        return list(
+            self._documents_by_origin_key.values()
+        )
+
+    def update_status(
+        self,
+        origin_key: str,
+        status: ProcessingStatus,
+    ) -> None:
+        document = self._documents_by_origin_key[origin_key]
+        document.status = status
 
 
 class FakeSourceRepository:
@@ -147,6 +161,42 @@ def build_report(
     )
 
 
+def build_service(
+    monkeypatch,
+    reports: list[DiscoveryReport],
+) -> tuple[
+    DiscoveryService,
+    FakeDocumentRepository,
+    FakeSourceRepository,
+    FakeSourceEndpointRepository,
+]:
+    collector = FakeYouTubeCollector(
+        reports=reports,
+    )
+
+    monkeypatch.setattr(
+        "insouwiki.services.discovery_service.YouTubeCollector",
+        lambda: collector,
+    )
+
+    document_repository = FakeDocumentRepository()
+    source_repository = FakeSourceRepository()
+    endpoint_repository = FakeSourceEndpointRepository()
+
+    service = DiscoveryService(
+        repository=document_repository,
+        source_repository=source_repository,
+        endpoint_repository=endpoint_repository,
+    )
+
+    return (
+        service,
+        document_repository,
+        source_repository,
+        endpoint_repository,
+    )
+
+
 def test_second_discovery_registers_only_new_documents(
     monkeypatch,
 ):
@@ -181,26 +231,17 @@ def test_second_discovery_registers_only_new_documents(
         ],
     )
 
-    collector = FakeYouTubeCollector(
+    (
+        service,
+        document_repository,
+        source_repository,
+        endpoint_repository,
+    ) = build_service(
+        monkeypatch=monkeypatch,
         reports=[
             first_report,
             second_report,
-        ]
-    )
-
-    monkeypatch.setattr(
-        "insouwiki.services.discovery_service.YouTubeCollector",
-        lambda: collector,
-    )
-
-    document_repository = FakeDocumentRepository()
-    source_repository = FakeSourceRepository()
-    endpoint_repository = FakeSourceEndpointRepository()
-
-    service = DiscoveryService(
-        repository=document_repository,
-        source_repository=source_repository,
-        endpoint_repository=endpoint_repository,
+        ],
     )
 
     first_result = service.discover(request)
@@ -217,3 +258,77 @@ def test_second_discovery_registers_only_new_documents(
 
     assert len(source_repository._sources_by_name) == 1
     assert len(endpoint_repository._endpoints_by_url) == 1
+    assert document_repository.count() == 2
+
+
+def test_second_discovery_marks_missing_document_unavailable(
+    monkeypatch,
+):
+    url = "https://www.youtube.com/@JLMelenchon"
+
+    request = DiscoveryRequest(
+        source_kind=DiscoveryTargetKind.YOUTUBE_CHANNEL,
+        url=url,
+    )
+
+    first_report = build_report(
+        request=request,
+        documents=[
+            build_document(
+                video_id="video-1",
+                title="Première vidéo",
+            ),
+            build_document(
+                video_id="video-2",
+                title="Deuxième vidéo",
+            ),
+        ],
+    )
+
+    second_report = build_report(
+        request=request,
+        documents=[
+            build_document(
+                video_id="video-1",
+                title="Première vidéo",
+            ),
+        ],
+    )
+
+    (
+        service,
+        document_repository,
+        _,
+        _,
+    ) = build_service(
+        monkeypatch=monkeypatch,
+        reports=[
+            first_report,
+            second_report,
+        ],
+    )
+
+    service.discover(request)
+    service.discover(request)
+
+    available_document = (
+        document_repository._documents_by_origin_key[
+            "youtube:video-1"
+        ]
+    )
+    unavailable_document = (
+        document_repository._documents_by_origin_key[
+            "youtube:video-2"
+        ]
+    )
+
+    assert (
+        available_document.status
+        == ProcessingStatus.DISCOVERED
+    )
+    assert (
+        unavailable_document.status
+        == ProcessingStatus.UNAVAILABLE
+    )
+
+    assert document_repository.count() == 2

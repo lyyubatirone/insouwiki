@@ -121,6 +121,10 @@ def sync(url: str):
     print("[green]✓ Synchronisation terminée[/green]")
     print(f"Documents observés : {result.documents_discovered}")
     print(f"Nouveaux documents : {result.documents_created}")
+
+    for document in result.new_documents[:10]:
+        print(f"- {escape(document.title)}")
+
     print(f"Documents déjà connus : {result.documents_existing}")
     print(
         "Documents enregistrés : "

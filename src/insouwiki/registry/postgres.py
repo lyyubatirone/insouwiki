@@ -244,6 +244,27 @@ class PostgresDocumentRepository(DocumentRepository):
             conn.commit()
 
         return results
+    
+    def update_status(
+        self,
+        origin_key: str,
+        status: ProcessingStatus,
+    ) -> None:
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    UPDATE documents
+                    SET status = %s
+                    WHERE origin_key = %s
+                    """,
+                    (
+                        status.value,
+                        origin_key,
+                    ),
+                )
+
+            conn.commit()
 
     def _build_document(
         self,
