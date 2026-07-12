@@ -56,3 +56,9 @@ def test_inventory_knows_document_count():
     )
 
     assert inventory.document_count == 2
+
+def test_inventory_can_be_empty():
+    inventory = DocumentaryInventory()
+
+    assert inventory.documents == ()
+    assert inventory.document_count == 0
