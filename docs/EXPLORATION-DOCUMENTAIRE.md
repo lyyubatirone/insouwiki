@@ -148,3 +148,32 @@ Il organise le patrimoine documentaire afin que chacun puisse l'explorer selon s
 L'objectif d'InsouWiki n'est pas de penser à la place du lecteur.
 
 Il est de rendre possible une exploration documentaire plus riche, plus transparente et plus libre.
+
+
+# Le corpus documentaire
+
+Quelques phrases, pas plus.
+
+Par exemple :
+
+Le corpus documentaire représente l'ensemble des documents disponibles pour une exploration.
+
+Une exploration documentaire est toujours réalisée à l'intérieur d'un corpus documentaire.
+
+Un inventaire documentaire est une vue d'un corpus documentaire obtenue à partir d'une exploration documentaire.
+
+# affinement progressif
+
+Une exploration documentaire est progressive.
+
+Après avoir consulté un premier inventaire documentaire, le lecteur peut décider de préciser son exploration.
+
+Chaque décision documentaire enrichit l'exploration.
+
+InsouWiki établit alors immédiatement un nouvel inventaire documentaire correspondant à cette exploration enrichie.
+
+Le lecteur peut poursuivre cette démarche autant de fois que nécessaire.
+
+Chaque inventaire représente un état de son exploration documentaire.
+
+Le patrimoine documentaire représente l'ensemble des documents connus d'InsouWiki. Une exploration documentaire interroge ce patrimoine afin d'établir un inventaire documentaire.

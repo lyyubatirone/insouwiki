@@ -1,12 +1,23 @@
-from insouwiki.domain.documentary_exploration import DocumentaryExploration
+from insouwiki.domain.documentary_exploration import (
+    DocumentaryExploration,
+)
 from insouwiki.domain.documentary_fact import DocumentaryFact
-from insouwiki.domain.exploration_intent import ExplorationIntent
+from insouwiki.domain.documentary_question import (
+    DocumentaryQuestion,
+)
+from insouwiki.domain.exploration_intent import (
+    ExplorationIntent,
+)
 from insouwiki.services.continuity_finder import ContinuityFinder
 from insouwiki.services.convergence_finder import ConvergenceFinder
 from insouwiki.services.divergence_finder import DivergenceFinder
 from insouwiki.services.evolution_finder import EvolutionFinder
-from insouwiki.services.exploration_builder import ExplorationBuilder
-from insouwiki.services.exploration_service import ExplorationService
+from insouwiki.services.exploration_builder import (
+    ExplorationBuilder,
+)
+from insouwiki.services.exploration_service import (
+    ExplorationService,
+)
 
 
 class SimpleExplorationService(ExplorationService):
@@ -34,10 +45,10 @@ class SimpleExplorationService(ExplorationService):
     def explore(
         self,
         intent: ExplorationIntent,
-        entry_point: str,
+        question: DocumentaryQuestion,
         facts: list[DocumentaryFact],
     ) -> DocumentaryExploration:
-        observations = []
+        observations: list[str] = []
 
         observations.extend(
             self._continuity_finder.find(facts)
@@ -60,6 +71,6 @@ class SimpleExplorationService(ExplorationService):
 
         return self._builder.build(
             intent=intent,
-            entry_point=entry_point,
+            question=question,
             observations=observations,
         )

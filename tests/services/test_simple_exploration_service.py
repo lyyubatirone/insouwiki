@@ -18,6 +18,9 @@ from insouwiki.services.simple_exploration_builder import (
 from insouwiki.services.simple_exploration_service import (
     SimpleExplorationService,
 )
+from insouwiki.domain.documentary_question import (
+    DocumentaryQuestion,
+)
 
 
 def test_explore_delegates_to_exploration_builder():
@@ -29,9 +32,13 @@ def test_explore_delegates_to_exploration_builder():
         SimpleDivergenceFinder(),
     )
 
+    question = DocumentaryQuestion(
+    text="Retraites",
+    )
+
     exploration = service.explore(
         ExplorationIntent.UNDERSTAND,
-        "Retraites",
+        question,
         facts=[],
     )
 
@@ -70,9 +77,13 @@ def test_explore_includes_continuity_observations():
         SimpleDivergenceFinder(),
     )
 
+    question = DocumentaryQuestion(
+        text="Retraites",
+    )
+
     exploration = service.explore(
         ExplorationIntent.UNDERSTAND,
-        "Retraites",
+        question,
         facts=facts,
     )
 
@@ -105,9 +116,13 @@ def test_explore_includes_evolution_observations():
         SimpleDivergenceFinder(),
     )
 
+    question = DocumentaryQuestion(
+        text="Retraites",
+    )
+
     exploration = service.explore(
         ExplorationIntent.UNDERSTAND,
-        "Retraites",
+        question,
         facts=facts,
     )
 
@@ -140,9 +155,13 @@ def test_explore_includes_convergence_observations():
         SimpleDivergenceFinder(),
     )
 
+    question = DocumentaryQuestion(
+        text="Retraites",
+    )
+
     exploration = service.explore(
         ExplorationIntent.UNDERSTAND,
-        "Retraites",
+        question,
         facts=facts,
     )
 
@@ -175,9 +194,13 @@ def test_explore_includes_divergence_observations():
         SimpleDivergenceFinder(),
     )
 
+    question = DocumentaryQuestion(
+        text="Retraites",
+    )
+
     exploration = service.explore(
         ExplorationIntent.UNDERSTAND,
-        "Retraites",
+        question,
         facts=facts,
     )
 
