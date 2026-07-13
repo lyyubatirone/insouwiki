@@ -38,6 +38,20 @@ class InMemoryDocumentaryRepository(
                     if document.author == criterion.value
                 )
 
+            if criterion.field == "published_at":
+                date_range = criterion.value
+
+                documents = tuple(
+                    document
+                    for document in documents
+                    if (
+                        document.published_at is not None
+                        and date_range.start
+                        <= document.published_at.date()
+                        <= date_range.end
+                    )
+                )
+
         return DocumentaryInventory(
             documents=documents,
         )

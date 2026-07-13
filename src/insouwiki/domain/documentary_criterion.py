@@ -1,4 +1,15 @@
 from dataclasses import dataclass
+from typing import TypeAlias
+
+from insouwiki.domain.documentary_date_range import (
+    DocumentaryDateRange,
+)
+
+
+DocumentaryCriterionValue = (
+    str
+    | DocumentaryDateRange
+)
 
 
 @dataclass(frozen=True)
@@ -9,4 +20,4 @@ class DocumentaryCriterion:
     """
 
     field: str
-    value: str
+    value: DocumentaryCriterionValue
