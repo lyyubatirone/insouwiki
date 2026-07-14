@@ -32,3 +32,15 @@ class DocumentaryExploration:
             ),
         )
 
+    def remove(
+        self,
+        criterion: DocumentaryCriterion,
+    ) -> "DocumentaryExploration":
+        return replace(
+            self,
+            criteria=tuple(
+                existing_criterion
+                for existing_criterion in self.criteria
+                if existing_criterion != criterion
+            ),
+        )
