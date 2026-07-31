@@ -24,3 +24,19 @@ Une question documentaire peut désormais donner naissance à une exploration pr
 
 100 tests verts.
 
+
+
+Sprint 51 — Retrait d’un critère documentaire
+
+Une exploration documentaire peut désormais être affinée par l’ajout de critères, puis élargie à nouveau par le retrait d’un critère précis. Les explorations restent immuables : chaque opération produit un nouvel état sans modifier le précédent.
+
+101 tests verts.
+
+
+
+Naissance de l'état d'enquête documentaire (InvestigationState). Une enquête devient un objet persistant, partageable et indépendant de son résultat courant.
+
+
+
+Les premiers documents découverts avant l'introduction de published\_at nécessiteront un enrichissement documentaire ultérieur.
+

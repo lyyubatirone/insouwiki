@@ -21,11 +21,25 @@ from insouwiki.services.simple_exploration_service import (
 from insouwiki.domain.documentary_question import (
     DocumentaryQuestion,
 )
+from insouwiki.domain.documentary_subject import (
+    DocumentarySubject,
+)
+from insouwiki.services.simple_documentary_question_interpreter import (
+    SimpleDocumentaryQuestionInterpreter,
+)
 
 
 def test_explore_delegates_to_exploration_builder():
     service = SimpleExplorationService(
         SimpleExplorationBuilder(),
+        SimpleDocumentaryQuestionInterpreter(
+            subjects=[
+                DocumentarySubject(
+                    permanent_id="SUB-00000001",
+                    label="Retraites",
+                ),
+            ],
+        ),
         SimpleContinuityFinder(),
         SimpleEvolutionFinder(),
         SimpleConvergenceFinder(),
@@ -71,11 +85,20 @@ def test_explore_includes_continuity_observations():
 
     service = SimpleExplorationService(
         SimpleExplorationBuilder(),
+        SimpleDocumentaryQuestionInterpreter(
+            subjects=[
+                DocumentarySubject(
+                    permanent_id="SUB-00000001",
+                    label="Retraites",
+                ),
+            ],
+        ),
         SimpleContinuityFinder(),
         SimpleEvolutionFinder(),
         SimpleConvergenceFinder(),
         SimpleDivergenceFinder(),
     )
+
 
     question = DocumentaryQuestion(
         text="Retraites",
@@ -110,11 +133,20 @@ def test_explore_includes_evolution_observations():
 
     service = SimpleExplorationService(
         SimpleExplorationBuilder(),
+        SimpleDocumentaryQuestionInterpreter(
+            subjects=[
+                DocumentarySubject(
+                    permanent_id="SUB-00000001",
+                    label="Retraites",
+                ),
+            ],
+        ),
         SimpleContinuityFinder(),
         SimpleEvolutionFinder(),
         SimpleConvergenceFinder(),
         SimpleDivergenceFinder(),
     )
+
 
     question = DocumentaryQuestion(
         text="Retraites",
@@ -149,11 +181,20 @@ def test_explore_includes_convergence_observations():
 
     service = SimpleExplorationService(
         SimpleExplorationBuilder(),
+        SimpleDocumentaryQuestionInterpreter(
+            subjects=[
+                DocumentarySubject(
+                    permanent_id="SUB-00000001",
+                    label="Retraites",
+                ),
+            ],
+        ),
         SimpleContinuityFinder(),
         SimpleEvolutionFinder(),
         SimpleConvergenceFinder(),
         SimpleDivergenceFinder(),
     )
+
 
     question = DocumentaryQuestion(
         text="Retraites",
@@ -188,11 +229,20 @@ def test_explore_includes_divergence_observations():
 
     service = SimpleExplorationService(
         SimpleExplorationBuilder(),
+        SimpleDocumentaryQuestionInterpreter(
+            subjects=[
+                DocumentarySubject(
+                    permanent_id="SUB-00000001",
+                    label="Retraites",
+                ),
+            ],
+        ),
         SimpleContinuityFinder(),
         SimpleEvolutionFinder(),
         SimpleConvergenceFinder(),
         SimpleDivergenceFinder(),
     )
+
 
     question = DocumentaryQuestion(
         text="Retraites",

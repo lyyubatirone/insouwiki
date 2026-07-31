@@ -1,6 +1,5 @@
 from datetime import datetime
 from datetime import date
-from datetime import date, datetime
 
 from insouwiki.domain.document import Document
 from insouwiki.domain.documentary_criterion import (
@@ -17,12 +16,14 @@ from insouwiki.domain.exploration_intent import (
     ExplorationIntent,
 )
 from insouwiki.registry import repository
-from insouwiki.registry import repository
 from insouwiki.services.in_memory_documentary_repository import (
     InMemoryDocumentaryRepository,
 )
 from insouwiki.domain.documentary_date_range import (
     DocumentaryDateRange,
+)
+from insouwiki.domain.documentary_request import (
+    DocumentaryRequest,
 )
 
 def build_document(
@@ -74,8 +75,8 @@ def test_repository_returns_all_documents():
         observations=[],
     )
 
-    inventory = repository.explore(
-        exploration,
+    inventory = exploration.explore(
+        repository,
     )
 
     assert inventory.documents == (
@@ -221,15 +222,11 @@ def test_reader_can_refine_a_documentary_exploration():
         ),
     )
 
-    exploration = DocumentaryExploration(
-        intent=ExplorationIntent.UNDERSTAND,
-        question=DocumentaryQuestion(
-            text="Retraites",
-        ),
-        criteria=(),
-        subjects=[],
-        observations=[],
+    request = DocumentaryRequest(
+        text="Retraites",
     )
+
+    exploration = request.start()
 
     exploration = exploration.refine(
         DocumentaryCriterion(

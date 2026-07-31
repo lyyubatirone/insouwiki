@@ -70,3 +70,112 @@ Cette distinction n'introduit pas un nouveau concept documentaire.
 Elle précise le rôle des relations déjà présentes dans le domaine.
 
 Elle permettra au patrimoine documentaire de s'enrichir progressivement sans remettre en cause les objets fondamentaux construits lors des précédents sprints.
+
+# Les relations documentaires
+
+## Pourquoi ce document ?
+
+Le patrimoine documentaire d'InsouWiki n'est pas constitué uniquement de documents.
+
+Il est constitué d'entités documentaires reliées entre elles par des relations documentaires.
+
+Ces relations donnent leur sens aux documents et permettent de répondre aux enquêtes documentaires du lecteur.
+
+---
+
+# Les entités documentaires
+
+Une entité documentaire représente un élément identifiable du patrimoine documentaire.
+
+Par exemple :
+
+- une personnalité
+- un document
+- une pièce documentaire
+- une connaissance documentaire
+- une organisation
+- une institution
+- une chaîne documentaire
+- un corpus documentaire
+
+Ces entités possèdent une identité permanente.
+
+---
+
+# Les relations documentaires
+
+Les entités documentaires sont reliées par des relations.
+
+Par exemple :
+
+Une personnalité peut :
+
+- être propriétaire d'un corpus documentaire ;
+- être l'auteur d'un document ;
+- intervenir dans un document ;
+- être locuteur d'une pièce documentaire ;
+- être citée dans une pièce documentaire.
+
+Une organisation peut :
+
+- publier un document ;
+- organiser un événement ;
+- être mentionnée dans une pièce documentaire.
+
+Ces relations constituent le véritable graphe documentaire d'InsouWiki.
+
+---
+
+# Les enquêtes documentaires
+
+Le lecteur ne choisit jamais un type de relation.
+
+Il formule une question documentaire.
+
+Il précise éventuellement son enquête grâce à des critères documentaires.
+
+Le moteur documentaire recherche ensuite toutes les relations pertinentes permettant de répondre à cette enquête.
+
+---
+
+# L'interface
+
+L'interface présente une vision unifiée du patrimoine documentaire.
+
+Le lecteur voit :
+
+- une personnalité ;
+- une enquête ;
+- des pièces documentaires.
+
+Le domaine, lui, distingue les différentes relations qui justifient la présence de chaque pièce documentaire.
+
+Ainsi :
+
+Une même personnalité peut être reliée à une pièce documentaire par plusieurs relations simultanément.
+
+Cette complexité appartient au domaine.
+
+Elle ne doit jamais compliquer l'expérience du lecteur.
+
+---
+
+# Traçabilité
+
+Chaque pièce documentaire doit pouvoir expliquer pourquoi elle apparaît dans une enquête documentaire.
+
+Cette justification fait partie intégrante du patrimoine documentaire.
+
+Elle doit rester consultable à tout moment.
+
+---
+
+# Principe fondamental
+
+Le domaine distingue.
+
+L'interface unifie.
+
+Le lecteur mène une enquête documentaire.
+
+InsouWiki utilise les relations documentaires pour lui présenter toutes les pièces pertinentes, sans jamais perdre la traçabilité de leur origine.

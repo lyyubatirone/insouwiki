@@ -19,7 +19,7 @@
 
     <hr>
 
-    <form>
+    <form action="/enquetes" method="get">
 
         <label for="search">
             Rechercher une personnalité
@@ -29,26 +29,28 @@
 
         <input
             id="search"
+            name="q"
             type="text"
-            placeholder="Jean-Luc Mélenchon">
+            placeholder="Jean-Luc Mélenchon"
+        >
 
         <button type="submit">
-            Rechercher
+            Enquêter
         </button>
 
-   <form action="/search" method="get">
+    </form>
 
     <hr>
 
-<h3>Première fiche disponible</h3>
+    <h3>Première fiche disponible</h3>
 
-<p>
-    <a href="/personnalites/jean-luc-melenchon">
-        Jean-Luc Mélenchon
-    </a>
-</p>
+    <p>
+        <a href="/personnalites/jean-luc-melenchon">
+            Jean-Luc Mélenchon
+        </a>
+    </p>
 
-<hr>
+    <hr>
 
     <h3>Version Alpha</h3>
 

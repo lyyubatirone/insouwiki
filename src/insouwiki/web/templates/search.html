@@ -11,8 +11,37 @@
 <h1>Recherche</h1>
 
 <p>
-Cette fonctionnalité est en cours de construction.
+    Vous avez recherché :
+    <strong>{{ query }}</strong>
 </p>
+
+<h2>Résultats</h2>
+
+{% if results %}
+
+<ul>
+
+{% for result in results %}
+
+    <li>
+        <a href="{{ result.url }}">
+            {{ result.label }}
+        </a>
+
+        ({{ result.kind }})
+    </li>
+
+{% endfor %}
+
+</ul>
+
+{% else %}
+
+<p>
+    Aucun résultat.
+</p>
+
+{% endif %}
 
 <p>
 Bientôt, vous pourrez rechercher :

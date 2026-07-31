@@ -18,7 +18,9 @@ from insouwiki.services.exploration_builder import (
 from insouwiki.services.exploration_service import (
     ExplorationService,
 )
-
+from insouwiki.services.documentary_question_interpreter import (
+    DocumentaryQuestionInterpreter,
+)
 
 class SimpleExplorationService(ExplorationService):
     """
@@ -31,12 +33,14 @@ class SimpleExplorationService(ExplorationService):
     def __init__(
         self,
         builder: ExplorationBuilder,
+        question_interpreter: DocumentaryQuestionInterpreter,
         continuity_finder: ContinuityFinder,
         evolution_finder: EvolutionFinder,
         convergence_finder: ConvergenceFinder,
         divergence_finder: DivergenceFinder,
     ) -> None:
         self._builder = builder
+        self._question_interpreter = question_interpreter
         self._continuity_finder = continuity_finder
         self._evolution_finder = evolution_finder
         self._convergence_finder = convergence_finder
@@ -69,8 +73,16 @@ class SimpleExplorationService(ExplorationService):
             self._divergence_finder.find(facts)
         )
 
+        subjects, criteria = (
+            self._question_interpreter.interpret(
+                question,
+            )
+        )
+
         return self._builder.build(
             intent=intent,
             question=question,
+            subjects=subjects,
+            criteria=criteria,
             observations=observations,
         )

@@ -90,3 +90,5 @@ Le moteur d'exploration répond à la question :
 La vérification documentaire constitue la finalité première d'InsouWiki.
 
 L'exploration documentaire enrichit cette vérification sans jamais s'y substituer.
+
+Une enquête documentaire est un état d'exploration persistant. Les pièces documentaires sont le résultat calculé de cet état et ne font pas partie de l'enquête elle-même.

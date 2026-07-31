@@ -141,6 +141,10 @@ Ainsi, les relations jouent un rôle d'organisation sans jamais rompre le lien e
 
 ---
 
+Une personnalité documentaire n'est pas une donnée que l'on saisit. C'est une entité que l'on découvre à partir du patrimoine documentaire.
+
+---
+
 # Conclusion
 
 Les relations documentaires constituent le langage qui relie les faits entre eux.
@@ -148,3 +152,6 @@ Les relations documentaires constituent le langage qui relie les faits entre eux
 Elles rendent explicite la structure du patrimoine documentaire.
 
 Grâce à elles, InsouWiki construit des connaissances qui demeurent compréhensibles, explicables et toujours vérifiables.
+
+
+

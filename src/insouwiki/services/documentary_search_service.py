@@ -1,5 +1,3 @@
-from dataclasses import dataclass
-from datetime import datetime, timedelta
 
 from insouwiki.domain.document import Document
 from insouwiki.registry.repository import DocumentRepository
@@ -7,19 +5,9 @@ from insouwiki.registry.sequence_repository import (
     DocumentarySequenceRepository,
 )
 from insouwiki.services.timestamp_link_builder import TimestampLinkBuilder
-
-
-@dataclass
-class DocumentarySearchResult:
-    title: str
-    author: str | None
-    published_at: datetime | None
-    sequence_text: str
-    sequence_start: timedelta
-    sequence_end: timedelta
-    source_url: str
-    query: str
-
+from insouwiki.domain.documentary_search_result import (
+    DocumentarySearchResult,
+)
 
 class DocumentarySearchService:
     """

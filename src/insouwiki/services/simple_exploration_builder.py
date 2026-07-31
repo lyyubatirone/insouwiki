@@ -10,6 +10,12 @@ from insouwiki.domain.exploration_intent import (
 from insouwiki.services.exploration_builder import (
     ExplorationBuilder,
 )
+from insouwiki.domain.documentary_criterion import (
+    DocumentaryCriterion,
+)
+from insouwiki.domain.documentary_subject import (
+    DocumentarySubject,
+)
 
 
 class SimpleExplorationBuilder(ExplorationBuilder):
@@ -25,14 +31,17 @@ class SimpleExplorationBuilder(ExplorationBuilder):
         self,
         intent: ExplorationIntent,
         question: DocumentaryQuestion,
+        subjects: list[DocumentarySubject],
+        criteria: tuple[DocumentaryCriterion, ...],
         observations: list[str],
     ) -> DocumentaryExploration:
         return DocumentaryExploration(
             intent=intent,
             question=question,
-            criteria=(),
+            criteria=criteria,
             subjects=[
-                question.text,
+                subject.label
+                for subject in subjects
             ],
             observations=observations,
         )

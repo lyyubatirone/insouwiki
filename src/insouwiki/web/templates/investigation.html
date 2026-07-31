@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Enquête documentaire - InsouWiki</title>
+</head>
+
+<body>
+
+<h1>Enquête documentaire</h1>
+
+<p>
+<strong>Question :</strong>
+{{ investigation.question }}
+</p>
+
+<hr>
+<h2>Critères documentaires</h2>
+
+<p>
+    <strong>Personnalités :</strong>
+</p>
+
+{% if investigation.personalities %}
+
+<div class="active-filters">
+
+{% for personality in investigation.personalities %}
+
+    <span class="active-filter">
+        {{ personality }}
+
+        <a
+            class="remove-filter"
+            href="{{ remove_personality_urls[personality] }}"
+            aria-label="Retirer {{ personality }}"
+        >
+            ✕
+        </a>
+    </span>
+
+{% endfor %}
+
+</div>
+
+{% endif %}
+
+<label for="personalities">
+    Personnalités
+</label>
+
+<select
+    id="personalities"
+    name="personality"
+>
+    <option value="">
+        Toutes les personnalités
+    </option>
+
+    {% for personality in personalities %}
+    <option
+        value="{{ personality.display_name }}"
+        {% if personality.display_name in investigation.personalities %}
+        selected
+        {% endif %}
+    >
+        {{ personality.display_name }}
+    </option>
+    {% endfor %}
+</select>
+</p>
+
+<hr>
+
+<p>
+{% if pieces %}
+
+<p>
+    <strong>
+        {{ pieces | length }}
+        pièce{% if pieces | length > 1 %}s{% endif %}
+        documentaire{% if pieces | length > 1 %}s{% endif %}
+    </strong>
+</p>
+
+
+{% for piece in pieces %}
+
+<article class="documentary-piece">
+
+    <div class="documentary-piece-content">
+
+        <p>
+            <a
+    href="{{ piece.youtube_url }}"
+    target="_blank"
+    rel="noopener noreferrer"
+>
+                <strong>
+                    {{ piece.sequence_start }}
+                    →
+                    {{ piece.sequence_end }}
+                </strong>
+            </a>
+        </p>
+
+        <blockquote>
+            {{ piece.sequence_text }}
+        </blockquote>
+
+    </div>
+
+    <div class="documentary-piece-video">
+
+        <p>
+            <iframe
+    height="150"
+    src="{{ piece.embed_url }}"
+    title="Vérification de la pièce documentaire"
+    frameborder="0"
+    allow="
+        accelerometer;
+        autoplay;
+        clipboard-write;
+        encrypted-media;
+        gyroscope;
+        picture-in-picture;
+        web-share
+    "
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen>
+</iframe>
+        </p>
+
+    </div>
+
+</article>
+
+<hr>
+
+{% endfor %}
+{% else %}
+
+<p>Aucune pièce documentaire disponible.</p>
+
+{% endif %}
+</p>
+
+<hr>
+
+<p>
+<a href="/">← Retour à l'accueil</a>
+</p>
+
+</body>
+
+</html>

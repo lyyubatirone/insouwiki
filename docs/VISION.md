@@ -1,6 +1,7 @@
 InsouWiki n'a pas vocation à documenter une campagne électorale. Il a vocation à constituer, année après année, une mémoire documentaire durable de la vie politique à partir de sources primaires, afin que chaque fait puisse être retrouvé, vérifié et replacé dans son contexte.
 
-
+Notre promesse documentaire
+Vous ne vous souvenez pas exactement ? Les sources, elles, s'en souviennent.
 
 \#Principe d'exploration documentaire
 
@@ -27,4 +28,8 @@ Le jugement appartient toujours au lecteur.
 
 
 InsouWiki est une plateforme d'exploration documentaire permettant à toute personne de retrouver, vérifier et exploiter un patrimoine documentaire constitué de sources primaires, sans jamais se substituer à son jugement.
+
+
+
+InsouWiki construit, préserve et met à disposition un patrimoine documentaire fondé sur des sources primaires vérifiables. Il permet à chacun de retrouver, explorer et comprendre les déclarations publiques en revenant toujours au document d'origine.
 

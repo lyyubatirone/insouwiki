@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Personnalités documentées - InsouWiki</title>
+</head>
+
+<body>
+
+<h1>Personnalités documentées</h1>
+
+{% if personalities %}
+
+<ul>
+{% for personality in personalities %}
+    <li>
+    <a href="/personnalites/{{ personality.slug }}">
+        {{ personality.display_name }}
+    </a>
+
+    <br>
+
+    <span class="document-count">
+        {{ personality.document_count }}
+        document{% if personality.document_count > 1 %}s{% endif %}
+    </span>
+</li>
+{% endfor %}
+</ul>
+
+{% else %}
+
+<p>Aucune personnalité documentée.</p>
+
+{% endif %}
+
+<p>
+    <a href="/">← Retour à l'accueil</a>
+</p>
+
+</body>
+
+</html>

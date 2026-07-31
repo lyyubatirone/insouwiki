@@ -1,15 +1,26 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
+from typing import Protocol, TypeVar
 
+from insouwiki.domain.documentary_criterion import (
+    DocumentaryCriterion,
+)
 from insouwiki.domain.documentary_question import (
     DocumentaryQuestion,
 )
 from insouwiki.domain.exploration_intent import (
     ExplorationIntent,
 )
-from insouwiki.domain.documentary_criterion import (
-    DocumentaryCriterion,
-)
-from dataclasses import dataclass, replace
+
+
+InventoryT = TypeVar("InventoryT")
+
+
+class DocumentaryRepositoryProtocol(Protocol):
+    def explore(
+        self,
+        exploration: "DocumentaryExploration",
+    ) -> InventoryT:
+        ...
 
 
 @dataclass(frozen=True)
@@ -44,3 +55,9 @@ class DocumentaryExploration:
                 if existing_criterion != criterion
             ),
         )
+
+    def explore(
+        self,
+        repository: DocumentaryRepositoryProtocol,
+    ) -> InventoryT:
+        return repository.explore(self)

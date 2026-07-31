@@ -148,3 +148,7 @@ L'exploration documentaire devient un ensemble d'outils permettant au lecteur de
 
 Toute évolution future devra préserver cette liberté d'exploration tout en maintenant une traçabilité complète jusqu'aux sources originales.
 
+ENQUÊTE DOCUMENTAIRE
+
+Retrouver une déclaration dont on ne se souvient
+qu'approximativement.

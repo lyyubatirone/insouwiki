@@ -15,3 +15,9 @@ app.include_router(home_router)
 app.include_router(search_router)
 app.include_router(personality_router)
 app.include_router(document_router)
+
+from insouwiki.web.routes.investigation import (
+    router as investigation_router,
+)
+
+app.include_router(investigation_router)

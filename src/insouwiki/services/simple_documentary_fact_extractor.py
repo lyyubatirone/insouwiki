@@ -1,11 +1,17 @@
-from insouwiki.domain.documentary_fact import DocumentaryFact
-from insouwiki.domain.documentary_sequence import DocumentarySequence
+from insouwiki.domain.documentary_fact import (
+    DocumentaryFact,
+)
+from insouwiki.domain.documentary_sequence import (
+    DocumentarySequence,
+)
 from insouwiki.services.documentary_fact_extractor import (
     DocumentaryFactExtractor,
 )
 
 
-class SimpleDocumentaryFactExtractor(DocumentaryFactExtractor):
+class SimpleDocumentaryFactExtractor(
+    DocumentaryFactExtractor
+):
     """
     Extrait des faits documentaires
     à partir de séquences documentaires.
@@ -16,17 +22,23 @@ class SimpleDocumentaryFactExtractor(DocumentaryFactExtractor):
 
     def extract(
         self,
+        author: str,
         sequences: list[DocumentarySequence],
     ) -> list[DocumentaryFact]:
         facts: list[DocumentaryFact] = []
 
-        for index, sequence in enumerate(sequences, start=1):
+        for index, sequence in enumerate(
+            sequences,
+            start=1,
+        ):
             facts.append(
                 DocumentaryFact(
                     permanent_id=f"FACT-{index:08d}",
-                    author="Inconnu",
+                    author=author,
                     statement=sequence.text,
-                    supporting_sequences=[sequence.permanent_id],
+                    supporting_sequences=[
+                        sequence.permanent_id,
+                    ],
                 )
             )
 

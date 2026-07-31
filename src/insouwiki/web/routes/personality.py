@@ -1,21 +1,53 @@
 from fastapi import APIRouter, Request
 from fastapi.templating import Jinja2Templates
 
-from insouwiki.web.services.personality_service import PersonalityService
+from insouwiki.consultation.documentary_library import (
+    DocumentaryLibrary,
+)
+from insouwiki.web.services.personality_service import (
+    PersonalityService,
+)
+
 
 router = APIRouter()
 
 templates = Jinja2Templates(
-    directory="src/insouwiki/web/templates"
+    directory="src/insouwiki/web/templates",
 )
 
 personality_service = PersonalityService()
 
 
-@router.get("/personnalites/jean-luc-melenchon")
-def jean_luc_melenchon(request: Request):
+@router.get("/personnalites")
+def personalities(
+    request: Request,
+):
+    library = DocumentaryLibrary()
+
+    personalities = library.list_personalities()
+
+    return templates.TemplateResponse(
+        request=request,
+        name="personalities.html",
+        context={
+            "personalities": personalities,
+        },
+    )
+
+
+@router.get("/personnalites/{slug}")
+def personality(
+    request: Request,
+    slug: str,
+):
+    library = DocumentaryLibrary()
+
     personality = personality_service.get_personality(
-        "jean-luc-melenchon"
+        slug,
+    )
+
+    documents = library.documents_for_personality(
+        slug,
     )
 
     return templates.TemplateResponse(
@@ -23,5 +55,6 @@ def jean_luc_melenchon(request: Request):
         name="personality.html",
         context={
             "personality": personality,
+            "documents": documents,
         },
     )

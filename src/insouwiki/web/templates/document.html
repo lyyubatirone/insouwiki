@@ -4,6 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ document.title }} - InsouWiki</title>
+	<style>
+    .documentary-piece {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 1.5rem;
+        align-items: start;
+    }
+
+    .documentary-piece-video {
+        justify-self: end;
+    }
+</style>
 </head>
 
 <body>
@@ -17,10 +29,150 @@
 </p>
 {% endif %}
 
+{% if document.published_at %}
+<p>
+    <strong>Date de publication :</strong>
+    {{ document.published_at.strftime("%d/%m/%Y") }}
+</p>
+{% endif %}
+
+<hr>
+<h2>Résumé documentaire</h2>
+
+<ul>
+    <li>
+        <strong>Document :</strong> 1
+    </li>
+
+    <li>
+        <strong>Séquences documentaires :</strong>
+        {{ sequences | length }}
+    </li>
+
+    <li>
+        <strong>Faits documentaires :</strong>
+        {{ facts | length }}
+    </li>
+</ul>
+
+<hr>
+
+<h2>Transcription</h2>
+
+{% if transcription %}
+
+    {% if transcription.segments %}
+
+        <div class="transcription-segments">
+
+        {% for segment in transcription.segments %}
+
+            <p class="transcription-segment">
+                {{ segment.text }}
+            </p>
+
+        {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <p>
+            {{ transcription.text }}
+        </p>
+
+    {% endif %}
+
+{% else %}
+
+<p>
+    Aucune transcription disponible.
+</p>
+
+{% endif %}
+
 <p>
     <strong>Identifiant :</strong>
     {{ document.permanent_id }}
 </p>
+
+<hr>
+<h2>Séquences documentaires</h2>
+
+{% if sequences %}
+
+    <div class="documentary-sequences">
+
+    {% for sequence in sequences %}
+
+        <article class="documentary-sequence">
+            <p>
+                <strong>
+                    {{ sequence.start }}
+                    →
+                    {{ sequence.end }}
+                </strong>
+            </p>
+
+            <p>
+                {{ sequence.text }}
+            </p>
+        </article>
+
+    {% endfor %}
+
+    </div>
+
+{% else %}
+
+<p>
+    Aucune séquence documentaire disponible.
+</p>
+
+{% endif %}
+
+<hr>
+<h2>Faits documentaires</h2>
+
+{% if facts %}
+
+    <ul class="documentary-facts">
+
+    {% for fact in facts %}
+
+        <li class="documentary-fact">
+
+    <p>
+        {{ fact.statement }}
+    </p>
+
+ <p>
+    <strong>Source documentaire :</strong>
+
+    <a
+        href="{{ fact.source_url }}"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        {{ fact.source_start }}
+        →
+        {{ fact.source_end }}
+    </a>
+</p>
+
+</li>
+
+    {% endfor %}
+
+    </ul>
+
+{% else %}
+
+<p>
+    Aucun fait documentaire disponible.
+</p>
+
+{% endif %}
 
 <hr>
 
@@ -28,26 +180,55 @@
 
 {% if document.documentary_pieces %}
 
-<ul>
-
 {% for piece in document.documentary_pieces %}
 
-<li>
+<article class="documentary-piece">
 
-<p>
-<strong>{{ piece.sequence_start }} → {{ piece.sequence_end }}</strong>
+    <div class="documentary-piece-content">
+
+        <p>
+    <strong>
+        {{ piece.sequence_start }}
+        →
+        {{ piece.sequence_end }}
+    </strong>
 </p>
 
 <p>
-{{ piece.sequence_text }}
+    <a
+        href="{{ piece.youtube_url }}"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        ▶ Voir ce passage dans la vidéo
+    </a>
 </p>
+            <iframe
+    height="150"
+    src="{{ piece.embed_url }}"
+    title="Vérification de la pièce documentaire"
+    frameborder="0"
+    allow="
+        accelerometer;
+        autoplay;
+        clipboard-write;
+        encrypted-media;
+        gyroscope;
+        picture-in-picture;
+        web-share
+    "
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen>
+</iframe>
+        </p>
 
-</li>
+    </div>
+
+</article>
+
+<hr>
 
 {% endfor %}
-
-</ul>
-
 {% else %}
 
 <p>Aucune pièce documentaire disponible.</p>

@@ -9,6 +9,12 @@ from insouwiki.domain.documentary_question import (
 from insouwiki.domain.exploration_intent import (
     ExplorationIntent,
 )
+from insouwiki.domain.documentary_criterion import (
+    DocumentaryCriterion,
+)
+from insouwiki.domain.documentary_subject import (
+    DocumentarySubject,
+)
 
 
 class ExplorationBuilder(ABC):
@@ -23,6 +29,8 @@ class ExplorationBuilder(ABC):
         self,
         intent: ExplorationIntent,
         question: DocumentaryQuestion,
+        subjects: list[DocumentarySubject],
+        criteria: tuple[DocumentaryCriterion, ...],
         observations: list[str],
     ) -> DocumentaryExploration:
         ...

@@ -126,3 +126,36 @@ def test_remove_documentary_criterion():
     assert exploration.criteria == (
         author_criterion,
     )
+
+class RecordingDocumentaryRepository:
+    def __init__(self) -> None:
+        self.received_exploration = None
+        self.inventory = object()
+
+    def explore(
+        self,
+        exploration: DocumentaryExploration,
+    ) -> object:
+        self.received_exploration = exploration
+        return self.inventory
+
+
+def test_documentary_exploration_can_explore_a_repository():
+    exploration = DocumentaryExploration(
+        intent=ExplorationIntent.UNDERSTAND,
+        question=DocumentaryQuestion(
+            text="Retraites",
+        ),
+        criteria=(),
+        subjects=[],
+        observations=[],
+    )
+
+    repository = RecordingDocumentaryRepository()
+
+    inventory = exploration.explore(
+        repository,
+    )
+
+    assert inventory is repository.inventory
+    assert repository.received_exploration is exploration
