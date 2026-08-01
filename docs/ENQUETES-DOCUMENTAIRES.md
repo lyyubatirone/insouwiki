@@ -148,7 +148,95 @@ L'exploration documentaire devient un ensemble d'outils permettant au lecteur de
 
 Toute évolution future devra préserver cette liberté d'exploration tout en maintenant une traçabilité complète jusqu'aux sources originales.
 
-ENQUÊTE DOCUMENTAIRE
+# ENQUÊTE DOCUMENTAIRE
 
 Retrouver une déclaration dont on ne se souvient
 qu'approximativement.
+
+## Cas n°1 — Correspondance exacte
+
+Le lecteur écrit :
+
+Quand Mélenchon a-t-il dit : "je mettrai la retraite à 60 ans" ?
+
+InsouWiki répond :
+
+Nous avons trouvé plusieurs passages correspondant à votre souvenir.
+
+Puis affiche les pistes.
+
+Le lecteur est satisfait.
+
+L'enquête est terminée.
+
+## Cas n°2 — Correspondance approchée
+
+Le lecteur écrit :
+
+Quand Mélenchon a-t-il dit : "je mettrai la retraite à 60 ans" ?
+
+InsouWiki répond :
+
+Nous n'avons pas retrouvé cette formulation exacte.
+
+En revanche, plusieurs passages expriment une idée très proche.
+
+Puis affiche les pistes.
+
+Le lecteur décide.
+
+## Cas n°3 — Mauvaise personnalité
+
+Le lecteur écrit :
+
+Quand Mélenchon a-t-il dit...
+
+InsouWiki répond :
+
+Nous n'avons trouvé aucune déclaration de Jean-Luc Mélenchon correspondant à votre souvenir.
+
+En revanche, Manuel Bompard a tenu plusieurs propos très proches.
+
+Puis affiche les pistes.
+
+Le lecteur peut retirer le critère "Jean-Luc Mélenchon".
+
+## Cas n°4 — Aucune piste
+
+Le lecteur écrit :
+
+Quand Mélenchon a-t-il dit...
+
+InsouWiki répond :
+
+Nous n'avons trouvé aucune piste correspondant actuellement à votre enquête.
+
+Puis propose :
+
+retirer un critère ;
+élargir la période ;
+reformuler le souvenir ;
+explorer un sujet proche.
+
+L'enquête continue.
+
+ENQUÊTE DOCUMENTAIRE 002
+Comparer plusieurs personnalités sur un même sujet.
+
+ENQUÊTE DOCUMENTAIRE 003
+Retrouver l'évolution d'une position dans le temps.
+
+ENQUÊTE DOCUMENTAIRE 004
+Retrouver la première apparition d'une idée.
+
+ENQUÊTE DOCUMENTAIRE 005
+Vérifier une citation attribuée à une personnalité.
+
+ENQUÊTE DOCUMENTAIRE 006
+Explorer un sujet sans connaître d'auteur.
+
+ENQUÊTE DOCUMENTAIRE 007
+Retrouver une déclaration à partir d'un événement.
+
+ENQUÊTE DOCUMENTAIRE 008
+Suivre un raisonnement complet dans une intervention.

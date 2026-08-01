@@ -37,3 +37,21 @@ def test_documentary_response_knows_if_it_contains_clues():
     )
 
     assert response.is_empty() is False
+
+def test_empty_documentary_response_invites_to_continue_the_investigation():
+    response = DocumentaryResponse(
+        clues=(),
+    )
+
+    assert response.suggests_continuing_investigation() is True
+
+def test_response_with_clues_does_not_suggest_continuing_investigation():
+    clue = DocumentaryClue(
+        excerpt="La retraite doit être à 60 ans.",
+    )
+
+    response = DocumentaryResponse(
+        clues=(clue,),
+    )
+
+    assert response.suggests_continuing_investigation() is False
