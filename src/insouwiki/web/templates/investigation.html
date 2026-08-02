@@ -4,154 +4,360 @@
 <head>
     <meta charset="UTF-8">
     <title>Enquête documentaire - InsouWiki</title>
+
+    <style>
+        body {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 32px 20px;
+            font-family: Arial, sans-serif;
+            line-height: 1.5;
+            color: #1f2933;
+            background: #f5f7f8;
+        }
+
+        .clue-video {
+            margin: 24px 0;
+        }
+
+        .clue-video iframe {
+            display: block;
+            width: 150px;
+            height: 150px;
+            border: 0;
+            border-radius: 8px;
+        }
+
+        h1,
+        h2 {
+            color: #172b3a;
+        }
+
+        .investigation-header {
+            margin-bottom: 32px;
+        }
+
+        .question {
+            padding: 18px 20px;
+            border-left: 5px solid #345a72;
+            background: white;
+            font-size: 1.1rem;
+        }
+
+        .documentary-section {
+            margin-top: 36px;
+        }
+
+        .clues-count {
+            margin-bottom: 20px;
+            color: #52616b;
+        }
+
+        .documentary-clue {
+            margin-bottom: 24px;
+            padding: 24px;
+            border: 1px solid #d7dee3;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 2px 8px rgb(31 41 51 / 8%);
+        }
+
+        .documentary-clue-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e4e8eb;
+        }
+
+        .clue-speaker {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .clue-context {
+            margin: 4px 0 0;
+            color: #62727d;
+        }
+
+        .clue-date {
+            margin: 0;
+            color: #62727d;
+            white-space: nowrap;
+        }
+
+        .clue-excerpt {
+            margin: 24px 0;
+            padding: 4px 0 4px 20px;
+            border-left: 4px solid #345a72;
+            font-size: 1.2rem;
+            font-style: italic;
+        }
+
+        .clue-details {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .clue-sequence {
+            margin: 0;
+            padding: 7px 12px;
+            border-radius: 999px;
+            background: #e8f0f4;
+            color: #29495c;
+            font-size: 0.9rem;
+        }
+
+        .source-link {
+            display: inline-block;
+            padding: 9px 14px;
+            border-radius: 6px;
+            color: white;
+            background: #345a72;
+            text-decoration: none;
+        }
+
+        .source-link:hover {
+            background: #29495c;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 32px;
+        }
+
+        @media (max-width: 600px) {
+            .documentary-clue-header {
+                display: block;
+            }
+
+            .clue-date {
+                margin-top: 8px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<h1>Enquête documentaire</h1>
+<header class="investigation-header">
 
-<p>
-<strong>Question :</strong>
-{{ investigation.question }}
-</p>
+    <h1>Enquête documentaire</h1>
 
-<hr>
-<h2>Critères documentaires</h2>
+    <p class="question">
+        <strong>Question :</strong>
+        {{ investigation.question }}
+    </p>
 
-<p>
-    <strong>Personnalités :</strong>
-</p>
+</header>
 
-{% if investigation.personalities %}
+<section>
 
-<div class="active-filters">
+    <h2>Critères documentaires</h2>
 
-{% for personality in investigation.personalities %}
+    <p>
+        <strong>Personnalités :</strong>
+    </p>
 
-    <span class="active-filter">
-        {{ personality }}
+    {% if investigation.personalities %}
 
-        <a
-            class="remove-filter"
-            href="{{ remove_personality_urls[personality] }}"
-            aria-label="Retirer {{ personality }}"
+    <div class="active-filters">
+
+        {% for personality in investigation.personalities %}
+
+        <span class="active-filter">
+
+            {{ personality }}
+
+            <a
+                class="remove-filter"
+                href="{{ remove_personality_urls[personality] }}"
+                aria-label="Retirer {{ personality }}"
+            >
+                ✕
+            </a>
+
+        </span>
+
+        {% endfor %}
+
+    </div>
+
+    {% endif %}
+
+    <label for="personalities">
+        Personnalités
+    </label>
+
+    <select
+        id="personalities"
+        name="personality"
+    >
+        <option value="">
+            Toutes les personnalités
+        </option>
+
+        {% for personality in personalities %}
+
+        <option
+            value="{{ personality.display_name }}"
+            {% if personality.display_name in investigation.personalities %}
+            selected
+            {% endif %}
         >
-            ✕
-        </a>
-    </span>
+            {{ personality.display_name }}
+        </option>
 
-{% endfor %}
+        {% endfor %}
+
+    </select>
+
+</section>
+
+<section class="documentary-section">
+
+    {% if clues %}
+
+    <p class="clues-count">
+
+        <strong>
+
+            {{ clues | length }}
+
+            piste{% if clues | length > 1 %}s{% endif %}
+
+            documentaire{% if clues | length > 1 %}s{% endif %}
+
+        </strong>
+
+    </p>
+
+    {% for clue in clues %}
+
+    <article class="documentary-clue">
+
+        <header class="documentary-clue-header">
+
+            <div>
+
+                <p class="clue-speaker">
+                    <strong>{{ clue.speaker }}</strong>
+                </p>
+
+                {% if clue.contexte %}
+
+                <p class="clue-context">
+                    {{ clue.contexte }}
+                </p>
+
+                {% endif %}
+
+            </div>
+
+            {% if clue.date %}
+
+            <p class="clue-date">
+                {{ clue.date }}
+            </p>
+
+            {% endif %}
+
+        </header>
+
+        <blockquote class="clue-excerpt">
+            {{ clue.excerpt }}
+        </blockquote>
+
+        {% set embed_url = youtube_embed_urls[loop.index0] %}
+
+{% if embed_url %}
+
+<div class="clue-video">
+
+    <iframe
+        width="150"
+        height="150"
+        src="{{ embed_url }}"
+        title="Vérification de la piste documentaire"
+        frameborder="0"
+        allow="
+            accelerometer;
+            autoplay;
+            clipboard-write;
+            encrypted-media;
+            gyroscope;
+            picture-in-picture;
+            web-share
+        "
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+    >
+    </iframe>
 
 </div>
 
 {% endif %}
 
-<label for="personalities">
-    Personnalités
-</label>
+        <div class="clue-details">
 
-<select
-    id="personalities"
-    name="personality"
->
-    <option value="">
-        Toutes les personnalités
-    </option>
+            <p class="clue-sequence">
 
-    {% for personality in personalities %}
-    <option
-        value="{{ personality.display_name }}"
-        {% if personality.display_name in investigation.personalities %}
-        selected
-        {% endif %}
-    >
-        {{ personality.display_name }}
-    </option>
-    {% endfor %}
-</select>
-</p>
+                <strong>Passage</strong>
 
-<hr>
+                {{ clue.sequence_start }}
 
-<p>
-{% if pieces %}
+                →
 
-<p>
-    <strong>
-        {{ pieces | length }}
-        pièce{% if pieces | length > 1 %}s{% endif %}
-        documentaire{% if pieces | length > 1 %}s{% endif %}
-    </strong>
-</p>
+                {{ clue.sequence_end }}
 
+            </p>
 
-{% for piece in pieces %}
-
-<article class="documentary-piece">
-
-    <div class="documentary-piece-content">
-
-        <p>
             <a
-    href="{{ piece.youtube_url }}"
-    target="_blank"
-    rel="noopener noreferrer"
->
-                <strong>
-                    {{ piece.sequence_start }}
-                    →
-                    {{ piece.sequence_end }}
-                </strong>
+                class="source-link"
+                href="{{ clue.source_url }}"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Consulter la source
             </a>
-        </p>
 
-        <blockquote>
-            {{ piece.sequence_text }}
-        </blockquote>
+        </div>
 
-    </div>
-
-    <div class="documentary-piece-video">
+        {% if clue.other_personalities %}
 
         <p>
-            <iframe
-    height="150"
-    src="{{ piece.embed_url }}"
-    title="Vérification de la pièce documentaire"
-    frameborder="0"
-    allow="
-        accelerometer;
-        autoplay;
-        clipboard-write;
-        encrypted-media;
-        gyroscope;
-        picture-in-picture;
-        web-share
-    "
-    referrerpolicy="strict-origin-when-cross-origin"
-    allowfullscreen>
-</iframe>
+
+            <strong>Autres personnalités citées :</strong>
+
+            {{ clue.other_personalities | join(", ") }}
+
         </p>
 
-    </div>
+        {% endif %}
 
-</article>
+    </article>
 
-<hr>
+    {% endfor %}
 
-{% endfor %}
-{% else %}
+    {% else %}
 
-<p>Aucune pièce documentaire disponible.</p>
+    <p>
+        Aucune piste documentaire disponible.
+    </p>
 
-{% endif %}
-</p>
+    {% endif %}
 
-<hr>
+</section>
 
-<p>
-<a href="/">← Retour à l'accueil</a>
-</p>
+<a
+    class="back-link"
+    href="/"
+>
+    ← Retour à l'accueil
+</a>
 
 </body>
 

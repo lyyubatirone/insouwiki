@@ -1,27 +1,37 @@
 from insouwiki.consultation.documentary_library import (
     DocumentaryLibrary,
 )
-from insouwiki.consultation.documentary_piece_view import (
-    DocumentaryPieceView,
+from insouwiki.domain.documentary_clue import (
+    DocumentaryClue,
 )
 from insouwiki.domain.investigation.investigation_state import (
     InvestigationState,
 )
+from insouwiki.web.services.search_service import (
+    SearchService,
+)
+
 
 class InvestigationService:
     """
     Construit l'état d'une enquête documentaire
-    et recherche ses pièces documentaires.
+    et recherche ses pistes documentaires.
     """
 
     def __init__(
         self,
         documentary_library: DocumentaryLibrary | None = None,
+        search_service: SearchService | None = None,
     ):
         self.documentary_library = (
             documentary_library
             if documentary_library is not None
             else DocumentaryLibrary()
+        )
+        self.search_service = (
+            search_service
+            if search_service is not None
+            else SearchService()
         )
 
     def start(
@@ -31,7 +41,7 @@ class InvestigationService:
         personalities: list[str] | None = None,
     ) -> tuple[
         InvestigationState,
-        list[DocumentaryPieceView],
+        list[DocumentaryClue],
     ]:
         state = InvestigationState(
             question=question,
@@ -47,13 +57,17 @@ class InvestigationService:
                 current_personality,
             )
 
-        pieces = (
-            self.documentary_library.search_documentary_pieces(
-                question,
-            )
+        results = self.search_service.search(
+            question,
         )
 
-        return state, pieces
-    
+        clues = [
+            result
+            for result in results
+            if isinstance(result, DocumentaryClue)
+        ]
+
+        return state, clues
+
     def list_personalities(self):
-                return self.documentary_library.list_personalities()
+        return self.documentary_library.list_personalities()

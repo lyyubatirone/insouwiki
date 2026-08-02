@@ -35,10 +35,60 @@
 
 </ul>
 
+{% if results %}
+
+{% for result in results %}
+
+    {% if result.excerpt is defined %}
+
+        <article>
+            <p>
+                <strong>{{ result.speaker or "Intervenant inconnu" }}</strong>
+            </p>
+
+            {% if result.contexte %}
+            <p>
+                {{ result.contexte }}
+            </p>
+            {% endif %}
+
+            {% if result.date %}
+            <p>
+                {{ result.date.strftime("%d/%m/%Y") }}
+            </p>
+            {% endif %}
+
+            <blockquote>
+                {{ result.excerpt }}
+            </blockquote>
+
+            {% if result.source_url %}
+            <p>
+                <a href="{{ result.source_url }}">
+                    Voir le passage dans son contexte
+                </a>
+            </p>
+            {% endif %}
+        </article>
+
+    {% else %}
+
+        <p>
+            <a href="{{ result.url }}">
+                {{ result.label }}
+            </a>
+
+            ({{ result.kind }})
+        </p>
+
+    {% endif %}
+
+{% endfor %}
+
 {% else %}
 
 <p>
-    Aucun résultat.
+    Aucune piste documentaire trouvée.
 </p>
 
 {% endif %}
