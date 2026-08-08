@@ -16,6 +16,20 @@
             background: #f5f7f8;
         }
 
+        .clue-content {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+        }
+
+        .clue-video {
+            flex: 0 0 150px;
+        }
+
+        .clue-information {
+            flex: 1;
+        }
+
         .clue-video {
             margin: 24px 0;
         }
@@ -72,7 +86,7 @@
 
         .clue-speaker {
             margin: 0;
-            font-size: 1.1rem;
+            font-size: 1.rem;
         }
 
         .clue-context {
@@ -90,16 +104,16 @@
             margin: 24px 0;
             padding: 4px 0 4px 20px;
             border-left: 4px solid #345a72;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-style: italic;
         }
 
         .clue-details {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+            margin-top: 20px;
         }
 
         .clue-sequence {
@@ -112,6 +126,7 @@
         }
 
         .source-link {
+            width: fit-content;
             display: inline-block;
             padding: 9px 14px;
             border-radius: 6px;
@@ -138,6 +153,305 @@
                 margin-top: 8px;
             }
         }
+
+        .active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.active-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: #e8f0f4;
+    color: #29495c;
+    font-size: 0.9rem;
+}
+
+.personality-picker {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.personality-picker select {
+    width: auto;
+    min-width: 22rem;
+    max-width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #c9d2d8;
+    border-radius: 6px;
+    background: white;
+    font: inherit;
+}
+
+.secondary-button {
+    padding: 9px 14px;
+    border: 1px solid #345a72;
+    border-radius: 6px;
+    color: #345a72;
+    background: white;
+    font: inherit;
+    cursor: pointer;
+}
+
+.secondary-button:hover {
+    color: white;
+    background: #345a72;
+}
+
+.personality-picker button {
+    flex: 0 0 auto;
+}
+
+.active-filters {
+    margin-top: 16px;
+}
+
+        .investigation-search {
+    padding: 20px;
+    border-left: 5px solid #345a72;
+    background: white;
+}
+
+.investigation-search label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.investigation-search {
+    padding: 24px;
+    border-left: 5px solid #345a72;
+    background: white;
+}
+
+.investigation-search > label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.investigation-search input[type="search"] {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #c9d2d8;
+    border-radius: 6px;
+    font: inherit;
+}
+
+.investigation-filters {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.investigation-filter label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.investigation-filter select {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #c9d2d8;
+    border-radius: 6px;
+    background: white;
+    font: inherit;
+}
+
+.investigation-filter select:disabled {
+    color: #667681;
+    background: #f3f5f6;
+    cursor: not-allowed;
+}
+
+.investigation-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+}
+
+.investigation-actions button {
+    padding: 11px 20px;
+    border: 0;
+    border-radius: 6px;
+    color: white;
+    background: #345a72;
+    font: inherit;
+    cursor: pointer;
+}
+
+.investigation-actions button:hover {
+    background: #29495c;
+}
+
+@media (max-width: 700px) {
+    .investigation-filters {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .investigation-actions {
+        justify-content: stretch;
+    }
+
+    .investigation-actions button {
+        width: 100%;
+    }
+}
+
+.investigation-search input[type="search"] {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 12px;
+    border: 1px solid #c9d2d8;
+    border-radius: 6px;
+    font: inherit;
+}
+
+.investigation-search button {
+    padding: 10px 16px;
+    border: 0;
+    border-radius: 6px;
+    color: white;
+    background: #345a72;
+    font: inherit;
+    cursor: pointer;
+}
+
+.investigation-search button:hover {
+    background: #29495c;
+}
+
+@media (max-width: 600px) {
+    .investigation-search-fields {
+        flex-direction: column;
+    }
+
+    .investigation-search button {
+        width: fit-content;
+    }
+}
+
+.active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.active-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 11px;
+    border-radius: 999px;
+    background: #e8f0f4;
+    color: #29495c;
+    font-size: 0.9rem;
+}
+
+.remove-filter {
+    color: inherit;
+    font-weight: bold;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.remove-filter:hover {
+    color: #172b3a;
+}
+
+.investigation-search .secondary-button {
+    padding: 8px 13px;
+    border: 1px solid #345a72;
+    border-radius: 6px;
+    color: #345a72;
+    background: white;
+    font: inherit;
+    cursor: pointer;
+}
+
+.investigation-search .secondary-button:hover {
+    color: white;
+    background: #345a72;
+}
+
+.investigation-summary h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.investigation-summary-content p {
+    margin-bottom: 16px;
+}
+
+.investigation-summary-content ul {
+    margin-top: 8px;
+    margin-bottom: 20px;
+}
+
+.investigation-summary {
+    margin-top: 24px;
+    padding: 18px 22px;
+    border: 1px solid #d7e1e7;
+    border-radius: 8px;
+    background: #f5f9fb;
+}
+
+.investigation-summary h2 {
+    margin: 0 0 14px;
+    font-size: 1.25rem;
+}
+
+.investigation-summary-grid > div {
+    padding: 0 24px;
+}
+
+.investigation-summary-grid > div + div {
+    border-left: 1px solid #d7dde3;
+}
+
+.investigation-summary-grid {
+    display: grid;
+    grid-template-columns:
+        minmax(0, 1.2fr)
+        minmax(0, 1fr)
+        minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.investigation-summary p {
+    margin: 6px 0 0;
+}
+
+.investigation-summary ul {
+    margin: 6px 0 0;
+    padding-left: 20px;
+}
+
+@media (max-width: 800px) {
+    .investigation-summary-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+}
+.investigation-summary-count {
+    margin: 8px 0 2px;
+    font-weight: 700;
+}
+
     </style>
 </head>
 
@@ -147,93 +461,256 @@
 
     <h1>Enquête documentaire</h1>
 
-    <p class="question">
-        <strong>Question :</strong>
-        {{ investigation.question }}
-    </p>
+<form
+    class="investigation-search"
+    action="/enquetes"
+    method="get"
+>
+    <label for="investigation-question">
+        Que souhaitez-vous vérifier ?
+    </label>
+
+    <input
+        id="investigation-question"
+        name="q"
+        type="search"
+        value="{{ investigation.question }}"
+        placeholder="Saisissez une question ou un sujet"
+    >
+
+    <section class="investigation-panel">
+
+        <div class="personality-section">
+
+            <label for="personalities">
+                Personnalités
+            </label>
+
+            <div class="personality-picker">
+
+                <select
+                    id="personalities"
+                    name="personality"
+                >
+                    <option value="">
+                        Toutes les personnalités
+                    </option>
+
+                    {% for personality in personalities %}
+                        {% if personality.display_name not in investigation.personalities %}
+                        <option value="{{ personality.display_name }}">
+                            {{ personality.display_name }}
+                        </option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+
+                {% for personality in investigation.personalities %}
+                <input
+                    type="hidden"
+                    name="personality"
+                    value="{{ personality }}"
+                >
+                {% endfor %}
+
+                <button
+                    type="submit"
+                    name="action"
+                    value="add_personality"
+                    class="secondary-button"
+                >
+                    Ajouter
+                </button>
+
+            </div>
+
+            {% if investigation.personalities %}
+
+            <div class="active-filters">
+
+                {% for personality in investigation.personalities %}
+
+                <span class="active-filter">
+                    {{ personality }}
+
+                    <a
+                        class="remove-filter"
+                        href="{{ remove_personality_urls[personality] }}"
+                        aria-label="Retirer {{ personality }}"
+                        title="Retirer cette personnalité"
+                    >
+                        ✕
+                    </a>
+                </span>
+
+                {% endfor %}
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+        <div class="investigation-filters">
+
+            <div class="investigation-filter">
+
+                <label for="period">
+                    Période
+                </label>
+
+                <select
+                    id="period"
+                    name="period"
+                >
+                    {% for context in contexts %}
+                    <option
+                        value="{{ context.label }}"
+                        {% if context.label == investigation.context %}
+                        selected
+                        {% endif %}
+                    >
+                        {{ context.label }}
+                    </option>
+                    {% endfor %}
+                </select>
+
+            </div>
+
+            <div class="investigation-filter">
+
+                <label for="document-type">
+                    Type de document
+                </label>
+
+                <select
+                    id="document-type"
+                    name="document_type"
+                >
+                    {% for document_type in document_types %}
+                    <option
+                        value="{{ document_type.label }}"
+                        {% if document_type.label == investigation.document_type %}
+                        selected
+                        {% endif %}
+                    >
+                        {{ document_type.label }}
+                    </option>
+                    {% endfor %}
+                </select>
+
+            </div>
+
+        </div>
+
+        <div class="investigation-actions">
+
+            <button
+                type="submit"
+                name="action"
+                value="search"
+            >
+                Vérifier
+            </button>
+
+        </div>
+
+    </section>
+
+</form>
 
 </header>
+{% if investigation.question %}
 
-<section>
+<section class="investigation-summary">
 
-    <h2>Critères documentaires</h2>
+    <h2>
+        Votre enquête
+    </h2>
 
-    <p>
-        <strong>Personnalités :</strong>
+    <div class="investigation-summary-grid">
+
+        <div class="investigation-summary-question">
+            <strong>Question</strong>
+
+            <p>
+                {{ investigation.question }}
+            </p>
+        </div>
+
+        {% if investigation.personalities
+           or investigation.context
+           or investigation.document_type %}
+
+        <div class="investigation-summary-criteria">
+            <strong>Vous avez choisi</strong>
+
+            <ul>
+                {% for personality in investigation.personalities %}
+                <li>{{ personality }}</li>
+                {% endfor %}
+
+                {% if investigation.context %}
+                <li>{{ investigation.context }}</li>
+                {% endif %}
+
+                {% if investigation.document_type %}
+                <li>{{ investigation.document_type }}</li>
+                {% endif %}
+            </ul>
+        </div>
+
+        {% endif %}
+
+        <div class="investigation-summary-result">
+    <strong>Résultat</strong>
+
+    {% if clues|length == 0 %}
+
+    <p class="investigation-summary-count">
+        Aucune piste documentaire
     </p>
 
-    {% if investigation.personalities %}
+    <p>
+        ne correspond à votre enquête.
+    </p>
 
-    <div class="active-filters">
+    {% elif clues|length == 1 %}
 
-        {% for personality in investigation.personalities %}
+    <p class="investigation-summary-count">
+        ✅ 1 piste documentaire
+    </p>
 
-        <span class="active-filter">
+    <p>
+        correspond à votre enquête.
+    </p>
 
-            {{ personality }}
+    {% else %}
 
-            <a
-                class="remove-filter"
-                href="{{ remove_personality_urls[personality] }}"
-                aria-label="Retirer {{ personality }}"
-            >
-                ✕
-            </a>
+    <p class="investigation-summary-count">
+        ✅ {{ clues|length }} pistes documentaires
+    </p>
 
-        </span>
+    <p>
+        correspondent à votre enquête.
+    </p>
 
-        {% endfor %}
+    {% endif %}
+</div>
 
     </div>
 
-    {% endif %}
-
-    <label for="personalities">
-        Personnalités
-    </label>
-
-    <select
-        id="personalities"
-        name="personality"
-    >
-        <option value="">
-            Toutes les personnalités
-        </option>
-
-        {% for personality in personalities %}
-
-        <option
-            value="{{ personality.display_name }}"
-            {% if personality.display_name in investigation.personalities %}
-            selected
-            {% endif %}
-        >
-            {{ personality.display_name }}
-        </option>
-
-        {% endfor %}
-
-    </select>
-
 </section>
+
+{% endif %}
 
 <section class="documentary-section">
 
     {% if clues %}
 
-    <p class="clues-count">
-
-        <strong>
-
-            {{ clues | length }}
-
-            piste{% if clues | length > 1 %}s{% endif %}
-
-            documentaire{% if clues | length > 1 %}s{% endif %}
-
-        </strong>
-
-    </p>
+    <h2>
+    Pistes documentaires
+    </h2>
 
     {% for clue in clues %}
 
@@ -260,22 +737,23 @@
             {% if clue.date %}
 
             <p class="clue-date">
-                {{ clue.date }}
+                {{ clue.date | french_date }}
             </p>
 
             {% endif %}
 
         </header>
 
-        <blockquote class="clue-excerpt">
-            {{ clue.excerpt }}
-        </blockquote>
-
         {% set embed_url = youtube_embed_urls[loop.index0] %}
 
 {% if embed_url %}
 
-<div class="clue-video">
+
+{% endif %}
+
+    <div class="clue-content">
+
+        <div class="clue-video">
 
     <iframe
         width="150"
@@ -299,7 +777,11 @@
 
 </div>
 
-{% endif %}
+    <div class="clue-information">
+
+        <blockquote class="clue-excerpt">
+            {{ clue.excerpt }}
+        </blockquote>
 
         <div class="clue-details">
 
@@ -315,16 +797,20 @@
 
             </p>
 
-            <a
-                class="source-link"
-                href="{{ clue.source_url }}"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                Consulter la source
-            </a>
+            {% if clue.document_id %}
+<a
+    class="clue-source-link"
+    href="/documents/{{ clue.document_id }}"
+>
+    Consulter la source
+</a>
+{% endif %}
 
         </div>
+
+        </div>
+
+</div>
 
         {% if clue.other_personalities %}
 

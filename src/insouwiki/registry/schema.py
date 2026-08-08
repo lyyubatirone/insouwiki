@@ -116,6 +116,32 @@ def initialize_database() -> None:
                 """
             )
 
+                    #
+            # Périodes documentaires
+            #
+            cur.execute(
+                """
+                CREATE TABLE IF NOT EXISTS documentary_periods (
+                    permanent_id TEXT PRIMARY KEY,
+
+                    label TEXT NOT NULL,
+                    starts_at DATE NOT NULL,
+                    ends_at DATE,
+                    definition TEXT,
+
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    updated_at TIMESTAMP
+                );
+                """
+            )
+
+            cur.execute(
+                """
+                ALTER TABLE documentary_periods
+                ADD COLUMN IF NOT EXISTS definition TEXT;
+                """
+            )
+
             #
             # Séquences documentaires
             #

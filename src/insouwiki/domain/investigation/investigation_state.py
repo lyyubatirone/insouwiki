@@ -9,9 +9,11 @@ class InvestigationState:
     Cet objet représente ce qui peut être sauvegardé,
     partagé et repris ultérieurement.
     """
-
     question: str
     personalities: tuple[str, ...] = ()
+    context: str | None = None
+    document_type: str | None = None
+
 
     def with_personality(
         self,
@@ -27,7 +29,7 @@ class InvestigationState:
                 personality,
             ),
         )
-    
+
     def without_personality(
         self,
         personality: str,
@@ -39,4 +41,23 @@ class InvestigationState:
                 for current_personality in self.personalities
                 if current_personality != personality
             ),
+        )    
+
+    def with_context(
+        self,
+        context: str | None,
+    ) -> "InvestigationState":
+        return replace(
+            self,
+            context=context,
         )
+
+    def with_document_type(
+        self,
+        document_type: str | None,
+    ) -> "InvestigationState":
+        return replace(
+            self,
+            document_type=document_type,
+        )
+    

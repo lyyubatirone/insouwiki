@@ -75,3 +75,34 @@ def test_cannot_add_same_personality_twice():
     assert state.personalities == (
         "Jean-Luc Mélenchon",
     )
+
+def test_can_select_context():
+    state = InvestigationState(
+        question="Corse",
+    )
+
+    new_state = state.with_context(
+        "Campagne présidentielle 2022",
+    )
+
+    assert new_state.context == (
+        "Campagne présidentielle 2022"
+    )
+
+def test_can_change_context():
+    state = (
+        InvestigationState(
+            question="Corse",
+        )
+        .with_context(
+            "Campagne présidentielle 2022",
+        )
+    )
+
+    new_state = state.with_context(
+        "XVIIe législature",
+    )
+
+    assert new_state.context == (
+        "XVIIe législature"
+    )

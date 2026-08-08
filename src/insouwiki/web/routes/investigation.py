@@ -8,11 +8,15 @@ from insouwiki.web.services.investigation_service import (
     InvestigationService,
 )
 
+from insouwiki.web.jinja_filters import french_date
+
 router = APIRouter()
 
 templates = Jinja2Templates(
     directory="src/insouwiki/web/templates",
 )
+
+templates.env.filters["french_date"] = french_date
 
 def build_youtube_embed_url(
     source_url: str | None,
@@ -61,12 +65,16 @@ def investigation(
     request: Request,
     q: str = "",
     personality: list[str] = Query(default=[]),
+    period: str | None = None,
+    document_type: str | None = None,
 ):
     service = InvestigationService()
 
     state, clues = service.start(
         question=q,
         personalities=personality,
+        context=period,
+        document_type=document_type,
     )
 
     youtube_embed_urls = [
@@ -78,6 +86,10 @@ def investigation(
     ]
 
     personalities = service.list_personalities()
+
+    contexts = service.list_contexts()
+
+    document_types = service.list_document_types()
 
     remove_personality_urls = {}
 
@@ -96,6 +108,16 @@ def investigation(
             ],
         ]
 
+        if state.context:
+            parameters.append(
+                ("period", state.context),
+            )
+
+        if state.document_type:
+            parameters.append(
+                ("document_type", state.document_type),
+            )
+
         remove_personality_urls[current_personality] = (
             f"/enquetes?{urlencode(parameters)}"
         )
@@ -111,5 +133,7 @@ def investigation(
             "remove_personality_urls": (
                 remove_personality_urls
             ),
+            "contexts": contexts,
+            "document_types": document_types,
         },
     )

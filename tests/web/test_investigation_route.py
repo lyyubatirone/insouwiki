@@ -83,3 +83,18 @@ def test_remove_link_removes_personality_from_url():
 
     assert "Manuel+Bompard" in response.text
     assert 'aria-label="Retirer Jean-Luc Mélenchon"' in response.text
+
+def test_add_button_preserves_selected_personalities():
+    response = client.get(
+        "/enquetes",
+        params=[
+            ("q", "retraite à 60 ans"),
+            ("personality", "Jean-Luc Mélenchon"),
+            ("personality", "Manuel Bompard"),
+            ("action", "add_personality"),
+        ],
+    )
+
+    assert response.status_code == 200
+    assert "Jean-Luc Mélenchon" in response.text
+    assert "Manuel Bompard" in response.text

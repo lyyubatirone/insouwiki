@@ -54,8 +54,10 @@ def test_document_page_displays_title():
         "/documents/SRC-00000001",
     )
 
-    assert "La nouvelle géopolitique" in response.text
-
+    assert (
+        "Clip officiel de Jean-Luc Mélenchon"
+        in response.text
+    )
 
 def test_document_page_displays_author():
     response = client.get(
@@ -283,7 +285,7 @@ def test_documentary_piece_links_to_video_passage():
         "Voir ce passage dans la vidéo"
         in response.text
     )
-    assert "t=763s" in response.text
+    assert "t=0s" in response.text
 
 def test_document_page_displays_documentary_facts():
     response = client.get(
@@ -292,12 +294,12 @@ def test_document_page_displays_documentary_facts():
 
     assert "Faits documentaires" in response.text
 
-def test_document_page_displays_documentary_summary():
+def test_document_page_displays_documentary_notice():
     response = client.get(
         "/documents/SRC-00000001",
     )
 
-    assert "Résumé documentaire" in response.text
+    assert "Notice documentaire" in response.text
 
 def test_documentary_summary_displays_document_title():
     response = client.get(

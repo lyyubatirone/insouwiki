@@ -1,3 +1,5 @@
+from datetime import date, datetime
+
 from insouwiki.domain.documentary_sequence import (
     DocumentarySequence,
 )
@@ -25,6 +27,18 @@ from insouwiki.domain.transcription_segment import (
 
 from insouwiki.consultation.documentary_fact_view import (
     DocumentaryFactView,
+)
+
+from insouwiki.domain.document import Document
+from insouwiki.domain.documentary_period import (
+    DocumentaryPeriod,
+)
+from insouwiki.domain.enums import DocumentKind
+from insouwiki.services.simple_documentary_notice_builder import (
+    SimpleDocumentaryNoticeBuilder,
+)
+from insouwiki.services.simple_documentary_period_finder import (
+    SimpleDocumentaryPeriodFinder,
 )
 
 class InMemoryDocumentRepository:
@@ -76,6 +90,18 @@ class InMemoryDocumentarySequenceRepository:
             if sequence.document_id
             == document_permanent_id
         ]
+
+class InMemoryDocumentaryPeriodRepository:
+    def __init__(
+        self,
+        periods: tuple[DocumentaryPeriod, ...],
+    ):
+        self.periods = periods
+
+    def list_all(
+        self,
+    ) -> tuple[DocumentaryPeriod, ...]:
+        return self.periods
 
 def test_lists_documentary_personalities():
     documents = [
@@ -289,12 +315,69 @@ def test_returns_documentary_fact_views_for_document():
             source_start="0:00:10",
             source_end="0:00:20",
             source_url=(
-                "https://www.youtube.com/watch?v=7F8wvt4QxoE&t=10s"
+                "https://www.youtube.com/watch?v=kLvEVQYSmhg&t=10s"
             ),
         ),
     ]
 
     assert result[0].source_url == (
         "https://www.youtube.com/watch"
-        "?v=7F8wvt4QxoE&t=10s"
+        "?v=kLvEVQYSmhg&t=10s"
+    )
+
+def test_get_documentary_notice():
+    document = Document(
+        permanent_id="SRC-00000001",
+        origin_key="test-document",
+        document_kind=DocumentKind.VIDEO,
+        title="Document de test",
+        original_url="https://example.com/document",
+        published_at=datetime(
+            2022,
+            4,
+            12,
+            12,
+            0,
+        ),
+    )
+
+    periods = (
+        DocumentaryPeriod(
+            label="Mandat présidentiel 2017–2022",
+            starts_at=date(2017, 5, 14),
+            ends_at=date(2022, 5, 13),
+        ),
+        DocumentaryPeriod(
+            label="Campagne présidentielle 2022",
+            starts_at=date(2022, 3, 7),
+            ends_at=date(2022, 4, 24),
+        ),
+    )
+
+    repository = InMemoryDocumentaryPeriodRepository(
+        periods,
+    )
+
+    period_finder = SimpleDocumentaryPeriodFinder(
+        repository=repository,
+    )
+
+    notice_builder = SimpleDocumentaryNoticeBuilder(
+        period_finder=period_finder,
+    )
+
+    library = DocumentaryLibrary(
+        document_repository=InMemoryDocumentRepository(
+            [document],
+        ),
+        documentary_notice_builder=notice_builder,
+    )
+
+    notice = library.get_documentary_notice(
+        "SRC-00000001",
+    )
+
+    assert notice.documentary_contexts == (
+        "Mandat présidentiel 2017–2022",
+        "Campagne présidentielle 2022",
     )

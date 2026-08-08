@@ -29,6 +29,10 @@ def document(
         permanent_id,
     )
 
+    notice = documentary_library.get_documentary_notice(
+        permanent_id,
+    )
+
     transcription = documentary_library.get_transcription(
         permanent_id,
     )
@@ -46,6 +50,7 @@ def document(
         name="document.html",
         context={
             "document": current_document,
+            "notice": notice,
             "transcription": transcription,
             "sequences": sequences,
             "facts": facts,

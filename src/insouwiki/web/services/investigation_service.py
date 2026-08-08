@@ -39,10 +39,13 @@ class InvestigationService:
         question: str,
         personality: str | None = None,
         personalities: list[str] | None = None,
+        context: str | None = None,
+        document_type: str | None = None,
     ) -> tuple[
         InvestigationState,
         list[DocumentaryClue],
     ]:
+        
         state = InvestigationState(
             question=question,
         )
@@ -53,12 +56,27 @@ class InvestigationService:
             )
 
         for current_personality in personalities or []:
+            normalized_personality = current_personality.strip()
+
+            if not normalized_personality:
+                continue
+
             state = state.with_personality(
-                current_personality,
+                normalized_personality,
+            )
+
+        if context:
+            state = state.with_context(
+                context,
+            )
+
+        if document_type:
+            state = state.with_document_type(
+                document_type,
             )
 
         results = self.search_service.search(
-            question,
+            state,
         )
 
         clues = [
@@ -71,3 +89,9 @@ class InvestigationService:
 
     def list_personalities(self):
         return self.documentary_library.list_personalities()
+
+    def list_contexts(self):
+        return self.documentary_library.list_contexts()
+
+    def list_document_types(self):
+        return self.documentary_library.list_document_types()

@@ -37,6 +37,29 @@ from insouwiki.services.youtube_timestamp_link_builder import (
     YouTubeTimestampLinkBuilder,
 )
 
+from insouwiki.domain.documentary_context import (
+    DocumentaryContext,
+)
+
+from insouwiki.domain.documentary_type import (
+    DocumentaryType,
+)
+from insouwiki.domain.documentary_notice import (
+    DocumentaryNotice,
+)
+from insouwiki.services.simple_documentary_notice_builder import (
+    SimpleDocumentaryNoticeBuilder,
+)
+from insouwiki.services.documentary_periods import (
+    DOCUMENTARY_PERIODS,
+)
+from insouwiki.services.simple_documentary_period_finder import (
+    SimpleDocumentaryPeriodFinder,
+)
+from insouwiki.registry.postgres_documentary_period_repository import (
+    PostgresDocumentaryPeriodRepository,
+)
+
 class DocumentaryLibrary:
     """
     Bibliothèque documentaire de consultation.
@@ -46,7 +69,7 @@ class DocumentaryLibrary:
 
     def __init__(
         self,
-        document_repository: PostgresDocumentRepository | None = None,
+            document_repository: PostgresDocumentRepository | None = None,
         sequence_repository: (
             PostgresDocumentarySequenceRepository | None
         ) = None,
@@ -54,7 +77,11 @@ class DocumentaryLibrary:
             DocumentaryPersonalityRepository | None
         ) = None,
         transcription_repository=None,
+        documentary_notice_builder: (
+            SimpleDocumentaryNoticeBuilder | None
+        ) = None,
     ):
+            
         self.document_repository = (
             document_repository
             if document_repository is not None
@@ -79,6 +106,15 @@ class DocumentaryLibrary:
             transcription_repository
         )
 
+        self.documentary_notice_builder = (
+            documentary_notice_builder
+            if documentary_notice_builder is not None
+            else SimpleDocumentaryNoticeBuilder(
+                period_finder=SimpleDocumentaryPeriodFinder(
+                    repository=PostgresDocumentaryPeriodRepository(),
+                ),
+            )
+        )
 
     def get_personality(
         self,
@@ -147,6 +183,49 @@ class DocumentaryLibrary:
             f"Unknown document: {permanent_id}"
         )
 
+    def list_contexts(
+        self,
+    ) -> list[DocumentaryContext]:
+        return [
+            DocumentaryContext(
+                label="Tous les contextes",
+            ),
+            DocumentaryContext(
+                label="Campagne présidentielle 2022",
+            ),
+            DocumentaryContext(
+                label="XVIe législature (2022–2024)",
+            ),
+            DocumentaryContext(
+                label="XVIIe législature (2024–présent)",
+            ),
+            DocumentaryContext(
+                label="Élections européennes 2024",
+            ),
+        ]
+
+
+    def list_document_types(
+        self,
+    ) -> list[DocumentaryType]:
+        return [
+            DocumentaryType(
+                label="Tous les documents",
+            ),
+            DocumentaryType(
+                label="Interview",
+            ),
+            DocumentaryType(
+                label="Meeting",
+            ),
+            DocumentaryType(
+                label="Discours",
+            ),
+            DocumentaryType(
+                label="Question au Gouvernement",
+            ),
+        ]
+
     def get_documentary_pieces(
         self,
         document_permanent_id: str,
@@ -164,11 +243,11 @@ class DocumentaryLibrary:
                 sequence_text=(
                     "La retraite doit être à 60 ans pour tous."
                 ),
-                sequence_start="00:12:43",
-                sequence_end="00:12:58",
+                sequence_start="00:00:00",
+                sequence_end="00:00:30",
                 document_url=(
                     "https://www.youtube.com/watch"
-                    "?v=OwDqYp64dLQ"
+                    "?v=kLvEVQYSmhg"
                 ),
             )
         ]
@@ -325,26 +404,42 @@ class DocumentaryLibrary:
             document_permanent_id,
         )
     
-def test_returns_documentary_sequences_for_document():
-    sequence = DocumentarySequence(
-        permanent_id="SEQ-00000001",
-        document_id="SRC-00000001",
-        start=timedelta(seconds=0),
-        end=timedelta(seconds=10),
-        text="La retraite à 60 ans est une nécessité.",
-    )
+    def test_returns_documentary_sequences_for_document():
+        sequence = DocumentarySequence(
+            permanent_id="SEQ-00000001",
+            document_id="SRC-00000001",
+            start=timedelta(seconds=0),
+            end=timedelta(seconds=10),
+            text="La retraite à 60 ans est une nécessité.",
+        )
 
-    library = DocumentaryLibrary(
-        sequence_repository=(
-            InMemoryDocumentarySequenceRepository(
-                [sequence],
-            )
-        ),
-    )
+        library = DocumentaryLibrary(
+            sequence_repository=(
+                InMemoryDocumentarySequenceRepository(
+                    [sequence],
+                )
+            ),
+        )
 
-    result = library.get_sequences(
-        "SRC-00000001",
-    )
+        result = library.get_sequences(
+            "SRC-00000001",
+        )
 
-    assert result == [sequence]
+        assert result == [sequence]
+
+    def get_documentary_notice(
+        self,
+        permanent_id: str,
+    ) -> DocumentaryNotice:
+        documents = self.document_repository.find_all()
+
+        for document in documents:
+            if document.permanent_id == permanent_id:
+                return self.documentary_notice_builder.build(
+                    document,
+                )
+
+        raise ValueError(
+            f"Unknown document: {permanent_id}"
+        )
 
