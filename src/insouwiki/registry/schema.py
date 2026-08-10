@@ -137,6 +137,16 @@ def initialize_database() -> None:
 
             cur.execute(
                 """
+                CREATE TABLE IF NOT EXISTS documentary_themes (
+                    permanent_id TEXT PRIMARY KEY,
+                    label TEXT NOT NULL,
+                    definition TEXT
+                );
+                """
+            )
+
+            cur.execute(
+                """
                 ALTER TABLE documentary_periods
                 ADD COLUMN IF NOT EXISTS definition TEXT;
                 """
@@ -156,6 +166,20 @@ def initialize_database() -> None:
                     end_seconds INTEGER NOT NULL,
 
                     text TEXT NOT NULL
+                );
+                """
+            )
+
+            cur.execute(
+                """
+                CREATE TABLE IF NOT EXISTS sequence_theme_associations (
+                    sequence_id TEXT NOT NULL
+                        REFERENCES documentary_sequences(permanent_id),
+
+                    theme_id TEXT NOT NULL
+                        REFERENCES documentary_themes(permanent_id),
+
+                    PRIMARY KEY (sequence_id, theme_id)
                 );
                 """
             )

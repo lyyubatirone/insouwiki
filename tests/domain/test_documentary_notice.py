@@ -10,7 +10,7 @@ def test_creates_documentary_notice():
             "Campagne présidentielle 2022",
             "XVe législature (2017–2022)",
         ),
-        topics=(
+        themes=(
             "Retraite à 60 ans",
             "Financement des retraites",
         ),
@@ -22,7 +22,7 @@ def test_creates_documentary_notice():
         "XVe législature (2017–2022)",
     )
 
-    assert notice.topics == (
+    assert notice.themes == (
         "Retraite à 60 ans",
         "Financement des retraites",
     )

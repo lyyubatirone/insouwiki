@@ -50,14 +50,20 @@ from insouwiki.domain.documentary_notice import (
 from insouwiki.services.simple_documentary_notice_builder import (
     SimpleDocumentaryNoticeBuilder,
 )
-from insouwiki.services.documentary_periods import (
-    DOCUMENTARY_PERIODS,
-)
 from insouwiki.services.simple_documentary_period_finder import (
     SimpleDocumentaryPeriodFinder,
 )
 from insouwiki.registry.postgres_documentary_period_repository import (
     PostgresDocumentaryPeriodRepository,
+)
+from insouwiki.registry.postgres_documentary_theme_repository import (
+    PostgresDocumentaryThemeRepository,
+)
+from insouwiki.registry.postgres_sequence_theme_repository import (
+    PostgresSequenceThemeRepository,
+)
+from insouwiki.services.simple_documentary_theme_finder import (
+    SimpleDocumentaryThemeFinder,
 )
 
 class DocumentaryLibrary:
@@ -112,6 +118,10 @@ class DocumentaryLibrary:
             else SimpleDocumentaryNoticeBuilder(
                 period_finder=SimpleDocumentaryPeriodFinder(
                     repository=PostgresDocumentaryPeriodRepository(),
+                ),
+                theme_finder=SimpleDocumentaryThemeFinder(
+                    theme_repository=PostgresDocumentaryThemeRepository(),
+                    association_repository=PostgresSequenceThemeRepository(),
                 ),
             )
         )
@@ -238,7 +248,8 @@ class DocumentaryLibrary:
             DocumentaryPieceView(
                 author="Jean-Luc Mélenchon",
                 document_title=(
-                    "La nouvelle géopolitique de la France"
+                    "Clip officiel de Jean-Luc Mélenchon : "
+                    "un autre monde est possible – Clip officiel #2"
                 ),
                 sequence_text=(
                     "La retraite doit être à 60 ans pour tous."
@@ -435,8 +446,13 @@ class DocumentaryLibrary:
 
         for document in documents:
             if document.permanent_id == permanent_id:
+                sequences = self.get_sequences(
+                    permanent_id,
+                )
+
                 return self.documentary_notice_builder.build(
                     document,
+                    sequences=tuple(sequences),
                 )
 
         raise ValueError(

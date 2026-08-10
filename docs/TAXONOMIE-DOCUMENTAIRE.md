@@ -127,3 +127,25 @@ Quelle est la nature de cette prise de parole ?	Type documentaire
 Dans quel cadre cette prise de parole a-t-elle eu lieu ?	Cadre documentaire
 
 **La taxonomie documentaire n'a pas pour vocation d'interpréter les documents. Elle a pour unique objectif d'aider le lecteur à retrouver, comprendre et vérifier les sources originales.**
+
+### Niveau d'association
+
+Un thème documentaire est associé en priorité à une séquence documentaire.
+
+Une même séquence peut être associée à plusieurs thèmes.
+
+Les thèmes d'un document sont déduits de l'ensemble des thèmes associés à ses séquences documentaires.
+
+Cette association au niveau de la séquence permet de conserver la traçabilité de la classification : le lecteur doit pouvoir retrouver le passage du document qui justifie l'association à un thème.
+
+Lorsqu'un document ne possède pas encore de séquences documentaires exploitables, l'absence de thème ne doit jamais empêcher sa consultation.
+
+### Référentiel des thèmes
+
+Les thèmes appartiennent à un référentiel documentaire administrable.
+
+Chaque thème possède une identité permanente, un libellé et une définition.
+
+Le référentiel peut évoluer : de nouveaux thèmes peuvent être créés et les définitions peuvent être précisées sans modifier les sources documentaires auxquelles ils sont associés.
+
+Les thèmes ne doivent pas être définis en dur dans le code de l'application.

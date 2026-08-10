@@ -234,19 +234,29 @@
 
     {% if notice.documentary_contexts %}
 
-<div class="documentary-notice-contexts">
+<strong>Contextes documentaires</strong>
 
-    <strong>Contextes documentaires</strong>
+<ul>
+    {% for context in notice.documentary_contexts %}
+    <li>
+        {{ context }}
+    </li>
+    {% endfor %}
+</ul>
 
-    <ul>
-        {% for context in notice.documentary_contexts %}
-        <li>
-            {{ context }}
-        </li>
-        {% endfor %}
-    </ul>
+{% endif %}
 
-</div>
+{% if notice.themes %}
+
+<strong>Thèmes</strong>
+
+<ul>
+    {% for theme in notice.themes %}
+    <li>
+        {{ theme }}
+    </li>
+    {% endfor %}
+</ul>
 
 {% endif %}
 

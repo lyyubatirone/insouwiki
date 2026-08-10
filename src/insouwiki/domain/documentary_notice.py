@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+
 @dataclass(frozen=True)
 class DocumentaryNotice:
     """
@@ -7,4 +8,4 @@ class DocumentaryNotice:
     """
 
     documentary_contexts: tuple[str, ...] = ()
-    topics: tuple[str, ...] = ()
+    themes: tuple[str, ...] = ()

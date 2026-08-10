@@ -81,3 +81,4 @@ def test_search_returns_matching_sequences():
     results = repository.search("États-Unis")
 
     assert results == [sequence_1]
+

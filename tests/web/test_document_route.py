@@ -15,6 +15,9 @@ from insouwiki.web.app import app
 from insouwiki.web.routes.document import (
     get_documentary_library,
 )
+from insouwiki.domain.documentary_sequence import (
+    DocumentarySequence,
+)
 
 
 client = TestClient(app)
@@ -40,6 +43,51 @@ class InMemoryTranscriptionRepository:
 
         return None
 
+class InMemoryDocumentarySequenceRepository:
+    def __init__(
+        self,
+        sequences: list[DocumentarySequence],
+    ):
+        self.sequences = sequences
+
+    def find_by_document(
+        self,
+        document_permanent_id: str,
+    ) -> list[DocumentarySequence]:
+        return [
+            sequence
+            for sequence in self.sequences
+            if sequence.document_id
+            == document_permanent_id
+        ]
+
+    def search(
+        self,
+        query: str,
+    ) -> list[DocumentarySequence]:
+        return [
+            sequence
+            for sequence in self.sequences
+            if query.casefold()
+            in sequence.text.casefold()
+        ]
+    
+def build_library_with_test_sequence():
+        sequence = DocumentarySequence(
+            permanent_id="SEQ-TEST-ROUTE-000001",
+            document_id="SRC-00000001",
+            start=timedelta(seconds=10),
+            end=timedelta(seconds=20),
+            text="Séquence documentaire de test.",
+        )
+
+        return DocumentaryLibrary(
+            sequence_repository=(
+                InMemoryDocumentarySequenceRepository(
+                    [sequence],
+                )
+            ),
+        )   
 
 def test_can_open_document_page():
     response = client.get(
@@ -266,15 +314,24 @@ def test_transcription_segments_are_displayed_individually():
         app.dependency_overrides.clear()
 
 def test_document_page_displays_documentary_sequences():
-    response = client.get(
-        "/documents/SRC-00000001",
-    )
+    test_library = build_library_with_test_sequence()
 
-    assert "Séquences documentaires" in response.text
-    assert (
-        "Séquence documentaire de test."
-        in response.text
-    )
+    app.dependency_overrides[
+        get_documentary_library
+    ] = lambda: test_library
+
+    try:
+        response = client.get(
+            "/documents/SRC-00000001",
+        )
+
+        assert "Séquences documentaires" in response.text
+        assert (
+            "Séquence documentaire de test."
+            in response.text
+        )
+    finally:
+        app.dependency_overrides.clear()
 
 def test_documentary_piece_links_to_video_passage():
     response = client.get(
@@ -309,36 +366,76 @@ def test_documentary_summary_displays_document_title():
     assert "Document :" in response.text
 
 def test_document_page_displays_documentary_fact_author():
-    response = client.get(
-        "/documents/SRC-00000001",
-    )
+    test_library = build_library_with_test_sequence()
 
-    assert (
-        '<li class="documentary-fact">'
-        in response.text
-    )
+    app.dependency_overrides[
+        get_documentary_library
+    ] = lambda: test_library
 
-    assert "<strong>" in response.text
+    try:
+        response = client.get(
+            "/documents/SRC-00000001",
+        )
+
+        assert (
+            '<li class="documentary-fact">'
+            in response.text
+        )
+
+        assert "<strong>" in response.text
+    finally:
+        app.dependency_overrides.clear()
 
 def test_document_page_displays_fact_source():
-    response = client.get(
-        "/documents/SRC-00000001",
-    )
+    test_library = build_library_with_test_sequence()
 
-    assert "Source documentaire" in response.text
+    app.dependency_overrides[
+        get_documentary_library
+    ] = lambda: test_library
+
+    try:
+        response = client.get(
+            "/documents/SRC-00000001",
+        )
+
+        assert (
+            '<li class="documentary-fact">'
+            in response.text
+        )
+        assert "Source documentaire" in response.text
+    finally:
+        app.dependency_overrides.clear()
 
 def test_document_page_displays_fact_source_time_range():
-    response = client.get(
-        "/documents/SRC-00000001",
-    )
+    test_library = build_library_with_test_sequence()
 
-    assert "Source documentaire" in response.text
-    assert "0:00:10" in response.text
-    assert "0:00:20" in response.text
+    app.dependency_overrides[
+        get_documentary_library
+    ] = lambda: test_library
+
+    try:
+        response = client.get(
+            "/documents/SRC-00000001",
+        )
+
+        assert "Source documentaire" in response.text
+        assert "0:00:10" in response.text
+        assert "0:00:20" in response.text
+    finally:
+        app.dependency_overrides.clear()
 
 def test_document_page_links_fact_to_source_passage():
-    response = client.get(
-        "/documents/SRC-00000001",
-    )
+    test_library = build_library_with_test_sequence()
 
-    assert "t=10s" in response.text
+    app.dependency_overrides[
+        get_documentary_library
+    ] = lambda: test_library
+
+    try:
+        response = client.get(
+            "/documents/SRC-00000001",
+        )
+
+        assert "t=10s" in response.text
+    finally:
+        app.dependency_overrides.clear()

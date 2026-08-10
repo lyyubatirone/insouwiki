@@ -8,7 +8,7 @@ class DocumentarySequence(BaseModel):
     Séquence documentaire horodatée.
     """
 
-    permanent_id: str
+    permanent_id: str | None = None
 
     document_id: str
 

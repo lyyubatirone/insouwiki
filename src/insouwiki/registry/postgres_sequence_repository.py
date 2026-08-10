@@ -20,7 +20,32 @@ class PostgresDocumentarySequenceRepository(
 
         with get_connection() as conn:
             with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT permanent_id
+                    FROM documentary_sequences
+                    WHERE permanent_id ~ '^SEQ-[0-9]{8}$'
+                    ORDER BY permanent_id DESC
+                    LIMIT 1
+                    """
+                )
+
+                row = cur.fetchone()
+
+                if row is None:
+                    next_id = 1
+                else:
+                    next_id = int(
+                        row[0].removeprefix("SEQ-")
+                    ) + 1
+
                 for sequence in sequences:
+                    if sequence.permanent_id is None:
+                        sequence.permanent_id = (
+                            f"SEQ-{next_id:08d}"
+                        )
+                        next_id += 1
+
                     cur.execute(
                         """
                         INSERT INTO documentary_sequences (
@@ -36,8 +61,12 @@ class PostgresDocumentarySequenceRepository(
                         (
                             sequence.permanent_id,
                             sequence.document_id,
-                            int(sequence.start.total_seconds()),
-                            int(sequence.end.total_seconds()),
+                            int(
+                                sequence.start.total_seconds()
+                            ),
+                            int(
+                                sequence.end.total_seconds()
+                            ),
                             sequence.text,
                         ),
                     )
