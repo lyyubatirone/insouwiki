@@ -1,4 +1,6 @@
-from insouwiki.registry.postgres_connection import get_connection
+from insouwiki.registry.postgres_connection import (
+    get_connection,
+)
 
 
 def initialize_database() -> None:
@@ -29,7 +31,8 @@ def initialize_database() -> None:
                 """
                 CREATE TABLE IF NOT EXISTS source_endpoints (
                     permanent_id TEXT PRIMARY KEY,
-                    source_permanent_id TEXT NOT NULL REFERENCES sources(permanent_id),
+                    source_permanent_id TEXT NOT NULL
+                        REFERENCES sources(permanent_id),
 
                     platform TEXT NOT NULL,
                     url TEXT UNIQUE NOT NULL,
@@ -38,7 +41,8 @@ def initialize_database() -> None:
                     status TEXT NOT NULL,
 
                     metadata JSONB NOT NULL DEFAULT '{}',
-                    first_discovered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    first_discovered_at TIMESTAMP
+                        DEFAULT CURRENT_TIMESTAMP,
                     last_synchronized_at TIMESTAMP
                 );
                 """
@@ -52,8 +56,11 @@ def initialize_database() -> None:
                 CREATE TABLE IF NOT EXISTS documents (
                     permanent_id TEXT PRIMARY KEY,
 
-                    source_permanent_id TEXT REFERENCES sources(permanent_id),
-                    discovered_from_endpoint_permanent_id TEXT REFERENCES source_endpoints(permanent_id),
+                    source_permanent_id TEXT
+                        REFERENCES sources(permanent_id),
+
+                    discovered_from_endpoint_permanent_id TEXT
+                        REFERENCES source_endpoints(permanent_id),
 
                     origin_key TEXT UNIQUE NOT NULL,
                     document_kind TEXT NOT NULL,
@@ -64,11 +71,14 @@ def initialize_database() -> None:
                     source_platform TEXT,
                     external_id TEXT,
                     published_at TIMESTAMP,
+                    duration_seconds INTEGER,
                     thumbnail_url TEXT,
                     documentary_nature TEXT,
                     status TEXT,
 
-                    discovered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    discovered_at TIMESTAMP
+                        DEFAULT CURRENT_TIMESTAMP,
+
                     metadata JSONB NOT NULL DEFAULT '{}'
                 );
                 """
@@ -98,6 +108,13 @@ def initialize_database() -> None:
             cur.execute(
                 """
                 ALTER TABLE documents
+                ADD COLUMN IF NOT EXISTS duration_seconds INTEGER;
+                """
+            )
+
+            cur.execute(
+                """
+                ALTER TABLE documents
                 ADD COLUMN IF NOT EXISTS thumbnail_url TEXT;
                 """
             )
@@ -116,7 +133,7 @@ def initialize_database() -> None:
                 """
             )
 
-                    #
+            #
             # Périodes documentaires
             #
             cur.execute(
@@ -129,18 +146,10 @@ def initialize_database() -> None:
                     ends_at DATE,
                     definition TEXT,
 
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    updated_at TIMESTAMP
-                );
-                """
-            )
+                    created_at TIMESTAMP
+                        DEFAULT CURRENT_TIMESTAMP,
 
-            cur.execute(
-                """
-                CREATE TABLE IF NOT EXISTS documentary_themes (
-                    permanent_id TEXT PRIMARY KEY,
-                    label TEXT NOT NULL,
-                    definition TEXT
+                    updated_at TIMESTAMP
                 );
                 """
             )
@@ -153,6 +162,19 @@ def initialize_database() -> None:
             )
 
             #
+            # Thèmes documentaires
+            #
+            cur.execute(
+                """
+                CREATE TABLE IF NOT EXISTS documentary_themes (
+                    permanent_id TEXT PRIMARY KEY,
+                    label TEXT NOT NULL,
+                    definition TEXT
+                );
+                """
+            )
+
+            #
             # Séquences documentaires
             #
             cur.execute(
@@ -160,7 +182,8 @@ def initialize_database() -> None:
                 CREATE TABLE IF NOT EXISTS documentary_sequences (
                     permanent_id TEXT PRIMARY KEY,
 
-                    document_id TEXT NOT NULL REFERENCES documents(permanent_id),
+                    document_id TEXT NOT NULL
+                        REFERENCES documents(permanent_id),
 
                     start_seconds INTEGER NOT NULL,
                     end_seconds INTEGER NOT NULL,
@@ -170,17 +193,74 @@ def initialize_database() -> None:
                 """
             )
 
+            #
+            # Associations séquence / thème
+            #
             cur.execute(
                 """
-                CREATE TABLE IF NOT EXISTS sequence_theme_associations (
-                    sequence_id TEXT NOT NULL
-                        REFERENCES documentary_sequences(permanent_id),
+                CREATE TABLE IF NOT EXISTS
+                    sequence_theme_associations (
+                        sequence_id TEXT NOT NULL
+                            REFERENCES documentary_sequences(
+                                permanent_id
+                            ),
 
-                    theme_id TEXT NOT NULL
-                        REFERENCES documentary_themes(permanent_id),
+                        theme_id TEXT NOT NULL
+                            REFERENCES documentary_themes(
+                                permanent_id
+                            ),
 
-                    PRIMARY KEY (sequence_id, theme_id)
-                );
+                        PRIMARY KEY (
+                            sequence_id,
+                            theme_id
+                        )
+                    );
+                """
+            )
+
+            #
+            # Lots de traitement documentaire
+            #
+            cur.execute(
+                """
+                CREATE TABLE IF NOT EXISTS
+                    documentary_processing_batches (
+                        permanent_id TEXT PRIMARY KEY,
+
+                        name TEXT NOT NULL,
+                        status TEXT NOT NULL,
+
+                        created_at TIMESTAMP
+                            DEFAULT CURRENT_TIMESTAMP,
+
+                        updated_at TIMESTAMP
+                    );
+                """
+            )
+
+            #
+            # Documents contenus dans un lot
+            #
+            cur.execute(
+                """
+                CREATE TABLE IF NOT EXISTS
+                    documentary_processing_batch_documents (
+                        batch_id TEXT NOT NULL
+                            REFERENCES documentary_processing_batches(
+                                permanent_id
+                            )
+                            ON DELETE CASCADE,
+
+                        document_id TEXT NOT NULL
+                            REFERENCES documents(
+                                permanent_id
+                            ),
+
+                        PRIMARY KEY (
+                            batch_id,
+                            document_id
+                        )
+                    );
                 """
             )
 

@@ -1,6 +1,13 @@
+from datetime import timedelta
+
 from insouwiki.domain.document import Document
-from insouwiki.domain.enums import DocumentaryNature, ProcessingStatus
-from insouwiki.registry.postgres_connection import get_connection
+from insouwiki.domain.enums import (
+    DocumentaryNature,
+    ProcessingStatus,
+)
+from insouwiki.registry.postgres_connection import (
+    get_connection,
+)
 from insouwiki.registry.repository import DocumentRepository
 from insouwiki.registry.result import RegistrationResult
 
@@ -11,15 +18,23 @@ class PostgresDocumentRepository(DocumentRepository):
         with get_connection() as conn:
             with conn.cursor() as cur:
                 cur.execute(
-                    "SELECT 1 FROM documents WHERE origin_key = %s",
+                    """
+                    SELECT 1
+                    FROM documents
+                    WHERE origin_key = %s
+                    """,
                     (origin_key,),
                 )
+
                 return cur.fetchone() is not None
 
     def count(self) -> int:
         with get_connection() as conn:
             with conn.cursor() as cur:
-                cur.execute("SELECT COUNT(*) FROM documents")
+                cur.execute(
+                    "SELECT COUNT(*) FROM documents"
+                )
+
                 return cur.fetchone()[0]
 
     def find_all(self) -> list[Document]:
@@ -39,6 +54,7 @@ class PostgresDocumentRepository(DocumentRepository):
                         external_id,
                         author,
                         published_at,
+                        duration_seconds,
                         thumbnail_url,
                         documentary_nature,
                         status
@@ -73,6 +89,7 @@ class PostgresDocumentRepository(DocumentRepository):
                         external_id,
                         author,
                         published_at,
+                        duration_seconds,
                         thumbnail_url,
                         documentary_nature,
                         status
@@ -109,6 +126,7 @@ class PostgresDocumentRepository(DocumentRepository):
                         external_id,
                         author,
                         published_at,
+                        duration_seconds,
                         thumbnail_url,
                         documentary_nature,
                         status
@@ -139,6 +157,7 @@ class PostgresDocumentRepository(DocumentRepository):
             return []
 
         results: list[RegistrationResult] = []
+
         origin_keys = [
             document.origin_key
             for document in documents
@@ -159,13 +178,28 @@ class PostgresDocumentRepository(DocumentRepository):
 
                 existing = {
                     origin_key: permanent_id
-                    for origin_key, permanent_id in cur.fetchall()
+                    for origin_key, permanent_id
+                    in cur.fetchall()
                 }
 
                 cur.execute(
-                    "SELECT COUNT(*) FROM documents"
+                    """
+                    SELECT permanent_id
+                    FROM documents
+                    WHERE permanent_id ~ '^SRC-[0-9]{8}$'
+                    ORDER BY permanent_id DESC
+                    LIMIT 1
+                    """
                 )
-                next_id = cur.fetchone()[0] + 1
+
+                row = cur.fetchone()
+
+                if row is None:
+                    next_id = 1
+                else:
+                    next_id = int(
+                        row[0].removeprefix("SRC-")
+                    ) + 1
 
                 for document in documents:
                     if document.origin_key in existing:
@@ -173,12 +207,30 @@ class PostgresDocumentRepository(DocumentRepository):
                             document.origin_key
                         ]
 
+                        if document.duration is not None:
+                            cur.execute(
+                                """
+                                UPDATE documents
+                                SET duration_seconds = %s
+                                WHERE origin_key = %s
+                                """,
+                                (
+                                    int(
+                                        document.duration.total_seconds()
+                                    ),
+                                    document.origin_key,
+                                ),
+                            )
+
                         results.append(
                             RegistrationResult(
-                                document_id=document.permanent_id,
+                                document_id=(
+                                    document.permanent_id
+                                ),
                                 created=False,
                             )
                         )
+
                         continue
 
                     document.permanent_id = (
@@ -200,6 +252,7 @@ class PostgresDocumentRepository(DocumentRepository):
                             source_platform,
                             external_id,
                             published_at,
+                            duration_seconds,
                             thumbnail_url,
                             documentary_nature,
                             status,
@@ -208,13 +261,17 @@ class PostgresDocumentRepository(DocumentRepository):
                         VALUES (
                             %s, %s, %s, %s, %s,
                             %s, %s, %s, %s, %s,
-                            %s, %s, %s, %s, %s
+                            %s, %s, %s, %s, %s,
+                            %s
                         )
                         """,
                         (
                             document.permanent_id,
                             document.source_permanent_id,
-                            document.discovered_from_endpoint_permanent_id,
+                            (
+                                document
+                                .discovered_from_endpoint_permanent_id
+                            ),
                             document.origin_key,
                             document.document_kind.value,
                             document.title,
@@ -223,6 +280,16 @@ class PostgresDocumentRepository(DocumentRepository):
                             document.source_platform,
                             document.external_id,
                             document.published_at,
+                            (
+                                int(
+                                    document
+                                    .duration
+                                    .total_seconds()
+                                )
+                                if document.duration
+                                is not None
+                                else None
+                            ),
                             (
                                 str(document.thumbnail_url)
                                 if document.thumbnail_url
@@ -236,7 +303,9 @@ class PostgresDocumentRepository(DocumentRepository):
 
                     results.append(
                         RegistrationResult(
-                            document_id=document.permanent_id,
+                            document_id=(
+                                document.permanent_id
+                            ),
                             created=True,
                         )
                     )
@@ -244,7 +313,7 @@ class PostgresDocumentRepository(DocumentRepository):
             conn.commit()
 
         return results
-    
+
     def update_status(
         self,
         origin_key: str,
@@ -282,11 +351,18 @@ class PostgresDocumentRepository(DocumentRepository):
             external_id=row[8],
             author=row[9],
             published_at=row[10],
-            thumbnail_url=row[11],
+            duration=(
+                timedelta(seconds=row[11])
+                if row[11] is not None
+                else None
+            ),
+            thumbnail_url=row[12],
             documentary_nature=(
-                row[12] or DocumentaryNature.PRIMARY
+                row[13]
+                or DocumentaryNature.PRIMARY
             ),
             status=(
-                row[13] or ProcessingStatus.DISCOVERED
+                row[14]
+                or ProcessingStatus.DISCOVERED
             ),
         )

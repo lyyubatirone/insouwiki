@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from pydantic import BaseModel, Field, HttpUrl
 
@@ -35,6 +35,8 @@ class Document(BaseModel):
     author: str | None = None
 
     published_at: datetime | None = None
+
+    duration: timedelta | None = None
 
     thumbnail_url: HttpUrl | None = None
 
