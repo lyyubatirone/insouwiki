@@ -22,3 +22,6 @@ dependencies = [
 
 [project.scripts]
 insouwiki = "insouwiki.cli.main:app"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
